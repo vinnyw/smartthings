@@ -19,7 +19,7 @@ metadata {
         //capability "Actuator"
         //capability "Sensor"
         capability "Switch"
-        capability "Contact Sensor"	
+        capability "Contact Sensor"
    
 		command "on"
 		command "off"
@@ -68,13 +68,13 @@ private initialize() {
 def on() {
 	log.trace "on()"
     sendEvent(name: "switch", value: "on", isStateChange: true)
-    // sendEvent(name: "contact", value: "open", isStateChange: true)
+	sendEvent(name: "contact", value: "open", isStateChange: true)
 }
 
 def off() {
 	log.trace "off()"
   	sendEvent(name: "switch", value: "off", isStateChange: true)
-    // sendEvent(name: "contact", value: "closed", isStateChange: true)
+  	sendEvent(name: "contact", value: "closed", isStateChange: true)
 }
 
 private getVersion() {
