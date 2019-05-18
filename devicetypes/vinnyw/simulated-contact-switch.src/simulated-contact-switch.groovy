@@ -1,5 +1,7 @@
 /**
- *  Copyright 2014 SmartThings
+ *  Copyright 2017 SmartThings
+ *
+ *  Provides a virtual switch.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -12,63 +14,64 @@
  *
  */
 metadata {
-	// Automatically generated. Make future change here.
-	definition (name: "Simulated Contact Switch", namespace: "vinnyw", author: "Vinny Wadding") {
+    definition (name: "Simulated Contact Switch", namespace: "vinnyw", author: "Vinny Wadding") {
+    	//runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true
+        //capability "Actuator"
+        //capability "Sensor"
         capability "Switch"
-      	capability "Contact Sensor"
-		capability "Sensor"
-		capability "Health Check"
-
+   
 		command "on"
 		command "off"
-	}
-   
-	simulator {
- 		// Nothing here, you could put some testing stuff here if you like
-	}
 
-    tiles {
+ 	}
+
+    preferences {
+    }
+
+    tiles(scale: 2) {
     
-        // use the state name as the label ("off" and "on")
-        standardTile("switch", "device.switch", width: 2, height: 2, decoration: "flat", canChangeBackground: true, canChangeIcon: true) {
-            state("off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff", nextState: "on", defaultState: true)
+     	standardTile("switch", "device.switch", width: 2, height: 2, decoration: "flat" ) {
+            state("off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff", nextState: "on")
             state("on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC", nextState: "off")
         }
 
-        main "switch"
-   		details(["switch"])
-    }
+    	// tile with name 'switch' appears in the Things view
+        main(["switch"])
+        
+     	// switch tile is top left, then otherTile, then all flowing left-to-right, top-to-bottom:
+        details(["switch"])
 
+    }
+}
+
+def parse(String description) {
 }
 
 def installed() {
-	log.trace "Executing 'installed'"
-	initialize()
+    log.trace "Executing 'installed'"
+    off()
+    initialize()
 }
 
 def updated() {
-	log.trace "Executing 'updated'"
-	initialize()
+    log.trace "Executing 'updated'"
+    initialize()
 }
 
 private initialize() {
-	log.trace "Executing 'initialize'"
-	off()
-	sendEvent(name: "healthStatus", value: "online")	
-    //sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+    log.trace "Executing 'initialize'"
 }
 
 def on() {
 	log.trace "on()"
     sendEvent(name: "switch", value: "on")
-    sendEvent(name: "contact", value: "open")
+    // sendEvent(name: "contact", value: "open")
 }
 
 def off() {
 	log.trace "off()"
   	sendEvent(name: "switch", value: "off")
-    sendEvent(name: "contact", value: "closed")
+    // sendEvent(name: "contact", value: "closed")
 }
 
 private getVersion() {
