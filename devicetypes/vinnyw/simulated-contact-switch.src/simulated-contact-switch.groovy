@@ -30,7 +30,7 @@ metadata {
 
     tiles(scale: 2) {
     
-     	standardTile("switch", "device.switch", width: 2, height: 2, decoration: "flat" ) {
+     	standardTile("switch", "device.switch", width: 2, height: 2, decoration: "flat", canChangeBackground: true, canChangeIcon: true) {
             state("off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff", nextState: "on")
             state("on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC", nextState: "off")
         }
@@ -45,6 +45,8 @@ metadata {
 }
 
 def parse(String description) {
+	def pair = description.split(":")
+	createEvent(name: pair[0].trim(), value: pair[1].trim())
 }
 
 def installed() {
