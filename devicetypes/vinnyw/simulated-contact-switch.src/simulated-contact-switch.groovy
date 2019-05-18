@@ -19,6 +19,7 @@ metadata {
         //capability "Actuator"
         //capability "Sensor"
         capability "Switch"
+        capability "Contact Sensor"	
    
 		command "on"
 		command "off"
