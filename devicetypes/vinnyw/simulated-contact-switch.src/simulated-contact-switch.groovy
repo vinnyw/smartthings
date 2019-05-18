@@ -66,14 +66,14 @@ private initialize() {
 
 def on() {
 	log.trace "on()"
-    sendEvent(name: "switch", value: "on")
-    // sendEvent(name: "contact", value: "open")
+    sendEvent(name: "switch", value: "on", isStateChange: true)
+    // sendEvent(name: "contact", value: "open", isStateChange: true)
 }
 
 def off() {
 	log.trace "off()"
-  	sendEvent(name: "switch", value: "off")
-    // sendEvent(name: "contact", value: "closed")
+  	sendEvent(name: "switch", value: "off", isStateChange: true)
+    // sendEvent(name: "contact", value: "closed", isStateChange: true)
 }
 
 private getVersion() {
