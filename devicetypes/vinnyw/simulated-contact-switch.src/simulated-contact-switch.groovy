@@ -14,8 +14,8 @@
  *
  */
 metadata {
-    definition (name: "Simulated Contact Switch", namespace: "vinnyw", author: "Vinny Wadding") {
-    //runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true
+    definition (name: "Simulated Contact Switch", namespace: "vinnyw", author: "Vinny Wadding", mnmn: "SmartThings", vid: "generic-switch") {
+    	//runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true
         //capability "Actuator"
         //capability "Sensor"
         capability "Switch"
@@ -77,4 +77,3 @@ def off() {
 private getVersion() {
 	"PUBLISHED"
 }
-
