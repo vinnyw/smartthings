@@ -20,7 +20,7 @@ metadata {
         //capability "Sensor"
         capability "Switch"
         //capability "Contact Sensor"	
-   
+
 		command "on"
 		command "off"
 
@@ -30,7 +30,7 @@ metadata {
     }
 
     tiles(scale: 2) {
-    
+
      	standardTile("switch", "device.switch", width: 2, height: 2, decoration: "flat", canChangeBackground: true, canChangeIcon: true) {
             state("off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff", nextState: "on")
             state("on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC", nextState: "off")
@@ -38,7 +38,7 @@ metadata {
 
     	// tile with name 'switch' appears in the Things view
         main(["switch"])
-        
+
      	// switch tile is top left, then otherTile, then all flowing left-to-right, top-to-bottom:
         details(["switch"])
 
