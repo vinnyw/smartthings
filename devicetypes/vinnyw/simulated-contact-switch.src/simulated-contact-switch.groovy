@@ -14,12 +14,12 @@
  *
  */
 metadata {
-    definition (name: "Simulated Contact Switch", namespace: "vinnyw", author: "Vinny Wadding", mnmn: "SmartThings", vid: "generic-switch") {
+    definition (name: "Simulated Contact Switch", namespace: "vinnyw", author: "Vinny Wadding", cstHandler: true) {
     	//runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true
         //capability "Actuator"
         //capability "Sensor"
-        capability "Switch"
         //capability "Contact Sensor"	
+        capability "Switch"
 
 		command "on"
 		command "off"
@@ -76,3 +76,4 @@ def off() {
   	sendEvent(name: "switch", value: "off", isStateChange: true)
     sendEvent(name: "contact", value: "closed", isStateChange: true)
 }
+
