@@ -14,7 +14,7 @@
  *
  */
 metadata {
-        definition (name: "Simulated Momentary Contact Switch", namespace: "vinnyw", author: "Vinny Wadding", ) {
+        definition (name: "Simulated Momentary Contact Switch", namespace: "vinnyw", author: "Vinny Wadding" ) {
   		capability "Actuator"
 		capability "Switch"
 		capability "Momentary"
