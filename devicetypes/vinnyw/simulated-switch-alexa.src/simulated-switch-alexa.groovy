@@ -20,12 +20,6 @@ metadata {
         capability "Sensor"
         capability "Actuator"
         capability "Health Check"
-
-        //command "onPhysical"
-        //command "offPhysical"
-
-        command    "markDeviceOnline"
-        command    "markDeviceOffline"
     }
 
     tiles {
@@ -33,12 +27,6 @@ metadata {
             state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
             state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC"
         }
-        //standardTile("on", "device.switch", decoration: "flat") {
-        //    state "default", label: 'On', action: "onPhysical", backgroundColor: "#ffffff"
-        //}
-        //standardTile("off", "device.switch", decoration: "flat") {
-        //    state "default", label: 'Off', action: "offPhysical", backgroundColor: "#ffffff"
-        //}
         standardTile("deviceHealthControl", "device.healthStatus", decoration: "flat", width: 1, height: 1, inactiveLabel: false) {
             state "online",  label: "ONLINE", backgroundColor: "#00A0DC", action: "markDeviceOffline", icon: "st.Health & Wellness.health9", nextState: "goingOffline", defaultState: true
             state "offline", label: "OFFLINE", backgroundColor: "#E86D13", action: "markDeviceOnline", icon: "st.Health & Wellness.health9", nextState: "goingOnline"
@@ -46,7 +34,6 @@ metadata {
             state "goingOffline", label: "Going OFFLINE", backgroundColor: "#FFFFFF", icon: "st.Health & Wellness.health9"
         }
         main "switch"
-        //details(["switch","on","off","deviceHealthControl"])
         details(["switch","deviceHealthControl"])
 
     }
