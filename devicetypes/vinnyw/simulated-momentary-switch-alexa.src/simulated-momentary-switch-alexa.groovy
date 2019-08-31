@@ -17,7 +17,6 @@ metadata {
  		capability "Contact Sensor"
         capability "Sensor"
         capability "Actuator"
-        capability "Health Check"
     }
 
     tiles {
