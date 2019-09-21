@@ -315,3 +315,4 @@ def updated () {
     state.lastTempOffset = tempOffset
     state.lastLuxOffset = luxOffset
 }
+
