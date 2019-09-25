@@ -14,10 +14,10 @@ metadata {
  	definition (name: "Simulated Momentary Switch (Alexa)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
         capability "Switch"
         capability "Relay Switch"
- 		capability "Contact Sensor"
         capability "Sensor"
         capability "Actuator"
-    }
+ 		capability "Contact Sensor"
+	}
 
     tiles {
         standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
