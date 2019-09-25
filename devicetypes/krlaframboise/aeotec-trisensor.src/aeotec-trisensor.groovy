@@ -24,7 +24,7 @@
  *
  */
 metadata {
-	definition ( name: "Aeotec TriSensor", namespace: "krlaframboise", author: "Kevin LaFramboise", mnmn: "SmartThings", vid: "generic-motion-6", ocfDeviceType: "x.com.st.d.sensor.motion", runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true) {
+	definition ( name: "Aeotec TriSensor", namespace: "krlaframboise", author: "Kevin LaFramboise", mnmn: "SmartThings", vid: "generic-motion-6", ocfDeviceType: "x.com.st.d.sensor.motion") {
 		capability "Motion Sensor"
 		capability "Sensor"
 		capability "Temperature Measurement"
