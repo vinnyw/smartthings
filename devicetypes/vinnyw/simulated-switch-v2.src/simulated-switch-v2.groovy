@@ -25,11 +25,6 @@ metadata {
     
 		input "stateChange", "enum", title: "Always send event, or only when state changes", defaultValue: 1, options: ["Always", "Only on change"]
 
-		input "motionSensitivity", "enum", title: "Motion Sensor Sensitivity", options: ["maximum", "normal", "minimum", "disabled"]
-
-		input "reportInterval", "enum", title: "Report Interval", description: "How often the device should report in minutes",
-			options: ["8 minutes", "15 minutes", "30 minutes", "1 hour", "6 hours", "12 hours", "18 hours", "24 hours"]
-
 		input "repeatEvent", "number", title: "Repeat Event", description: "Adjust temperature by this many degrees", range: "1..5", displayDuringSetup: false
 	}
 
@@ -60,6 +55,12 @@ private initialize() {
     sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 }
 
+
+def configure() {
+	log.debug "${device.name} configuring..."
+    
+}
+   
 def parse(description) {
 }
 
