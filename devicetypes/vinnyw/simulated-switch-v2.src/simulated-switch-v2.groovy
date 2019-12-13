@@ -1,4 +1,6 @@
-/*
+/**
+ *  Copyright 2015 SmartThings
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
  *
@@ -11,13 +13,19 @@
  */
 metadata {
 
- 	definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
+    definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
         capability "Switch"
         capability "Relay Switch"
         capability "Sensor"
         capability "Actuator"
- 		capability "Contact Sensor"
-	}
+        capability "Health Check"        
+        capability "Contact Sensor"
+
+        command "on"
+        command "off"
+        command "markDeviceOnline"
+        command "markDeviceOffline"
+    }
 
     tiles {
         standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
@@ -27,18 +35,36 @@ metadata {
         main "switch"
         details(["switch"])
     }
-
 }
 
 def installed() {
     log.trace "Executing 'installed'"
-    initialize()
+    markDeviceOnline()
     off()
+    initialize()
 }
 
 def updated() {
     log.trace "Executing 'updated'"
     initialize()
+}
+
+def markDeviceOnline() {
+    setDeviceHealth("online")
+}
+
+def markDeviceOffline() {
+    setDeviceHealth("offline")
+}
+
+private setDeviceHealth(String healthState) {
+    log.debug("healthStatus: ${device.currentValue('healthStatus')}; DeviceWatch-DeviceStatus: ${device.currentValue('DeviceWatch-DeviceStatus')}")
+    // ensure healthState is valid
+    List validHealthStates = ["online", "offline"]
+    healthState = validHealthStates.contains(healthState) ? healthState : device.currentValue("healthStatus")
+    // set the healthState
+    sendEvent(name: "DeviceWatch-DeviceStatus", value: healthState)
+    sendEvent(name: "healthStatus", value: healthState)
 }
 
 private initialize() {
@@ -51,13 +77,14 @@ def parse(description) {
 
 def on() {
     log.debug "$version on()"
-    sendEvent(name: "switch", value: "on", isStateChange: true, display: false)
-	sendEvent(name: "contact", value: "open", isStateChange: true, display: false)
+    sendEvent(name: "switch", value: "on")
 }
 
 def off() {
     log.debug "$version off()"
-    sendEvent(name: "switch", value: "off", isStateChange: true, display: false)
- 	sendEvent(name: "contact", value: "close", isStateChange: true, display: false)
+    sendEvent(name: "switch", value: "off")
 }
 
+private getVersion() {
+    "PUBLISHED"
+}
