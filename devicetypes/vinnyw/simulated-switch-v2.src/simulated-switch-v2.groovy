@@ -11,7 +11,7 @@
  */
 metadata {
 
- 	definition (name: "Simulated Switch (Alexa)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
+ 	definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
         capability "Switch"
         capability "Relay Switch"
         capability "Sensor"
