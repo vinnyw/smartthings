@@ -77,13 +77,16 @@ def parse(description) {
 
 def on() {
     log.debug "$version on()"
-    sendEvent(name: "switch", value: "on")
+    sendEvent(name: "switch", value: "on", isStateChange: true, display: false)
+	sendEvent(name: "contact", value: "open", isStateChange: true, display: false)
 }
 
 def off() {
     log.debug "$version off()"
-    sendEvent(name: "switch", value: "off")
+    sendEvent(name: "switch", value: "off", isStateChange: true, display: false)
+ 	sendEvent(name: "contact", value: "close", isStateChange: true, display: false)
 }
+
 
 private getVersion() {
     "PUBLISHED"
