@@ -11,21 +11,19 @@
  */
 metadata {
 
-    definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
+ 	definition (name: "Simulated Switch (Alexa)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
         capability "Switch"
         capability "Relay Switch"
         capability "Sensor"
         capability "Actuator"
-        capability "Contact Sensor"
-    }
+ 		capability "Contact Sensor"
+	}
 
     tiles {
-
         standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
             state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
             state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC"
         }
-
         main "switch"
         details(["switch"])
     }
@@ -62,3 +60,4 @@ def off() {
     sendEvent(name: "switch", value: "off", isStateChange: true, display: false)
  	sendEvent(name: "contact", value: "close", isStateChange: true, display: false)
 }
+
