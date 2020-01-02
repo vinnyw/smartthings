@@ -13,12 +13,12 @@
  */
 metadata {
 
-    definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
+    definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", mnmn: "SmartThings") {
         capability "Switch"
-        capability "Relay Switch"
-        capability "Sensor"
-        capability "Actuator"
-        capability "Health Check"        
+        //capability "Relay Switch"
+        //capability "Sensor"
+        //capability "Actuator"
+        //capability "Health Check"        
         capability "Contact Sensor"
 
         command "on"
@@ -28,7 +28,7 @@ metadata {
     }
 
     tiles {
-        standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+        standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: false) {
             state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
             state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC"
         }
@@ -76,15 +76,19 @@ def parse(description) {
 }
 
 def on() {
-    log.debug "$version on()"
-    sendEvent(name: "switch", value: "on", isStateChange: true, display: false)
-	sendEvent(name: "contact", value: "open", isStateChange: true, display: false)
+/* isStateChange: true - send event even if device status has not changed
+ isStateChange: false  - only when device has changed state
+*/
+	log.debug "$version on()"
+    sendEvent(name: "switch", value: "on", isStateChange: false, Displayed: true)
+	sendEvent(name: "contact", value: "open", isStateChange: false, Displayed: false)
+ 
 }
 
 def off() {
     log.debug "$version off()"
-    sendEvent(name: "switch", value: "off", isStateChange: true, display: false)
- 	sendEvent(name: "contact", value: "close", isStateChange: true, display: false)
+    sendEvent(name: "switch", value: "off", isStateChange: false, Displayed: true)
+ 	sendEvent(name: "contact", value: "close", isStateChange: false, Displayed: false)
 }
 
 
