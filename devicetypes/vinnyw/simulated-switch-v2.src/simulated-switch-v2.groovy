@@ -14,11 +14,7 @@
 metadata {
 
     definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
-       capability "Switch"
-        //capability "Relay Switch"
-        //capability "Sensor"
-        //capability "Actuator"
-        //capability "Health Check"   
+        capability "Switch"
         capability "Health Check"
 
         command "onPhysical"
@@ -90,12 +86,14 @@ def parse(description) {
 
 def on() {
     log.debug "$version on()"
-    sendEvent(name: "switch", value: "on")
+    sendEvent(name: "switch", value: "on", isStateChange: true)
+    sendEvent(name: "contact", value: "open", isStateChange: true)
 }
 
 def off() {
     log.debug "$version off()"
-    sendEvent(name: "switch", value: "off")
+    sendEvent(name: "switch", value: "off", isStateChange: true)
+    sendEvent(name: "contact", value: "close", isStateChange: true)
 }
 
 def onPhysical() {
