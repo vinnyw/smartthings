@@ -15,6 +15,7 @@ metadata {
 
     definition (name: "Simulated Switch (v2)", namespace: "vinnyw", author: "Vinny Wadding", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
         capability "Switch"
+ 		capability "Contact Sensor"
         capability "Health Check"
 
         command "onPhysical"
