@@ -65,6 +65,8 @@ def initialize() {
     //if(!childDevices) {
     //    addChildButtons(numberOfButtons)
 	//}
+            log.debug "child: ${childDevices}"	
+
 	if(childDevices) {
         log.debug "here: ${prodNumberOfButtons[zwaveInfo.prod]}"	
         def event
