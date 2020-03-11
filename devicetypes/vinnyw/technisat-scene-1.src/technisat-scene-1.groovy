@@ -26,6 +26,7 @@ metadata {
 
 		// While adding new device to this DTH, remember to update method getProdNumberOfButtons()
 		fingerprint mfr: "0208", prod: "0200", model: "000B", deviceJoinName: "TechniSat Scene 1", mnmn: "SmartThings", vid: "generic-4-button" //US
+        
 	}
 
 	tiles(scale: 2) {
