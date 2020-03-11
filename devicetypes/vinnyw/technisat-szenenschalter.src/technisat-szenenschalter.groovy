@@ -17,7 +17,7 @@ import groovy.json.JsonOutput
  */
 
 metadata {
-	definition (name: "TechniSat Scene-1", namespace: "vinnyw", author: "vinnyw", mcdSync: true, ocfDeviceType: "x.com.st.d.remotecontroller") {
+	definition (name: "TechniSat Szenenschalter", namespace: "vinnyw", author: "vinnyw", mcdSync: true, ocfDeviceType: "x.com.st.d.remotecontroller") {
 		capability "Button"
 		capability "Battery"
 		capability "Sensor"
@@ -25,7 +25,7 @@ metadata {
 		capability "Configuration"
 
 		// While adding new device to this DTH, remember to update method getProdNumberOfButtons()
-		fingerprint mfr: "0208", prod: "0200", model: "000B", deviceJoinName: "TechniSat Scene-1", mnmn: "SmartThings", vid: "generic-4-button" //US
+		fingerprint mfr: "0208", prod: "0200", model: "000B", deviceJoinName: "TechniSat Szenenschalter", mnmn: "SmartThings", vid: "generic-4-button" //US
 
 	}
 
