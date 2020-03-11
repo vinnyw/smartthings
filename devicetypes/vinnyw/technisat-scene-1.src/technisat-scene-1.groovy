@@ -25,7 +25,7 @@ metadata {
 		capability "Configuration"
 
 		// While adding new device to this DTH, remember to update method getProdNumberOfButtons()
-		fingerprint mfr: "0208", prod: "0200", model: "000B", deviceJoinName: "TechniSat Scene 1", mnmn: "SmartThings", vid: "generic-4-button" //US
+		fingerprint mfr: "0208", prod: "0200", model: "000B", deviceJoinName: "TechniSat Scene-1", mnmn: "SmartThings", vid: "generic-4-button" //US
         
 	}
 
@@ -60,14 +60,14 @@ def initialize() {
 	sendEvent(name: "numberOfButtons", value: numberOfButtons, displayed: false)
     sendEvent(name: "checkInterval", value: 8 * 60 * 60 + 10 * 60, displayed: false, data: [protocol: "zwave", hubHardwareId: device.hub.hardwareID])
 	//if(!childDevices) {
-	//	addChildButtons(numberOfButtons)
+        addChildButtons(numberOfButtons)
 	//}
 	//if(childDevices) {
-		def event
-		for(def endpoint : 1..prodNumberOfButtons[zwaveInfo.prod]) {
-			event = createEvent(name: "button", value: "pushed", isStateChange: true)
-			sendEventToChild(endpoint, event)
-		}
+	//	def event
+	//	for(def endpoint : 1..prodNumberOfButtons[zwaveInfo.prod]) {
+	//		event = createEvent(name: "button", value: "pushed", isStateChange: true)
+	//		sendEventToChild(endpoint, event)
+	//	}
 	//}
 	response([
 			secure(zwave.batteryV1.batteryGet()),
