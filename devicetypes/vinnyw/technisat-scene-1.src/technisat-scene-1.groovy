@@ -17,7 +17,7 @@ import groovy.json.JsonOutput
  */
 
 metadata {
-	definition (name: "technisat scene 1", namespace: "smartthings", author: "vinnyw", mcdSync: true, ocfDeviceType: "x.com.st.d.remotecontroller") {
+	definition (name: "technisat scene 1", namespace: "vinnyw", author: "vinnyw", mcdSync: true, ocfDeviceType: "x.com.st.d.remotecontroller") {
 		capability "Button"
 		capability "Battery"
 		capability "Sensor"
