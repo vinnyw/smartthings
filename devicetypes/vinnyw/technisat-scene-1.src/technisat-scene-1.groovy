@@ -59,7 +59,10 @@ def initialize() {
 	def numberOfButtons = prodNumberOfButtons[zwaveInfo.prod]
 	sendEvent(name: "numberOfButtons", value: numberOfButtons, displayed: false)
     sendEvent(name: "checkInterval", value: 8 * 60 * 60 + 10 * 60, displayed: false, data: [protocol: "zwave", hubHardwareId: device.hub.hardwareID])
-	//if(!childDevices) {
+
+	log.debug "numberOfButtons: ${numberOfButtons}"	
+    
+    //if(!childDevices) {
         addChildButtons(numberOfButtons)
 	//}
 	//if(childDevices) {
