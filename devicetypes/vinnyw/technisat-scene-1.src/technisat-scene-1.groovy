@@ -59,22 +59,16 @@ def initialize() {
 	def numberOfButtons = prodNumberOfButtons[zwaveInfo.prod]
 	sendEvent(name: "numberOfButtons", value: numberOfButtons, displayed: false)
     sendEvent(name: "checkInterval", value: 8 * 60 * 60 + 10 * 60, displayed: false, data: [protocol: "zwave", hubHardwareId: device.hub.hardwareID])
-
-	log.debug "numberOfButtons: ${numberOfButtons}"	
-
     //if(!childDevices) {
-    //    addChildButtons(numberOfButtons)
+        addChildButtons(numberOfButtons)
 	//}
-            log.debug "child: ${childDevices}"	
-
-	if(childDevices) {
-        log.debug "here: ${prodNumberOfButtons[zwaveInfo.prod]}"	
-        def event
-        for(def endpoint : 1..prodNumberOfButtons[zwaveInfo.prod]) {
-            event = createEvent(name: "button", value: "pushed", isStateChange: true)
-            sendEventToChild(endpoint, event)
-        }
-	}
+	//if(childDevices) {
+    //    def event
+    //    for(def endpoint : 1..prodNumberOfButtons[zwaveInfo.prod]) {
+    //        event = createEvent(name: "button", value: "pushed", isStateChange: true)
+    //        sendEventToChild(endpoint, event)
+    //    }
+	//}
 	response([
 			secure(zwave.batteryV1.batteryGet()),
 			"delay 2000",
