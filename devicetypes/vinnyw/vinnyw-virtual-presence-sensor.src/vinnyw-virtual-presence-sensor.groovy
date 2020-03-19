@@ -14,7 +14,7 @@
  *
  */
 metadata {
-    definition (name: "Vinnyw - Virtual Presence Sensor", namespace: "smartthings", author: "vinnyw", runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
+    definition (name: "vinnyw - Virtual Presence Sensor",namespace: "vinnyw", author: "Vinny Wadding", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
         capability "Actuator"
         capability "Sensor"
         capability "Switch"
@@ -33,15 +33,8 @@ metadata {
             }
         }
 
-        standardTile("explicitOn", "device.switch", width: 2, height: 2, decoration: "flat") {
-            state "default", label: "On", action: "switch.on", icon: "st.Home.home30", backgroundColor: "#ffffff"
-        }
-        standardTile("explicitOff", "device.switch", width: 2, height: 2, decoration: "flat") {
-            state "default", label: "Off", action: "switch.off", icon: "st.Home.home30", backgroundColor: "#ffffff"
-        }
-
         main(["switch"])
-        details(["switch", "explicitOn", "explicitOff"])
+        details(["switch"])
 
     }
 }
@@ -51,29 +44,36 @@ def parse(String description) {
     createEvent(name: pair[0].trim(), value: pair[1].trim())
 }
 
-def installed() {
-    initialize()
-}
-
-def updated() {
-    initialize()
-}
-
 def initialize() {
+    log.debug "$version initialize()"
     sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
     sendEvent(name: "healthStatus", value: "online")
     sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 }
 
+def installed() {
+    log.debug "$version installed()"
+    initialize()
+}
+
+def updated() {
+    log.debug "$version updated()"
+    initialize()
+}
+
 def on() {
-    log.trace "Executing 'arrived'"
+    log.debug "$version on()"
     sendEvent(name: "switch", value: "on", isStateChange: true)
     sendEvent(name: "presence", value: "present")
 }
 
 def off() {
-    log.trace "Executing 'departed'"    
+    log.debug "$version off()"
     sendEvent(name: "switch", value: "off", isStateChange: true)
     sendEvent(name: "presence", value: "not present")
+}
+
+private getVersion() {
+    "PUBLISHED"
 }
 
