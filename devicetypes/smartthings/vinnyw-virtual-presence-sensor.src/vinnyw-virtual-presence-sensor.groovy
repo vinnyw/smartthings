@@ -48,6 +48,22 @@ metadata {
 def parse(description) {
 }
 
+def installed() {
+    log.trace "Executing installed()"
+    off()
+    initialize()
+}
+
+private initialize() {
+    log.trace "Executing initialize()"
+    off()
+}
+
+def updated() {
+    log.trace "Executing updated()"
+    initialize()
+}
+
 def on() {
     sendEvent(name: "switch", value: "on", isStateChange: true)
 }
@@ -56,6 +72,4 @@ def off() {
     sendEvent(name: "switch", value: "off", isStateChange: true)
 }
 
-def installed() {
-    on()
-}
+
