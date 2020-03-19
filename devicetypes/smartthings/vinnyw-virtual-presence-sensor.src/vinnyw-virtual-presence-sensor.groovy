@@ -14,7 +14,7 @@
  *
  */
 metadata {
-    definition (name: "vinnyw: Virtual Presence Sensor", namespace: "smartthings", author: "SmartThings", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
+    definition (name: "vinnyw: Virtual Presence Sensor", namespace: "smartthings", author: "SmartThings", runLocally: true, minHubCoreVersion: '000.021.00001', mnmn: "SmartThings", vid: "generic-switch") {
         capability "Actuator"
         capability "Sensor"
         capability "Switch"
