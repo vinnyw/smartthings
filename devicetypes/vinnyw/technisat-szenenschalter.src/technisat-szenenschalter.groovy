@@ -199,5 +199,3 @@ private getSupportedButtonValues() {
 	def values = ["pushed", "held"]
 	return values
 }
-
-
