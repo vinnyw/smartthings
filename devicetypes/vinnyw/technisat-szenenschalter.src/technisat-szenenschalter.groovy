@@ -17,7 +17,7 @@ import groovy.json.JsonOutput
  */
 
 metadata {
-	definition (name: "TechniSat Szenenschalter", namespace: "smartthings", author: "vinnyw", mcdSync: true, ocfDeviceType: "x.com.st.d.remotecontroller") {
+	definition (name: "TechniSat Szenenschalter", namespace: "vinnyw", author: "vinnyw", mcdSync: true, runLocally: true, minHubCoreVersion: '000.021.00001', mnmn: "SmartThings", ocfDeviceType: "x.com.st.d.remotecontroller") {
 		capability "Button"
 		capability "Battery"
 		capability "Sensor"
