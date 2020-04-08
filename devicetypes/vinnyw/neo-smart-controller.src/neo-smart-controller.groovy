@@ -23,6 +23,13 @@
  *  
  * Based on the Hubitat community driver httpGetSwitch
  */
+
+
+
+
+
+
+
 metadata {
     definition(name: "Neo Smart Controller", namespace: "vinnyw", author: "vinnyw") {
         capability "WindowShade"
@@ -36,16 +43,48 @@ metadata {
 		command "up"
 		command "down"
     }
-}
 
-preferences {
-    section("URIs") {
-		input "blindCode", "text", title: "Blind or Room Code (from Neo App\n)", required: true
-		input "controllerID", "text", title: "Controller ID (from Neo App)\n", required: true
-		input "controllerIP", "text", title: "Controller IP Address (from Neo App)\n", required: true
-        input "timeToClose", "number", title: "Time in seconds it takes to close the blinds completely\n", required: true
-        input "timeToFav", "number", title: "Time in seconds it takes to reach your favorite setting when closing the blinds\n", required: true
-        input name: "logEnable", type: "bool", title: "Enable debug logging\n", defaultValue: true
+    preferences {
+        section("URIs") {
+            input "blindCode", "text", title: "Blind or Room Code (from Neo App\n)", required: true
+            input "controllerID", "text", title: "Controller ID (from Neo App)\n", required: true
+            input "controllerIP", "text", title: "Controller IP Address (from Neo App)\n", required: true
+            input "timeToClose", "number", title: "Time in seconds it takes to close the blinds completely\n", required: true
+            input "timeToFav", "number", title: "Time in seconds it takes to reach your favorite setting when closing the blinds\n", required: true
+            input name: "logEnable", type: "bool", title: "Enable debug logging\n", defaultValue: true
+        }
+    }
+
+    tiles(scale: 2) {
+        multiAttributeTile(name: "windowShade", type: "generic", width: 6, height: 4) {
+            tileAttribute("device.windowShade", key: "PRIMARY_CONTROL") {
+                attributeState("closed", label: 'closed', action: "windowShade.open", icon: "st.doors.garage.garage-closed", backgroundColor: "#A8A8C6", nextState: "opening")
+                attributeState("open", label: 'open', action: "windowShade.close", icon: "st.doors.garage.garage-open", backgroundColor: "#F7D73E", nextState: "closing")
+                attributeState("closing", label: '${name}', action: "windowShade.open", icon: "st.contact.contact.closed", backgroundColor: "#B9C6A8")
+                attributeState("opening", label: '${name}', action: "windowShade.close", icon: "st.contact.contact.open", backgroundColor: "#D4CF14")
+                attributeState("partially open", label: 'partially\nopen', action: "windowShade.close", icon: "st.doors.garage.garage-closing", backgroundColor: "#D4ACEE", nextState: "closing")
+            }
+            tileAttribute("device.level", key: "SLIDER_CONTROL") {
+                attributeState("level", action: "setLevel")
+            }
+        }
+        standardTile("open", "open", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+            state("open", label: 'open', action: "windowShade.open", icon: "st.contact.contact.open")
+        }
+        standardTile("close", "close", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+            state("close", label: 'close', action: "windowShade.close", icon: "st.contact.contact.closed")
+        }
+        standardTile("stop", "stop", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+            state("stop", label: 'stop', action: "windowShade.stop", icon: "st.illuminance.illuminance.dark")
+        }
+        standardTile("refresh", "command.refresh", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+            state "default", label: " ", action: "refresh.refresh", icon: "https://www.shareicon.net/data/128x128/2016/06/27/623885_home_256x256.png"
+        }
+        standardTile("home", "device.level", width: 2, height: 2, decoration: "flat") {
+            state "default", label: "home", action:"presetPosition", icon:"st.Home.home2"
+        }
+        main(["windowShade"])
+        details(["windowShade", "open", "stop", "close", "refresh"])
     }
 }
 
