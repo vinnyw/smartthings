@@ -40,12 +40,12 @@ metadata {
 
 preferences {
     section("URIs") {
-		input "blindCode", "text", title: "Blind or Room Code (from Neo App)", required: true
-		input "controllerID", "text", title: "Controller ID (from Neo App)", required: true
-		input "controllerIP", "text", title: "Controller IP Address (from Neo App)", required: true
-        input "timeToClose", "number", title: "Time in seconds it takes to close the blinds completely", required: true
-        input "timeToFav", "number", title: "Time in seconds it takes to reach your favorite setting when closing the blinds", required: true
-        input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true
+		input "blindCode", "text", title: "Blind or Room Code (from Neo App\n)", required: true
+		input "controllerID", "text", title: "Controller ID (from Neo App)\n", required: true
+		input "controllerIP", "text", title: "Controller IP Address (from Neo App)\n", required: true
+        input "timeToClose", "number", title: "Time in seconds it takes to close the blinds completely\n", required: true
+        input "timeToFav", "number", title: "Time in seconds it takes to reach your favorite setting when closing the blinds\n", required: true
+        input name: "logEnable", type: "bool", title: "Enable debug logging\n", defaultValue: true
     }
 }
 
