@@ -1,5 +1,5 @@
 /**
- *  ewrew
+ *  Alexa Simulated Switch
  *
  *  Copyright 2020 Vinny Wadding
  *
@@ -11,20 +11,15 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
- */
-
-// vid: "generic-switch"
-// ocfDeviceType: 'oic.d.switch'
-// cstHandler: true, runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true, mnmn: "SmartThings"
+ **/
 
 metadata {
-	definition (name: 'zzz sim button 2', namespace: 'vinnyw', author: 'vinnyw', runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: true, ocfDeviceType: 'oic.d.switch' ) {
+	definition (name: 'zzz sim button 2', namespace: 'vinnyw', author: 'vinnyw', runLocally: true, executeCommandsLocally: false, minHubCoreVersion: '000.021.00001', ocfDeviceType: 'oic.d.switch' ) {
         capability "Actuator"
         capability "Sensor"
 		capability "Contact Sensor"
 		capability "Switch"
 	}
-
 
 	simulator {
 		// TODO: define status and reply messages here
@@ -33,8 +28,8 @@ metadata {
     tiles(scale: 2) {
         multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true){
             tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-                attributeState "on", label:'${name}', action:"switch.off", icon:"st.Home.home30", backgroundColor:"#00A0DC", nextState:"turningOff"
-                attributeState "off", label:'${name}', action:"switch.on", icon:"st.Home.home30", backgroundColor:"#FFFFFF", nextState:"turningOn", defaultState: true
+           		attributeState "off", label:'${name}', action:"switch.on", icon: "st.switches.switch.off", backgroundColor:"#FFFFFF", defaultState: true
+                attributeState "on", label:'${name}', action:"switch.off", icon: "st.switches.switch.on", backgroundColor:"#00A0DC"
             }
         }
 
@@ -51,6 +46,7 @@ def parse(String description) {
 	writeLog("Parsing '${description}'")
 	// TODO: handle 'contact' attribute
 	// TODO: handle 'switch' attribute
+	//sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 
 }
 
@@ -69,24 +65,39 @@ def updated() {
 
 private initialize() {
 	writeLog("Executing 'initialize()'")
-	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-	sendEvent(name: "healthStatus", value: "online")
-	// sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	//sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
+	//sendEvent(name: "healthStatus", value: "online")
+	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 }
 
 // handle commands
 def on() {
 	writeLog("Executing 'on()'")
-	// TODO: handle 'on' command
+	// TODO: handle 'on'
+  	def cmds = [] 
+    cmds << createEvent(name: "switch", value: "on", isStateChange: true)
+    cmds << createEvent(name: "contact", value: "close", isStateChange: true)
+   	sendEvents(cmds)
 }
 
 def off() {
 	writeLog("Executing 'off()'")
 	// TODO: handle 'off' command
-}
+ 	def cmds = []
+    cmds << createEvent(name: "switch", value: "off", isStateChange: true)
+    cmds << createEvent(name: "contact", value: "open", isStateChange: true)
+   	sendEvents(cmds)
+}   
 
-private getVersion() {
-  return "1.0.0"
+private sendEvents(cmds) {  
+  log.debug ("${device} [v$version]: ${cmds}")
+  
+  	cmds.each { 
+    	cmd -> sendEvent(cmd)
+                writeLog(cmd)
+
+  	}
+    
 }
 
 private writeLog(message) {  
@@ -96,5 +107,9 @@ private writeLog(message) {
 private writeState(message) {
   log.debug ("${device} [v$version]: ${message} settings ${settings}")
   log.debug ("${device} [v$version]: ${message} state ${state}")
+}
+
+private getVersion() {
+  return "1.0.7"
 }
 
