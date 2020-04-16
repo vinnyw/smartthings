@@ -38,55 +38,42 @@ metadata {
 
     }
 
-	preferences {
-    	section {
-         	input type: "paragraph", element: "paragraph", title: "Logging:", description: "General settings."
-			input name: "displayDebug", type: "boolean", title: "Debug", defaultValue: false, displayDuringSetup: false
-     	}
-	}
-
 }
-   
+
+
 // parse events into attributes
 def parse(String description) {
-	if ("true" == displayDebug) {
-		writeLog("Parsing '${description}'")
- 	}
+	writeLog("Parsing '${description}'")
+	// TODO: handle 'contact' attribute
+	// TODO: handle 'switch' attribute
+	//sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
+
 }
 
 def installed() {
-	if ("true" == displayDebug) {
-		writeLog("Executing 'installed()'")
-		writeState("installed()")
-  	}
+	writeLog("Executing 'installed()'")
+	writeState("installed()")
 	initialize()
     off()
 }
 
 def updated() {
-	if ("true" == displayDebug) {
-    	writeLog("Executing 'updated()'")
-  		writeState("updated()")
-	}
+	writeLog("Executing 'updated()'")
+	writeState("updated()")
 	initialize()
 }
 
 private initialize() {
-	if ("true" == displayDebug) {
-		writeLog("Executing 'initialize()'")
-	}
- 	def cmds = []
-    cmds << createEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-    cmds << createEvent(name: "healthStatus", value: "online")
-	//cmds << createEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
-   	sendEvents(cmds)
+	writeLog("Executing 'initialize()'")
+	//sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
+	//sendEvent(name: "healthStatus", value: "online")
+	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 }
 
 // handle commands
 def on() {
-	if ("true" == displayDebug) {
-		writeLog("Executing 'on()'")
-    }
+	writeLog("Executing 'on()'")
+	// TODO: handle 'on'
   	def cmds = [] 
     cmds << createEvent(name: "switch", value: "on", isStateChange: true)
     cmds << createEvent(name: "contact", value: "close", isStateChange: true)
@@ -94,9 +81,8 @@ def on() {
 }
 
 def off() {
-	if ("true" == displayDebug) {
-   		writeLog("Executing 'off()'")
-    }
+	writeLog("Executing 'off()'")
+	// TODO: handle 'off' command
  	def cmds = []
     cmds << createEvent(name: "switch", value: "off", isStateChange: true)
     cmds << createEvent(name: "contact", value: "open", isStateChange: true)
@@ -104,24 +90,26 @@ def off() {
 }   
 
 private sendEvents(cmds) {  
-	cmds.each { 
-  		cmd -> sendEvent(cmd)
-		if ("true" == displayDebug) {
-   			writeLog(cmd)
-        }
+  log.debug ("${device} [v$version]: ${cmds}")
+  
+  	cmds.each { 
+    	cmd -> sendEvent(cmd)
+                writeLog(cmd)
+
   	}
+    
 }
 
 private writeLog(message) {  
-	log.debug ("${device} [v$version]: ${message}")
+  log.debug ("${device} [v$version]: ${message}")
 }
 
 private writeState(message) {
-	log.debug ("${device} [v$version]: ${message} settings ${settings}")
-	log.debug ("${device} [v$version]: ${message} state ${state}")
+  log.debug ("${device} [v$version]: ${message} settings ${settings}")
+  log.debug ("${device} [v$version]: ${message} state ${state}")
 }
 
 private getVersion() {
-  return "1.0.11f"
+  return "1.0.7"
 }
 
