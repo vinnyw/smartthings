@@ -17,18 +17,6 @@ metadata {
 		capability "Switch"
 		capability "Sensor"
 		capability "Contact Sensor"
-	
-    	//capability "Switch"
-        //capability "Relay Switch"
-        //capability "Sensor"
-        //capability "Actuator"
-        //capability "Health Check"
-
-        //command "onPhysical"
-        //command "offPhysical"
-
-        //command    "markDeviceOnline"
-        //command    "markDeviceOffline"
     }
 
 	tiles {
@@ -94,9 +82,7 @@ def on() {
         writeLog("Executing 'on()'")
 	}
 	sendEvent(name: "switch", value: "on")
-    	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
-
-	//cmds << createEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
+	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
 }
 
 def off() {
@@ -104,9 +90,7 @@ def off() {
         writeLog("Executing 'off()'")
 	}
 	sendEvent(name: "switch", value: "off")
-        	sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
-
-	//cmds << createEvent(name: "contact", value: "open", isStateChange: true, displyed: false)
+	sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
 }
 
 private writeLog(message) {
