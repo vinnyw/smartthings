@@ -1,7 +1,5 @@
 /**
- *  Alexa Simulated Switch
- *
- *  Copyright 2020 Vinny Wadding
+ *  Copyright 2015 SmartThings
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -11,105 +9,116 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
- **/
-
+ *
+ */
 metadata {
-	definition (name: 'zzz sim button 2', namespace: 'vinnyw', author: 'vinnyw', runLocally: true, executeCommandsLocally: false, minHubCoreVersion: '000.021.00001', ocfDeviceType: 'oic.d.switch' ) {
-        capability "Actuator"
-        capability "Sensor"
-		capability "Contact Sensor"
+
+    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
 		capability "Switch"
-	}
+		capability "Sensor"
+		capability "Contact Sensor"
+	
+    	//capability "Switch"
+        //capability "Relay Switch"
+        //capability "Sensor"
+        //capability "Actuator"
+        //capability "Health Check"
 
-	simulator {
-		// TODO: define status and reply messages here
-	}
+        //command "onPhysical"
+        //command "offPhysical"
 
-    tiles(scale: 2) {
-        multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true){
-            tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-           		attributeState "off", label:'${name}', action:"switch.on", icon: "st.switches.switch.off", backgroundColor:"#FFFFFF", defaultState: true
-                attributeState "on", label:'${name}', action:"switch.off", icon: "st.switches.switch.on", backgroundColor:"#00A0DC"
-            }
-        }
-
-        main(["switch"])
-        details(["switch"])
-
+        //command    "markDeviceOnline"
+        //command    "markDeviceOffline"
     }
+
+	tiles {
+		standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+			state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
+			state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC"
+		}
+
+		main "switch"
+		details(["switch"])
+    }
+
+	preferences {
+		section {
+			input(title: "======= Boolean Types Title =======",
+					description: "Boolean Types Description",
+					displayDuringSetup: false,
+					type: "paragraph",
+					element: "paragraph")
+			input("displayDebug", "boolean",
+					title: "Debug",
+					defaultValue: "false",
+					required: true)
+		}
+	}
 
 }
 
 
-// parse events into attributes
-def parse(String description) {
-	writeLog("Parsing '${description}'")
-	// TODO: handle 'contact' attribute
-	// TODO: handle 'switch' attribute
-	//sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-
+def parse(description) {
 }
 
 def installed() {
-	writeLog("Executing 'installed()'")
-	writeState("installed()")
-	initialize()
+    log.trace "Executing 'installed'"
     off()
+    initialize()
 }
 
 def updated() {
-	writeLog("Executing 'updated()'")
-	writeState("updated()")
-	initialize()
+    log.trace "Executing 'updated'"
+    initialize()
+}
+
+private setDeviceHealth(String healthState) {
+    log.debug("healthStatus: ${device.currentValue('healthStatus')}; DeviceWatch-DeviceStatus: ${device.currentValue('DeviceWatch-DeviceStatus')}")
+    List validHealthStates = ["online", "offline"]
+    healthState = validHealthStates.contains(healthState) ? healthState : device.currentValue("healthStatus")
+    // set the healthState
+    sendEvent(name: "DeviceWatch-DeviceStatus", value: healthState)
+    sendEvent(name: "healthStatus", value: healthState)
 }
 
 private initialize() {
-	writeLog("Executing 'initialize()'")
-	//sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-	//sendEvent(name: "healthStatus", value: "online")
-	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+    log.trace "Executing 'initialize'"
+    //sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
+	sendEvent(name: "healthStatus", value: "online")
+
 }
 
-// handle commands
 def on() {
-	writeLog("Executing 'on()'")
-	// TODO: handle 'on'
-  	def cmds = [] 
-    cmds << createEvent(name: "switch", value: "on", isStateChange: true)
-    cmds << createEvent(name: "contact", value: "close", isStateChange: true)
-   	sendEvents(cmds)
+	if (displayDebug ? true : false) {
+        writeLog("Executing 'on()'")
+	}
+	sendEvent(name: "switch", value: "on")
+    	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
+
+	//cmds << createEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
 }
 
 def off() {
-	writeLog("Executing 'off()'")
-	// TODO: handle 'off' command
- 	def cmds = []
-    cmds << createEvent(name: "switch", value: "off", isStateChange: true)
-    cmds << createEvent(name: "contact", value: "open", isStateChange: true)
-   	sendEvents(cmds)
-}   
+	if (displayDebug ? true : false) {
+        writeLog("Executing 'off()'")
+	}
+	sendEvent(name: "switch", value: "off")
+        	sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
 
-private sendEvents(cmds) {  
-  log.debug ("${device} [v$version]: ${cmds}")
-  
-  	cmds.each { 
-    	cmd -> sendEvent(cmd)
-                writeLog(cmd)
-
-  	}
-    
+	//cmds << createEvent(name: "contact", value: "open", isStateChange: true, displyed: false)
 }
 
-private writeLog(message) {  
-  log.debug ("${device} [v$version]: ${message}")
+private writeLog(message) {
+	log.debug ("${device} [v$version]: ${message}")
 }
 
 private writeState(message) {
-  log.debug ("${device} [v$version]: ${message} settings ${settings}")
-  log.debug ("${device} [v$version]: ${message} state ${state}")
+	log.debug ("${device} [v$version]: ${message} settings ${settings}")
+	log.debug ("${device} [v$version]: ${message} state ${state}")
 }
 
 private getVersion() {
-  return "1.0.7"
+	return "1.0.20"
 }
 
