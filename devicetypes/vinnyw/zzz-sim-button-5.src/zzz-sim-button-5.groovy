@@ -11,10 +11,12 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
+ //vid: "generic-switch",
+ 
 metadata {
 
-    definition (name: "zzz sim button 5", namespace: "vinnyw", author: "vinnyw", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
-		capability "Switch"
+    definition (name: "zzz sim button 5", namespace: "vinnyw", author: "vinnyw", runLocally: false, mnmn: "SmartThings", ocfDeviceType: "oic.d.switch") {
+        capability "Switch"
 		capability "Sensor"
 		capability "Contact Sensor"
     }
