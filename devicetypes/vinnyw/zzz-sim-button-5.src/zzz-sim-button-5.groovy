@@ -16,7 +16,7 @@
 metadata {
 
     definition (name: "zzz sim button 5", namespace: "vinnyw", author: "vinnyw", runLocally: false, mnmn: "SmartThings", ocfDeviceType: "oic.d.switch") {
-        capability "Switch"
+		capability "Switch"
 		capability "Sensor"
 		capability "Contact Sensor"
     }
@@ -60,15 +60,6 @@ def installed() {
 def updated() {
     log.trace "Executing 'updated'"
     initialize()
-}
-
-private setDeviceHealth(String healthState) {
-    log.debug("healthStatus: ${device.currentValue('healthStatus')}; DeviceWatch-DeviceStatus: ${device.currentValue('DeviceWatch-DeviceStatus')}")
-    List validHealthStates = ["online", "offline"]
-    healthState = validHealthStates.contains(healthState) ? healthState : device.currentValue("healthStatus")
-    // set the healthState
-    sendEvent(name: "DeviceWatch-DeviceStatus", value: healthState)
-    sendEvent(name: "healthStatus", value: healthState)
 }
 
 private initialize() {
