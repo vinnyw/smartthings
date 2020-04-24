@@ -20,7 +20,7 @@ metadata {
     }
 
 	tiles {
-		standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+		standardTile("switch", "device.switch", decoration: "flat", width: 3, height: 2, canChangeIcon: true) {
 			state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
 			state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC"
 		}
@@ -50,31 +50,29 @@ def parse(description) {
 }
 
 def installed() {
-    log.trace "Executing 'installed'"
+	if (displayDebug ? true : false) {
+		writeLog("Executing 'installed()'")
+		writeState("installed()")
+	}
     off()
     initialize()
 }
 
 def updated() {
-    log.trace "Executing 'updated'"
-    initialize()
-}
-
-private setDeviceHealth(String healthState) {
-    log.debug("healthStatus: ${device.currentValue('healthStatus')}; DeviceWatch-DeviceStatus: ${device.currentValue('DeviceWatch-DeviceStatus')}")
-    List validHealthStates = ["online", "offline"]
-    healthState = validHealthStates.contains(healthState) ? healthState : device.currentValue("healthStatus")
-    // set the healthState
-    sendEvent(name: "DeviceWatch-DeviceStatus", value: healthState)
-    sendEvent(name: "healthStatus", value: healthState)
+	if (displayDebug ? true : false) {
+		writeLog("Executing 'updated()'")
+		writeState("updated()")
+	}
+	initialize()
 }
 
 private initialize() {
-    log.trace "Executing 'initialize'"
+	if (displayDebug ? true : false) {
+		writeLog("Executing 'initialize()'")
+	}
     //sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
-
 }
 
 def on() {
@@ -103,6 +101,6 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.0.20"
+	return "1.0.21"
 }
 
