@@ -114,5 +114,6 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.1.22"
+	return "1.1.23"
 }
+
