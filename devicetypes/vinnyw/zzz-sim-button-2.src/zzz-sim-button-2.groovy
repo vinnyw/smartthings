@@ -13,11 +13,11 @@
  */
 metadata {
 
-    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
+    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: true, mnmn: "SmartThings", cstHandler: true, ocfDeviceType: "oic.d.switch") {
 		capability "Switch"
 		capability "Sensor"
 		capability "Contact Sensor"
-    }
+	}
 
 	tiles {
 		standardTile("switch", "device.switch", decoration: "flat", width: 3, height: 2, canChangeIcon: true) {
@@ -117,4 +117,3 @@ private writeState(message) {
 private getVersion() {
 	return "1.1.22"
 }
-
