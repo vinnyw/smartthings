@@ -13,9 +13,10 @@
  */
 metadata {
 
-    definition (name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true, runLocally: true, minHubCoreVersion: '000.021.00001', mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+    definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true, runLocally: true, 
+				 minHubCoreVersion: '000.021.00001', mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+		capability "Actuator"
 		capability "Switch"
-		capability "Sensor"
 		capability "Contact Sensor"
 	}
 
