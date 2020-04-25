@@ -13,7 +13,7 @@
  */
 metadata {
 
-    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: false, mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: true, mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 		capability "Switch"
 		capability "Sensor"
 		capability "Contact Sensor"
@@ -116,4 +116,5 @@ private writeState(message) {
 private getVersion() {
 	return "1.1.23"
 }
+
 
