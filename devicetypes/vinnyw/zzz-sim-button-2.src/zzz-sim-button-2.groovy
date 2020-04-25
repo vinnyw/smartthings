@@ -13,7 +13,7 @@
  */
 metadata {
 
-    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: true, mnmn: "SmartThings", cstHandler: true, ocfDeviceType: "oic.d.switch") {
+    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: false, mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 		capability "Switch"
 		capability "Sensor"
 		capability "Contact Sensor"
@@ -94,8 +94,7 @@ def on() {
 
 def off() {
 	if (displayDebug?.toBoolean() ?: false) {
-
-        writeLog("Executing 'off()'")
+		writeLog("Executing 'off()'")
 	}
 
 	sendEvent(name: "switch", value: "off")
