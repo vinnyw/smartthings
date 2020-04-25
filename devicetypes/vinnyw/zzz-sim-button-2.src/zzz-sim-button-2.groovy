@@ -13,7 +13,7 @@
  */
 metadata {
 
-    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: false, mnmn: "SmartThings", vid: "generic-switch") {
+    definition (name: "zzz sim button 2", namespace: "vinnyw", author: "vinnyw", runLocally: true, mnmn: "SmartThings", vid: "generic-switch") {
 		capability "Switch"
 		capability "Sensor"
 		capability "Contact Sensor"
@@ -31,14 +31,19 @@ metadata {
 
 	preferences {
 		section {
-			input(title: "======= Boolean Types Title =======",
-					description: "Boolean Types Description",
-					displayDuringSetup: false,
-					type: "paragraph",
-					element: "paragraph")
-			input("displayDebug", "boolean",
+			//input(name: "autoReset", type: "enum",
+			//		title: "Auto turn off",
+			//		options: [[false: "Never"],
+			//				  [true: "Always"]],
+			//		defaultValue: false,
+			//		required: true)
+			input(name: "autoReset", type: "boolean",
+					title: "Auto turn off",
+					defaultValue: false,
+					required: true)
+			input(name: "displayDebug", type: "boolean",
 					title: "Debug",
-					defaultValue: "false",
+					defaultValue: false,
 					required: true)
 		}
 	}
@@ -50,7 +55,7 @@ def parse(description) {
 }
 
 def installed() {
-	if (displayDebug ? true : false) {
+	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'installed()'")
 		writeState("installed()")
 	}
@@ -59,7 +64,7 @@ def installed() {
 }
 
 def updated() {
-	if (displayDebug ? true : false) {
+	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'updated()'")
 		writeState("updated()")
 	}
@@ -67,7 +72,7 @@ def updated() {
 }
 
 private initialize() {
-	if (displayDebug ? true : false) {
+	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'initialize()'")
 	}
     //sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
@@ -76,19 +81,29 @@ private initialize() {
 }
 
 def on() {
-	if (displayDebug ? true : false) {
+	if (displayDebug?.toBoolean() ?: false) {
         writeLog("Executing 'on()'")
 	}
+
 	sendEvent(name: "switch", value: "on")
 	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
+
+	if (autoReset?.toBoolean()) {
+		off()
+	}
 }
 
 def off() {
-	if (displayDebug ? true : false) {
+	if (displayDebug?.toBoolean() ?: false) {
+
         writeLog("Executing 'off()'")
 	}
+
 	sendEvent(name: "switch", value: "off")
-	sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
+
+	if (!autoReset?.toBoolean()) {
+		sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
+	}
 }
 
 private writeLog(message) {
@@ -101,6 +116,6 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.0.21"
+	return "1.1.22"
 }
 
