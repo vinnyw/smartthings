@@ -87,7 +87,7 @@ def on() {
 	sendEvent(name: "switch", value: "on")
 	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
 
-	if (autoReset?.toBoolean()) {
+	if (autoReset?.toBoolean() ?: false) {
 		off()
 	}
 }
@@ -99,7 +99,7 @@ def off() {
 
 	sendEvent(name: "switch", value: "off")
 
-	if (!autoReset?.toBoolean()) {
+	if (!autoReset?.toBoolean() ?: false) {
 		sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
 	}
 }
@@ -114,5 +114,5 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.1.23"
+	return "1.1.24"
 }
