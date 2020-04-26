@@ -13,8 +13,8 @@
  */
 metadata {
 
-    definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true, 
-					runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: false, 
+    definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
+					runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: false,
 					mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 
 		capability "Actuator"
