@@ -34,6 +34,16 @@ metadata {
 
 	preferences {
 		section {
+			//input(name: "autoReset", type: "enum",
+			//		title: "Auto turn off",
+			//		options: [[false: "Never"],
+			//				  [true: "Always"]],
+			//		defaultValue: false,
+			//		required: true)
+			input(name: "autoReset", type: "boolean",
+					title: "Auto reset",
+					defaultValue: false,
+					required: true)
 			input(name: "displayDebug", type: "boolean",
 					title: "Debug",
 					defaultValue: false,
@@ -78,6 +88,10 @@ def on() {
 	}
 
 	sendEvent(name: "switch", value: "on")
+
+	if (autoReset?.toBoolean() ?: false) {
+		off()
+	}
 }
 
 def off() {
@@ -98,5 +112,5 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.1.10"
+	return "1.1.11"
 }
