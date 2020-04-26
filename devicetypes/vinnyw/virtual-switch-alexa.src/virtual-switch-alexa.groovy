@@ -13,17 +13,20 @@
  */
 metadata {
 
-    definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true, runLocally: true, 
-				 minHubCoreVersion: '000.021.00001', mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+    definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true, 
+					runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: false, 
+					mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 		capability "Actuator"
 		capability "Switch"
 		capability "Contact Sensor"
 	}
 
 	tiles {
-		standardTile("switch", "device.switch", decoration: "flat", width: 3, height: 2, canChangeIcon: true) {
-			state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
-			state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC"
+		standardTile("switch", "device.switch", decoration: "flat", width: 3, height: 2, canChangeIcon: true, canChangeBackground: true) {
+			state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff", nextState:"turningOn"
+			state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC", nextState:"turningOff"
+			state "turningOn", label:'Turning On', action:"switch.off", icon:"st.switches.light.on", backgroundColor:"#00A0DC", nextState:"turningOff"
+			state "turningOff", label:'Turning Off', action:"switch.on", icon:"st.switches.light.off", backgroundColor:"#ffffff", nextState:"turningOn"
 		}
 
 		main "switch"
@@ -39,7 +42,7 @@ metadata {
 			//		defaultValue: false,
 			//		required: true)
 			input(name: "autoReset", type: "boolean",
-					title: "Auto turn off",
+					title: "Auto reset",
 					defaultValue: false,
 					required: true)
 			input(name: "displayDebug", type: "boolean",
@@ -115,5 +118,5 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.1.24"
+	return "1.1.27"
 }
