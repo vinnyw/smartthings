@@ -55,7 +55,11 @@ metadata {
 
 }
 
-def parse(description) {
+def parse(String description) {
+	if (displayDebug?.toBoolean() ?: false) {
+		log.debug "Parsing '${description}'"
+	}
+	// TODO
 }
 
 def installed() {
@@ -119,5 +123,5 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.1.27"
+	return "1.1.28"
 }
