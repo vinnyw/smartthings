@@ -35,12 +35,6 @@ metadata {
 
 	preferences {
 		section {
-			//input(name: "autoReset", type: "enum",
-			//		title: "Auto turn off",
-			//		options: [[false: "Never"],
-			//				  [true: "Always"]],
-			//		defaultValue: false,
-			//		required: true)
 			input(name: "autoReset", type: "boolean",
 					title: "Auto reset",
 					defaultValue: false,
@@ -95,7 +89,7 @@ def on() {
 	sendEvent(name: "switch", value: "on")
 
 	if (autoReset?.toBoolean() ?: false) {
-		runIn(1, "off")
+		runIn(1, "off", [overwrite: false])
 	}
 }
 
@@ -103,6 +97,8 @@ def off() {
 	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'off()'")
 	}
+
+    unschedule()
 
 	sendEvent(name: "switch", value: "off")
 }
