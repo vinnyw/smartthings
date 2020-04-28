@@ -14,7 +14,7 @@
 metadata {
 
     definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
-					runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: false,
+					//runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: false,
 					mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 
 		capability "Actuator"
@@ -97,7 +97,7 @@ def on() {
 	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
 
 	if (autoReset?.toBoolean() ?: false) {
-		off()
+		runIn(1, "off")
 	}
 }
 
@@ -123,5 +123,5 @@ private writeState(message) {
 }
 
 private getVersion() {
-	return "1.1.28"
+	return "1.1.29"
 }
