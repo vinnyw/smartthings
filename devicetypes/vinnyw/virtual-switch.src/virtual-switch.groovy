@@ -93,7 +93,7 @@ def on() {
 	sendEvent(name: "switch", value: "on")
 
 	if (autoReset?.toBoolean() ?: false) {
-		runIn(1, "off", [overwrite: false])
+		runIn(1, "off", [overwrite: true])
 	}
 }
 

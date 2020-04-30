@@ -95,7 +95,7 @@ def on() {
 	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
 
 	if (autoReset?.toBoolean() ?: false) {
-		runIn(1, "off", [overwrite: false])
+		runIn(1, "off", [overwrite: true])
 	}
 }
 
