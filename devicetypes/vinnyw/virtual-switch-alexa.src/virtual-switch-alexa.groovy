@@ -22,6 +22,10 @@ metadata {
 		capability "Contact Sensor"
 	}
 
+	simulator {
+		// TODO
+	}
+
 	tiles {
 		standardTile("switch", "device.switch", decoration: "flat", width: 3, height: 2, canChangeIcon: true, canChangeBackground: true) {
 			state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff", nextState:"turningOn"
