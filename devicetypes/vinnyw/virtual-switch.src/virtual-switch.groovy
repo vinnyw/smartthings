@@ -38,16 +38,8 @@ metadata {
     }
 
 	preferences {
-		section {
-			input(name: "autoReset", type: "boolean",
-					title: "Auto reset",
-					defaultValue: false,
-					required: true)
-			input(name: "displayDebug", type: "boolean",
-					title: "Debug",
-					defaultValue: false,
-					required: true)
-		}
+        input name: "autoReset", type: "boolean", title: "Auto reset", defaultValue: false, required: true
+        input name: "displayDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 	}
 
 }
