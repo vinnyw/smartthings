@@ -55,7 +55,8 @@ def parse(description) {
 def installed() {
 	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'installed()'")
-		writeState("installed()")
+		writeLog("installed() settings: $settings", INFO)
+		writeLog("installed() state: $state", INFO)
 	}
     off()
     initialize()
@@ -64,7 +65,8 @@ def installed() {
 def updated() {
 	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'updated()'")
-		writeState("updated()")
+		writeLog("updated() settings: $settings", INFO)
+		writeLog("updated() state: $state", INFO)
 	}
 	initialize()
 }
@@ -126,11 +128,6 @@ private writeLog(message, type = "DEBUG") {
 		default:
 			log.debug "${message}"
 	}
-}
-
-private writeState(message) {
-	log.debug ("${device} [v$version]: ${message} settings ${settings}")
-	log.debug ("${device} [v$version]: ${message} state ${state}")
 }
 
 private getVersion() {
