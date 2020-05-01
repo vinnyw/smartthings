@@ -44,9 +44,9 @@ metadata {
 
 }
 
-def parse(String description) {
+def parse(description) {
 	if (displayDebug?.toBoolean() ?: false) {
-		log.debug "Parsing '${description}'"
+		writeLog("Parsing '${description}'")
 	}
 	// TODO
 }
@@ -99,8 +99,27 @@ def off() {
 	sendEvent(name: "switch", value: "off")
 }
 
-private writeLog(message) {
-	log.debug ("${device} [v$version]: ${message}")
+private writeLog(message, type = "DEBUG") {
+	message = "${device} [v$version]: ${message ?: ''}"
+	switch (type?.toUpperCase()) {
+		case "TRACE":
+			log.trace "${message}"
+			break
+		case "DEBUG":
+			log.debug "${message}"
+			break
+		case "INFO":
+			log.info "${message}"
+			break
+		case "WARN":
+			log.warn "${message}"
+			break
+		case "ERROR":
+			log.error "${message}"
+			break
+		default:
+			log.debug "${message}"
+	}
 }
 
 private writeState(message) {
