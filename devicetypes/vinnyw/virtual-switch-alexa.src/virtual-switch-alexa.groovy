@@ -46,14 +46,14 @@ metadata {
 }
 
 def parse(description) {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Parsing '${description}'")
 	}
 	// TODO
 }
 
 def installed() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'installed()'")
 		writeLog("installed() settings: $settings", "INFO")
 		writeLog("installed() state: $state", "INFO")
@@ -63,7 +63,7 @@ def installed() {
 }
 
 def updated() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'updated()'")
 		writeLog("updated() settings: $settings", "INFO")
 		writeLog("updated() state: $state", "INFO")
@@ -72,7 +72,7 @@ def updated() {
 }
 
 private initialize() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
     //sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
@@ -81,7 +81,7 @@ private initialize() {
 }
 
 def on() {
-	if (displayDebug) {
+	if (deviceDebug) {
         writeLog("Executing 'on()'")
 	}
 
@@ -94,7 +94,7 @@ def on() {
 }
 
 def off() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'off()'")
 	}
 
@@ -129,7 +129,7 @@ private writeLog(message, type = "DEBUG") {
 	}
 }
 
-private getDisplayDebug() {
+private getDeviceDebug() {
 	return (settings.displayDebug != null) ? settings.displayDebug.toBoolean() : false
 }
 
