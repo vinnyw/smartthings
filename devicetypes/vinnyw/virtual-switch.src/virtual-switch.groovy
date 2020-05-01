@@ -45,14 +45,14 @@ metadata {
 }
 
 def parse(description) {
-	if (displayDebug?.toBoolean() ?: false) {
+	if (displayDebug) {
 		writeLog("Parsing '${description}'")
 	}
 	// TODO
 }
 
 def installed() {
-	if (displayDebug?.toBoolean() ?: false) {
+	if (displayDebug) {
 		writeLog("Executing 'installed()'")
 		writeLog("installed() settings: $settings", "INFO")
 		writeLog("installed() state: $state", "INFO")
@@ -62,7 +62,7 @@ def installed() {
 }
 
 def updated() {
-	if (displayDebug?.toBoolean() ?: false) {
+	if (displayDebug) {
 		writeLog("Executing 'updated()'")
 		writeLog("updated() settings: $settings", "INFO")
 		writeLog("updated() state: $state", "INFO")
@@ -71,7 +71,7 @@ def updated() {
 }
 
 private initialize() {
-	if (displayDebug?.toBoolean() ?: false) {
+	if (displayDebug) {
 		writeLog("Executing 'initialize()'")
 	}
     //sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
@@ -80,7 +80,7 @@ private initialize() {
 }
 
 def on() {
-	if (displayDebug?.toBoolean() ?: false) {
+	if (displayDebug) {
         writeLog("Executing 'on()'")
 	}
 
@@ -92,12 +92,11 @@ def on() {
 }
 
 def off() {
-	if (displayDebug?.toBoolean() ?: false) {
+	if (displayDebug) {
 		writeLog("Executing 'off()'")
 	}
 
     unschedule()
-
 	sendEvent(name: "switch", value: "off")
 }
 
@@ -122,6 +121,10 @@ private writeLog(message, type = "DEBUG") {
 		default:
 			log.debug "${message}"
 	}
+}
+
+private getDisplayDebug() {
+	return (settings.displayDebug != null) ? settings.displayDebug.toBoolean() : false
 }
 
 private getVersion() {
