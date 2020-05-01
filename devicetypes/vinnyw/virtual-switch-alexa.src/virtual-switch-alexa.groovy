@@ -65,8 +65,8 @@ def installed() {
 def updated() {
 	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'updated()'")
-		writeLog("installed() settings: $settings", "INFO")
-		writeLog("installed() state: $state", "INFO")
+		writeLog("updated() settings: $settings", "INFO")
+		writeLog("updated() state: $state", "INFO")
 	}
 	initialize()
 }
@@ -131,5 +131,5 @@ private writeLog(message, type = "DEBUG") {
 }
 
 private getVersion() {
-	return "1.1.29"
+	return "1.1.30"
 }

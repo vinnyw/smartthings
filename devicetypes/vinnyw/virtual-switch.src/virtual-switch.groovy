@@ -125,5 +125,5 @@ private writeLog(message, type = "DEBUG") {
 }
 
 private getVersion() {
-	return "1.1.13"
+	return "1.1.14"
 }
