@@ -55,8 +55,8 @@ def parse(description) {
 def installed() {
 	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'installed()'")
-		writeLog("installed() settings: $settings", INFO)
-		writeLog("installed() state: $state", INFO)
+		writeLog("installed() settings: $settings", "INFO")
+		writeLog("installed() state: $state", "INFO")
 	}
     off()
     initialize()
@@ -65,8 +65,8 @@ def installed() {
 def updated() {
 	if (displayDebug?.toBoolean() ?: false) {
 		writeLog("Executing 'updated()'")
-		writeLog("updated() settings: $settings", INFO)
-		writeLog("updated() state: $state", INFO)
+		writeLog("installed() settings: $settings", "INFO")
+		writeLog("installed() state: $state", "INFO")
 	}
 	initialize()
 }
