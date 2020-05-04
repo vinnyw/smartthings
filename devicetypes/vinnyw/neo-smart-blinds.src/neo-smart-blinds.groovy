@@ -95,7 +95,6 @@ private initialize() {
 	sendEvent(name: "healthStatus", value: "online")
 }
 
-/** OPEN **/
 def open() {
 	if (deviceDebug) {
 		writeLog("Executing 'open()'")
@@ -120,7 +119,6 @@ def opened() {
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
 }
 
-/** CLOSE **/
 def close() {
 	if (deviceDebug) {
 		writeLog("Executing 'close()'")
@@ -145,7 +143,6 @@ def closed() {
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
 }
 
-/** PAUSE/STOP **/
 def pause() {
 	if (deviceDebug) {
 		writeLog("Executing 'pause()'")
@@ -158,6 +155,49 @@ def pause() {
 def paused() {
 	if (deviceDebug) {
 		writeLog("Executing 'paused()'")
+	}
+	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+}
+
+def presetPosition() {
+	if (deviceDebug) {
+		writeLog("Executing 'presetPosition()'")
+	}
+	unschedule()	
+    if (device.currentValue("windowShade") == "open") {
+		presetPositionCloseing()
+		runIn(deviceDelay, "presetPositioned", [overwrite: true])
+	} else if (device.currentValue("windowShade") == "closed") {
+		presetPositionOpening()
+		runIn(deviceDelay, "presetPositioned", [overwrite: true])
+	} else if (device.currentValue("windowShade") == "unknown") {
+		presetPositionCloseing()
+		runIn(deviceDelay, "presetPositioned", [overwrite: true])
+	} else {
+		attenuate("gp")
+		presetPositioned()
+	}
+}
+
+def presetPositionOpening() {
+	if (deviceDebug) {
+		writeLog("Executing 'presetPositionedOpening()'")
+    }
+    attenuate("gp")
+	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
+}
+
+def presetPositionCloseing() {
+	if (deviceDebug) {
+		writeLog("Executing 'presetPositionedCloseing()'")
+    }
+    attenuate("gp")
+	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
+}
+
+def presetPositioned() {
+	if (deviceDebug) {
+		writeLog("Executing 'presetPositioned()'")
 	}
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
 }
