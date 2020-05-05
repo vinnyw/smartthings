@@ -299,8 +299,9 @@ private getDeviceDebug() {
 }
 
 private getHash() {
+	def currontRandom = new Random().nextInt(9) + 1			// 0-9
 	def currentTime = new Date().getTime().toString() 		// ms
-	return currentTime.substring(currentTime.length()-7)	// last 7 char
+	return currontRandom.toString() + currentTime.substring(currentTime.length()-6)	// last 7 char
 }
 
 private getVersion() {
