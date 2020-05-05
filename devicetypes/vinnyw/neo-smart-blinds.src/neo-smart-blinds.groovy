@@ -53,7 +53,7 @@ metadata {
 		input name: "controllerIP", type: "text", title: "Controller IP (Local)", description: "\u2630 > Smart Controllers > Controller > IP", required: true
 		input name: "blindID", type: "text", title: "Blind code", description: "\u2630 > Your Rooms > Room > Blind > Blind Code", required: true
 		input name: "blindDelay", type: "number", title: "Blind timing",
-			description: "Seconds for complete blind retraction (default: 5)", range: "1..120", displayDuringSetup: false
+			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
 		input name: "displayDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 	}
 
@@ -163,16 +163,19 @@ def presetPosition() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPosition()'")
 	}
-	unschedule()	
-    if (device.currentValue("windowShade") == "open") {
+    
+    def devicePartialDelay = deviceDelay * 0.75		// 75% of full delay
+
+	unschedule()
+	if (device.currentValue("windowShade") == "open") {
 		presetPositionCloseing()
-		runIn(deviceDelay, "presetPositioned", [overwrite: true])
+		runIn(devicePartialDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else if (device.currentValue("windowShade") == "closed") {
 		presetPositionOpening()
-		runIn(deviceDelay, "presetPositioned", [overwrite: true])
+		runIn(devicePartialDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else if (device.currentValue("windowShade") == "unknown") {
 		presetPositionCloseing()
-		runIn(deviceDelay, "presetPositioned", [overwrite: true])
+		runIn(devicePartialDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
 		attenuate("gp")
 		presetPositioned()
@@ -291,7 +294,7 @@ private writeLog(message, type = "DEBUG") {
 }
 
 private getDeviceDelay() {
-	return (settings.blindDelay != null) ? settings.blindDelay.toInteger() : 5
+	return (settings.blindDelay != null) ? settings.blindDelay.toInteger() : 8
 }
 
 private getDeviceDebug() {
@@ -301,10 +304,10 @@ private getDeviceDebug() {
 private getHash() {
 	def currontRandom = new Random().nextInt(9) + 1			// 0-9
 	def currentTime = new Date().getTime().toString() 		// ms
-	return currontRandom.toString() + currentTime.substring(currentTime.length()-6)	// last 7 char
+	return currontRandom.toString() + currentTime.substring(currentTime.length()-6)	// rnd + last 6 char
 }
 
 private getVersion() {
-	return "0.0.1"
+	return "1.0.0"
 }
 
