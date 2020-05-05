@@ -212,11 +212,59 @@ private attenuate(action) {
         path: "/neo/v1/transmit",
     	query: [command: "${blindID}-${action}", id: "${controllerID}", hash: "${hash}" ],
         headers: [
-            HOST: "${controllerIP}:8838",
-			CONNECTION: "close",
+            Host: "${controllerIP}:8838",
+			Connection: "close",
 		],
+		,null,
+        [callback: attenuateCallback]
 	)
-	sendHubCommand(result)
+
+	try {
+		[sendHubCommand(result), "delay 600"]
+	} catch (e) {
+		writeLog("$e", "ERROR")
+	}
+
+	if (deviceDebug) {
+		writeLog("\n $result", "INFO")
+	}
+}
+
+def attenuateCallback(physicalgraph.device.HubResponse hubResponse) {
+	if (deviceDebug) {
+		writeLog("Executing 'attenuateCallback()'")
+		writeLog("${hubResponse}", "INFO")
+	}
+
+	switch (hubResponse.status?.toInteger()) {
+		case 400:
+			writeLog("Response: 400 Bad Request - Command not found or valid", "ERROR")
+			sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+			break
+		case 401:
+			writeLog("Response: 401 Unauthorized - ID not found or valid", "ERROR")
+            sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+			break
+		case 404:
+			writeLog("Response: 404 Not Found - URI not found or valid", "ERROR")
+            sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+			break
+		case 409:
+			writeLog("Response: 409 Conflict - Hash found but already used", "ERROR")
+            sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+			break
+		case 200:
+        	if (deviceDebug) {
+				writeLog("Response: 200 OK - Message received and transmitted", "INFO")
+			}
+			break
+		default:
+			if (deviceDebug) {
+				writeLog("response ${hubResponse.status}", "INFO")
+			}
+			break
+	}
+
 }
 
 private writeLog(message, type = "DEBUG") {
