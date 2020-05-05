@@ -72,6 +72,12 @@ def installed() {
 		writeLog("installed() settings: $settings", "INFO")
 		writeLog("installed() state: $state", "INFO")
 	}
+
+	if (!controllerID || !controllerIP || !blindCode) {
+		writeLog("Setup not fully completed.  Missing required fields.", "ERROR")
+		exit
+	}
+
 	updated()
 	opened()
 }
@@ -82,6 +88,12 @@ def updated() {
 		writeLog("updated() settings: $settings", "INFO")
 		writeLog("updated() state: $state", "INFO")
 	}
+
+	if (!controllerID || !controllerIP || !blindCode) {
+		writeLog("Setup not fully completed - Missing required fields.", "ERROR")
+		exit
+	}
+
 	initialize()
  	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"])    
 }
@@ -218,7 +230,7 @@ private attenuate(action) {
             Host: "${controllerIP}:8838",
 			Connection: "close",
 		],
-		,null,
+		null,
         [callback: attenuateCallback]
 	)
 
@@ -308,6 +320,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.0"
+	return "1.0.1"
 }
 
