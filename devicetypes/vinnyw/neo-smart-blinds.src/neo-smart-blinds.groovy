@@ -235,7 +235,7 @@ private attenuate(action) {
 	)
 
 	try {
-		[sendHubCommand(result), "delay 500"]
+		[sendHubCommand(result), "delay 650"]
 	} catch (e) {
 		writeLog("$e", "ERROR")
 	}
