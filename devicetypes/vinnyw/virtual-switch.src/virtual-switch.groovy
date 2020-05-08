@@ -14,8 +14,8 @@
 metadata {
 
     definition ( name: "Virtual Switch", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
-					//runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: false,
-					mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+		//runLocally: true, minHubCoreVersion: '000.021.00001', executeCommandsLocally: false,
+		mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 
 		capability "Actuator"
 		capability "Switch"
@@ -74,7 +74,7 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-    //sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
