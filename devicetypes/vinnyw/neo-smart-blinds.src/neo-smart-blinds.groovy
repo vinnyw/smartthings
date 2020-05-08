@@ -120,7 +120,7 @@ def opening() {
 	if (deviceDebug) {
 		writeLog("Executing 'opening()'")
 	}
-    attenuate("up")
+	[attenuate("up"), "delay 200", attenuate("up")]
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
 }
 
@@ -144,7 +144,7 @@ def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
     }
-    attenuate("dn")
+	[attenuate("dn"), "delay 200", attenuate("dn")]
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
 
@@ -198,7 +198,8 @@ def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
     }
-    attenuate("gp")
+	//[attenuate("gp"), "delay 200", attenuate("gp")]
+	attenuate("gp")
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
 }
 
@@ -206,7 +207,8 @@ def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
     }
-    attenuate("gp")
+	//[attenuate("gp"), "delay 200", attenuate("gp")]
+	attenuate("gp")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
 
@@ -320,6 +322,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.2"
+	return "1.0.4"
 }
 
