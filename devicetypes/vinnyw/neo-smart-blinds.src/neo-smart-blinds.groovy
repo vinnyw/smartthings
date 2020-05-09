@@ -60,7 +60,7 @@ metadata {
 		input name: "blindDelay", type: "number", title: "Blind timing",
 			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
         input(name: "blindStop", type: "enum", title: "Second Press", 
-            options: [[false: "Reverse Blind"],[true: "Stop Blind"]], defaultValue: false, required: true)
+            options: [[false: "Reverse Blind (default)"],[true: "Stop Blind"]], defaultValue: false, required: true)
 		input name: "blindStop", type: "boolean", title: "Second press pauses", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 	}
