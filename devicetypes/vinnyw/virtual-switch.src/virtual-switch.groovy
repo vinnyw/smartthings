@@ -19,6 +19,9 @@ metadata {
 
 		capability "Actuator"
 		capability "Switch"
+
+        command "on"
+		command "off"
 	}
 
 	simulator {
@@ -38,8 +41,8 @@ metadata {
     }
 
 	preferences {
-        input name: "autoReset", type: "boolean", title: "Auto reset", defaultValue: false, required: true
-        input name: "displayDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+        input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
+        input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 	}
 
 }
@@ -86,7 +89,7 @@ def on() {
 
 	sendEvent(name: "switch", value: "on")
 
-	if (autoReset?.toBoolean() ?: false) {
+	if (deviceReset) {
 		runIn(1, "off", [overwrite: true])
 	}
 }
@@ -123,10 +126,14 @@ private writeLog(message, type = "DEBUG") {
 	}
 }
 
+private getDeviceReset() {
+	return (settings.deviceReset != null) ? settings.deviceReset.toBoolean() : false
+}
+
 private getDeviceDebug() {
 	return (settings.displayDebug != null) ? settings.displayDebug.toBoolean() : false
 }
 
 private getVersion() {
-	return "1.1.14"
+	return "1.1.16"
 }

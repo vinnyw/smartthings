@@ -20,6 +20,9 @@ metadata {
 		capability "Actuator"
 		capability "Switch"
 		capability "Contact Sensor"
+        
+        command "on"
+		command "off"
 	}
 
 	simulator {
@@ -39,8 +42,8 @@ metadata {
     }
 
 	preferences {
-        input name: "autoReset", type: "boolean", title: "Auto reset", defaultValue: false, required: true
-        input name: "displayDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+        input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
+        input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 	}
 
 }
@@ -88,7 +91,7 @@ def on() {
 	sendEvent(name: "switch", value: "on")
 	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
 
-	if (autoReset?.toBoolean() ?: false) {
+	if (deviceReset) {
 		runIn(1, "off", [overwrite: true])
 	}
 }
@@ -101,7 +104,7 @@ def off() {
     unschedule()
 	sendEvent(name: "switch", value: "off")
 
-	if (!autoReset?.toBoolean() ?: false) {
+	if (!deviceReset) {
 		sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
 	}
 }
@@ -129,10 +132,14 @@ private writeLog(message, type = "DEBUG") {
 	}
 }
 
+private getDeviceReset() {
+	return (settings.deviceReset != null) ? settings.deviceReset.toBoolean() : false
+}
+
 private getDeviceDebug() {
-	return (settings.displayDebug != null) ? settings.displayDebug.toBoolean() : false
+	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
 }
 
 private getVersion() {
-	return "1.1.30"
+	return "1.1.31"
 }

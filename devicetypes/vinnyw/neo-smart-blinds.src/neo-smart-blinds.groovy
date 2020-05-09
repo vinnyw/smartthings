@@ -20,6 +20,11 @@ metadata {
 		capability "Window Shade"
 		//capability "Window Shade Level"
 		capability "Window Shade Preset"
+
+		command "open"
+		command "close"
+		command "presetPosition"
+		command "pause"
 	}
 
 	simulator {
@@ -55,20 +60,20 @@ metadata {
 		input name: "blindDelay", type: "number", title: "Blind timing",
 			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
 		input name: "blindStop", type: "boolean", title: "Second press pauses", defaultValue: false, required: true
-		input name: "displayDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 	}
 
 }
 
 def parse(description) {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Parsing '${description}'")
 	}
 	// TODO
 }
 
 def installed() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'installed()'")
 		writeLog("installed() settings: $settings", "INFO")
 		writeLog("installed() state: $state", "INFO")
@@ -84,7 +89,7 @@ def installed() {
 }
 
 def updated() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'updated()'")
 		writeLog("updated() settings: $settings", "INFO")
 		writeLog("updated() state: $state", "INFO")
@@ -100,7 +105,7 @@ def updated() {
 }
 
 private initialize() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
 	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
@@ -109,7 +114,7 @@ private initialize() {
 }
 
 def open() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'open()'")
 	}
 
@@ -129,7 +134,7 @@ def open() {
 }
 
 def opening() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'opening()'")
 	}
 	[attenuate("up"), "delay 150", attenuate("up")]
@@ -137,14 +142,14 @@ def opening() {
 }
 
 def opened() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'opened()'")
 	}
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
 }
 
 def close() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'close()'")
 	}
 
@@ -164,7 +169,7 @@ def close() {
 }
 
 def closing() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
     }
 	[attenuate("dn"), "delay 200", attenuate("dn")]
@@ -172,14 +177,14 @@ def closing() {
 }
 
 def closed() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'closed()'")
 	}
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
 }
 
 def pause() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'pause()'")
 	}
     unschedule()
@@ -188,14 +193,14 @@ def pause() {
 }
 
 def paused() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'paused()'")
 	}
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 }
 
 def presetPosition() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'presetPosition()'")
 	}
     
@@ -218,7 +223,7 @@ def presetPosition() {
 }
 
 def presetPositionOpening() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
     }
 	//[attenuate("gp"), "delay 200", attenuate("gp")]
@@ -227,7 +232,7 @@ def presetPositionOpening() {
 }
 
 def presetPositionCloseing() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
     }
 	//[attenuate("gp"), "delay 200", attenuate("gp")]
@@ -236,14 +241,14 @@ def presetPositionCloseing() {
 }
 
 def presetPositioned() {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'presetPositioned()'")
 	}
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
 }
 
 private attenuate(action) {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'attenuate($action)'")
 	}
 
@@ -265,13 +270,13 @@ private attenuate(action) {
 		writeLog("$e", "ERROR")
 	}
 
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("\n $result", "INFO")
 	}
 }
 
 def attenuateCallback(physicalgraph.device.HubResponse hubResponse) {
-	if (displayDebug) {
+	if (deviceDebug) {
 		writeLog("Executing 'attenuateCallback()'")
 		writeLog("${hubResponse}", "INFO")
 	}
@@ -294,12 +299,12 @@ def attenuateCallback(physicalgraph.device.HubResponse hubResponse) {
             sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 			break
 		case 200:
-        	if (displayDebug) {
+        	if (deviceDebug) {
 				writeLog("Response: 200 OK - Message received and transmitted", "INFO")
 			}
 			break
 		default:
-			if (displayDebug) {
+			if (deviceDebug) {
 				writeLog("response ${hubResponse.status}", "INFO")
 			}
 			break
@@ -337,8 +342,8 @@ private getBlindStop() {
 	return (settings.blindStop != null) ? settings.blindStop.toBoolean() : false
 }
 
-private getDisplayDebug() {
-	return (settings.displayDebug != null) ? settings.displayDebug.toBoolean() : false
+private getDeviceDebug() {
+	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
 }
 
 private getHash() {
