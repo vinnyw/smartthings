@@ -59,8 +59,8 @@ metadata {
 		input name: "blindID", type: "text", title: "Blind code", description: "\u2630 > Your Rooms > Room > Blind > Blind Code", required: true
 		input name: "blindDelay", type: "number", title: "Blind timing",
 			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
-        input(name: "blindStop", type: "enum", title: "Second Press", 
-            options: [[false: "Reverse Direction (default)"],[true: "Stop Blind"]], defaultValue: false, multiple: false, required: true)
+		input name: "blindStop", type: "enum", title: "Second press",
+			options: ["false": "Reverse direction (default)", "true": "Stop blind"], defaultValue: "false", multiple: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 	}
 
