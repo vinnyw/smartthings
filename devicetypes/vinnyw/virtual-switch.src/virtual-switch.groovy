@@ -43,6 +43,7 @@ metadata {
 	preferences {
         input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
         input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
 	}
 
 }

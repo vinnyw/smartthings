@@ -62,6 +62,7 @@ metadata {
 		input name: "blindStop", type: "enum", title: "Second press",
 			options: ["false": "Reverse direction (default)", "true": "Stop blind"], defaultValue: "false", multiple: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+		input type: "paragraph", element: "paragraph", title: "Neo Smart Blinds", description: "${version}", displayDuringSetup: false
 	}
 
 }
