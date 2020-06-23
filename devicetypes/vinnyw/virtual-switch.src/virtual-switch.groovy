@@ -40,11 +40,11 @@ metadata {
 		details(["switch"])
     }
 
-	preferences {
+    preferences {
         input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
         input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
-		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
-	}
+        input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
+    }
 
 }
 
@@ -100,7 +100,7 @@ def off() {
 		writeLog("Executing 'off()'")
 	}
 
-    unschedule()
+        unschedule()
 	sendEvent(name: "switch", value: "off")
 }
 
