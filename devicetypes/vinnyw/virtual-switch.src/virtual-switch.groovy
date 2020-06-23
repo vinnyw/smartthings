@@ -20,8 +20,9 @@ metadata {
 		capability "Actuator"
 		capability "Switch"
 
-        command "on"
+		command "on"
 		command "off"
+
 	}
 
 	simulator {
@@ -85,7 +86,7 @@ private initialize() {
 
 def on() {
 	if (deviceDebug) {
-        writeLog("Executing 'on()'")
+		writeLog("Executing 'on()'")
 	}
 
 	sendEvent(name: "switch", value: "on")
