@@ -100,7 +100,7 @@ def off() {
 		writeLog("Executing 'off()'")
 	}
 
-        unschedule()
+	unschedule()
 	sendEvent(name: "switch", value: "off")
 }
 

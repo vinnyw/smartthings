@@ -21,7 +21,7 @@ metadata {
 		capability "Switch"
 		capability "Contact Sensor"
         
-                command "on"
+		command "on"
 		command "off"
 	}
 
@@ -44,7 +44,7 @@ metadata {
     preferences {
         input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
         input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
-	input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
+        input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
     }
 
 }
@@ -101,8 +101,8 @@ def off() {
 	if (deviceDebug) {
 		writeLog("Executing 'off()'")
 	}
-
-        unschedule()
+    
+	unschedule()
 	sendEvent(name: "switch", value: "off")
 
 	if (!deviceReset) {
