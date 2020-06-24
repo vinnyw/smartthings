@@ -78,7 +78,7 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+    sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
@@ -89,7 +89,7 @@ def on() {
 	}
 
 	sendEvent(name: "switch", value: "on")
-	sendEvent(name: "contact", value: "close", isStateChange: true, displayed: false)
+	sendEvent(name: "contact", value: "closed", isStateChange: true, displayed: false)
 
 	if (deviceReset) {
 		runIn(1, "off", [overwrite: true])
@@ -141,5 +141,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.31"
+	return "1.1.32"
 }
+
