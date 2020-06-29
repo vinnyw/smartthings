@@ -42,8 +42,8 @@ metadata {
 
     preferences {
         input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
-		input name: "raiseEvent", type: "enum", title: "Event",
-			options: ["true": "On change (default)", "false": "Always"], defaultValue: "true", multiple: false, required: true
+      	input name: "raiseEvent", type: "enum", title: "Event",
+		options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
         input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
         input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
     }
@@ -63,8 +63,8 @@ def installed() {
 		writeLog("installed() settings: $settings", "INFO")
 		writeLog("installed() state: $state", "INFO")
 	}
-    off()
-    initialize()
+	off()
+	initialize()
 }
 
 def updated() {
@@ -89,13 +89,13 @@ def on() {
 	if (deviceDebug) {
 		writeLog("Executing 'on()'")
 	}
-
-    if ((device.latestValue("switch") == "on") && raiseEvent) {
+	
+	if ((device.latestValue("switch") == "on") && !raiseEvent) {
 		return
-    }
+	}
     
-    sendEvent(name: "switch", value: "on")
-    sendEvent(name: "contact", value: "closed", isStateChange: true, displayed: false)
+	sendEvent(name: "switch", value: "on")
+	sendEvent(name: "contact", value: "closed", isStateChange: true, displayed: false)
 
 	if (deviceReset) {
 		runIn(1, "off", [overwrite: true])
@@ -107,9 +107,9 @@ def off() {
 		writeLog("Executing 'off()'")
 	}
 
-	if ((device.latestValue("switch") == "off") && raiseEvent) {
+	if ((device.latestValue("switch") == "off") && !raiseEvent) {
 		return
-    }
+	}
 
 	unschedule()
 	sendEvent(name: "switch", value: "off")
@@ -150,7 +150,7 @@ private getDeviceReset() {
 }
 
 private getRaiseEvent() {
-	return (settings.raiseEvent != null) ? settings.raiseEvent.toBoolean() : true
+	return (settings.raiseEvent != null) ? settings.raiseEvent.toBoolean() : false
 }
 
 private getDeviceDebug() {
@@ -158,6 +158,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.36"
+	return "1.1.37"
 }
 
