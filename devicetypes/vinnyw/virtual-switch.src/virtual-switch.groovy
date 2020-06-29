@@ -42,8 +42,8 @@ metadata {
 
     preferences {
         input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
-      	input name: "raiseEvent", type: "enum", title: "Event",
-  	  	  	options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
+        input name: "raiseEvent", type: "enum", title: "Event",
+                options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
         input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
         input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
     }
@@ -80,9 +80,9 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-    sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+        sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-	sendEvent(name: "healthStatus", value: "online")
+        sendEvent(name: "healthStatus", value: "online")
 }
 
 def on() {
