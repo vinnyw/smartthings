@@ -42,6 +42,8 @@ metadata {
 
     preferences {
         input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
+		input name: "raiseEvent", type: "enum", title: "Raise event",
+			options: ["true": "On change (default)", "false": "Always"], defaultValue: "true", multiple: false, required: true
         input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
         input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
     }
@@ -78,7 +80,7 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-    sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
@@ -88,8 +90,12 @@ def on() {
 		writeLog("Executing 'on()'")
 	}
 
-	sendEvent(name: "switch", value: "on")
-	sendEvent(name: "contact", value: "closed", isStateChange: true, displayed: false)
+    if ((device.latestValue("switch") == "on") && raiseEvent) {
+		return
+    }
+    
+    sendEvent(name: "switch", value: "on")
+    sendEvent(name: "contact", value: "closed", isStateChange: true, displayed: false)
 
 	if (deviceReset) {
 		runIn(1, "off", [overwrite: true])
@@ -100,13 +106,20 @@ def off() {
 	if (deviceDebug) {
 		writeLog("Executing 'off()'")
 	}
-    
+
+	if ((device.latestValue("switch") == "off") && raiseEvent) {
+		return
+    }
+
 	unschedule()
 	sendEvent(name: "switch", value: "off")
 
-	if (!deviceReset) {
+	if (deviceReset) {
+		sendEvent(name: "contact", value: "", isStateChange: true, displayed: false)
+	} else {
 		sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
 	}
+
 }
 
 private writeLog(message, type = "DEBUG") {
@@ -136,11 +149,15 @@ private getDeviceReset() {
 	return (settings.deviceReset != null) ? settings.deviceReset.toBoolean() : false
 }
 
+private getRaiseEvent() {
+	return (settings.raiseEvent != null) ? settings.raiseEvent.toBoolean() : true
+}
+
 private getDeviceDebug() {
 	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
 }
 
 private getVersion() {
-	return "1.1.32"
+	return "1.1.36"
 }
 
