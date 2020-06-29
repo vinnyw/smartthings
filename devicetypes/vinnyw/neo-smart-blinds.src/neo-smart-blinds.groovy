@@ -206,15 +206,9 @@ def pause() {
 
 	unschedule()
 	attenuate("sp")
-	runIn(1, "paused", [overwrite: true])
 
-}
-
-def paused() {
-	if (deviceDebug) {
-		writeLog("Executing 'paused()'")
-	}
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+
 }
 
 def presetPosition() {
@@ -222,11 +216,11 @@ def presetPosition() {
 		writeLog("Executing 'presetPosition()'")
 	}
 
-	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
-
 	if ((device.currentValue("windowShade") == "partially open") && !raiseEvent) {
 		return
 	}
+
+	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
 
 	unschedule()
 	if (device.currentValue("windowShade") == "open") {
