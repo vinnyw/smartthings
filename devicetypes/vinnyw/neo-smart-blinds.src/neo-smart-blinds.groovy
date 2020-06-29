@@ -13,8 +13,8 @@
  **/
 metadata {
 
-    definition ( name: "Neo Smart Blinds", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
-					mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
+      	definition ( name: "Neo Smart Blinds", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
+	                mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
 
 		capability "Actuator"
 		capability "Window Shade"
@@ -61,7 +61,7 @@ metadata {
 			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
 		input name: "blindStop", type: "enum", title: "Second press",
 			options: ["false": "Reverse direction (default)", "true": "Stop blind"], defaultValue: "false", multiple: false, required: true
-      	input name: "raiseEvent", type: "enum", title: "Event",
+                input name: "raiseEvent", type: "enum", title: "Event",
   	  	  	options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blinds", description: "${version}", displayDuringSetup: false
@@ -112,7 +112,6 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-    
 	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
@@ -137,7 +136,7 @@ def open() {
 			runIn(blindDelay, "opened", [overwrite: true])
 		}
 	} else {
-    	opening()
+    	        opening()
 		runIn(blindDelay, "opened", [overwrite: true])
 	}
 }
@@ -146,7 +145,7 @@ def opening() {
 	if (deviceDebug) {
 		writeLog("Executing 'opening()'")
 	}
-	[attenuate("up"), "delay 150", attenuate("up")]
+	[attenuate("up"), "delay 150"]
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
 }
 
@@ -184,8 +183,8 @@ def close() {
 def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
-    }
-	[attenuate("dn"), "delay 150", attenuate("dn")]
+        }
+	[attenuate("dn"), "delay 150"]
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
 
@@ -240,7 +239,7 @@ def presetPosition() {
 		presetPositionCloseing()
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
-		attenuate("gp")
+		[attenuate("gp"), "delay 150"]
 		presetPositioned()
 	}
 }
@@ -248,18 +247,18 @@ def presetPosition() {
 def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
-    }
+        }
 	//[attenuate("gp"), "delay 150", attenuate("gp")]
-	attenuate("gp")
+        [attenuate("gp"), "delay 150"]
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
 }
 
 def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
-    }
+        }
 	//[attenuate("gp"), "delay 150", attenuate("gp")]
-	attenuate("gp")
+        [attenuate("gp"), "delay 150"]
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
 
@@ -284,7 +283,7 @@ private attenuate(action) {
 			Connection: "close",
 		],
 		null,
-        [callback: attenuateCallback]
+                [callback: attenuateCallback]
 	)
 
 	try {
@@ -311,18 +310,18 @@ def attenuateCallback(physicalgraph.device.HubResponse hubResponse) {
 			break
 		case 401:
 			writeLog("Response: 401 Unauthorized - ID not found or valid", "ERROR")
-            sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+                        sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 			break
 		case 404:
 			writeLog("Response: 404 Not Found - URI not found or valid", "ERROR")
-            sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+                        sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 			break
 		case 409:
 			writeLog("Response: 409 Conflict - Hash found but already used", "ERROR")
-            sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+                        sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 			break
 		case 200:
-        	if (deviceDebug) {
+                        if (deviceDebug) {
 				writeLog("Response: 200 OK - Message received and transmitted", "INFO")
 			}
 			break
@@ -380,6 +379,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.11"
+	return "1.0.12"
 }
 
