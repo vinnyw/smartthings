@@ -14,7 +14,7 @@
 metadata {
 
     definition ( name: "Virtual Switch", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
-		        mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+	                mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 
 		capability "Actuator"
 		capability "Switch"
