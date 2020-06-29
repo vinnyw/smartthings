@@ -42,6 +42,8 @@ metadata {
 
     preferences {
         input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
+      	input name: "raiseEvent", type: "enum", title: "Event",
+  	  	  	options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
         input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
         input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
     }
@@ -88,6 +90,10 @@ def on() {
 		writeLog("Executing 'on()'")
 	}
 
+	if ((device.latestValue("switch") == "on") && !raiseEvent) {
+		return
+	}
+
 	sendEvent(name: "switch", value: "on")
 
 	if (deviceReset) {
@@ -98,6 +104,10 @@ def on() {
 def off() {
 	if (deviceDebug) {
 		writeLog("Executing 'off()'")
+	}
+
+	if ((device.latestValue("switch") == "off") && !raiseEvent) {
+		return
 	}
 
 	unschedule()
@@ -131,11 +141,15 @@ private getDeviceReset() {
 	return (settings.deviceReset != null) ? settings.deviceReset.toBoolean() : false
 }
 
+private getRaiseEvent() {
+	return (settings.raiseEvent != null) ? settings.raiseEvent.toBoolean() : false
+}
+
 private getDeviceDebug() {
 	return (settings.displayDebug != null) ? settings.displayDebug.toBoolean() : false
 }
 
 private getVersion() {
-	return "1.1.17"
+	return "1.1.18"
 }
 
