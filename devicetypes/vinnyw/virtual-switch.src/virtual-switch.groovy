@@ -63,8 +63,8 @@ def installed() {
 		writeLog("installed() settings: $settings", "INFO")
 		writeLog("installed() state: $state", "INFO")
 	}
-    off()
-    initialize()
+	off()
+	initialize()
 }
 
 def updated() {
