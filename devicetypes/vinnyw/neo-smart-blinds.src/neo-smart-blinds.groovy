@@ -61,6 +61,8 @@ metadata {
 			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
 		input name: "blindStop", type: "enum", title: "Second press",
 			options: ["false": "Reverse direction (default)", "true": "Stop blind"], defaultValue: "false", multiple: false, required: true
+      	input name: "raiseEvent", type: "enum", title: "Event",
+  	  	  	options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blinds", description: "${version}", displayDuringSetup: false
 	}
@@ -83,7 +85,7 @@ def installed() {
 
 	if (!controllerID || !controllerIP || !blindCode) {
 		writeLog("Setup not fully completed.  Missing required fields.", "ERROR")
-		exit
+		return
 	}
 
 	updated()
@@ -99,7 +101,7 @@ def updated() {
 
 	if (!controllerID || !controllerIP || !blindCode) {
 		writeLog("Setup not fully completed - Missing required fields.", "ERROR")
-		exit
+		return
 	}
 
 	initialize()
@@ -110,7 +112,8 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+    
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
@@ -118,6 +121,10 @@ private initialize() {
 def open() {
 	if (deviceDebug) {
 		writeLog("Executing 'open()'")
+	}
+
+	if ((device.currentValue("windowShade") == "open") && !raiseEvent) {
+		return
 	}
 
 	unschedule()
@@ -155,6 +162,10 @@ def close() {
 		writeLog("Executing 'close()'")
 	}
 
+	if ((device.currentValue("windowShade") == "closed") && !raiseEvent) {
+		return
+	}
+
 	unschedule()
 	if (blindStop) {
 		if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
@@ -174,7 +185,7 @@ def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
     }
-	[attenuate("dn"), "delay 200", attenuate("dn")]
+	[attenuate("dn"), "delay 150", attenuate("dn")]
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
 
@@ -189,9 +200,15 @@ def pause() {
 	if (deviceDebug) {
 		writeLog("Executing 'pause()'")
 	}
-    unschedule()
+
+	if ((device.currentValue("windowShade") == "unknown") && !raiseEvent) {
+		return
+	}
+
+	unschedule()
 	attenuate("sp")
 	runIn(1, "paused", [overwrite: true])
+
 }
 
 def paused() {
@@ -205,8 +222,12 @@ def presetPosition() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPosition()'")
 	}
-    
-    def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
+
+	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
+
+	if ((device.currentValue("windowShade") == "partially open") && !raiseEvent) {
+		return
+	}
 
 	unschedule()
 	if (device.currentValue("windowShade") == "open") {
@@ -228,7 +249,7 @@ def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
     }
-	//[attenuate("gp"), "delay 200", attenuate("gp")]
+	//[attenuate("gp"), "delay 150", attenuate("gp")]
 	attenuate("gp")
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
 }
@@ -237,7 +258,7 @@ def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
     }
-	//[attenuate("gp"), "delay 200", attenuate("gp")]
+	//[attenuate("gp"), "delay 150", attenuate("gp")]
 	attenuate("gp")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
@@ -267,7 +288,7 @@ private attenuate(action) {
 	)
 
 	try {
-		[sendHubCommand(result), "delay 450"]
+		[sendHubCommand(result), "delay 150"]
 	} catch (e) {
 		writeLog("$e", "ERROR")
 	}
@@ -344,6 +365,10 @@ private getBlindStop() {
 	return (settings.blindStop != null) ? settings.blindStop.toBoolean() : false
 }
 
+private getRaiseEvent() {
+	return (settings.raiseEvent != null) ? settings.raiseEvent.toBoolean() : false
+}
+
 private getDeviceDebug() {
 	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
 }
@@ -355,6 +380,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.9"
+	return "1.0.11"
 }
 
