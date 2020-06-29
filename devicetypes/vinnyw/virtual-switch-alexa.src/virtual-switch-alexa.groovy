@@ -14,7 +14,7 @@
 metadata {
 
     definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
-		mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+	                mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 
 		capability "Actuator"
 		capability "Switch"
@@ -90,7 +90,7 @@ def on() {
 		writeLog("Executing 'on()'")
 	}
 	
-	if ((device.latestValue("switch") == "on") && !raiseEvent) {
+	if ((device.currentValue("switch") == "on") && !raiseEvent) {
 		return
 	}
     
@@ -107,7 +107,7 @@ def off() {
 		writeLog("Executing 'off()'")
 	}
 
-	if ((device.latestValue("switch") == "off") && !raiseEvent) {
+	if ((device.currentValue("switch") == "off") && !raiseEvent) {
 		return
 	}
 
@@ -158,6 +158,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.37"
+	return "1.1.38"
 }
 
