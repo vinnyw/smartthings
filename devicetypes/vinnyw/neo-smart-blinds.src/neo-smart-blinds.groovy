@@ -128,10 +128,10 @@ def open() {
 
 	unschedule()
 	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-        if (blindStop) {
-		    pause()
-			return
-      	}
+                if (blindStop) {
+                        pause()
+                        return
+                }
 	}
 
 	opening()
@@ -164,10 +164,10 @@ def close() {
 
 	unschedule()
 	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-        if (blindStop) {
+                if (blindStop) {
 		    pause()
-	    	return
-		}
+                        return
+                }
 	}
 
 	closing()
