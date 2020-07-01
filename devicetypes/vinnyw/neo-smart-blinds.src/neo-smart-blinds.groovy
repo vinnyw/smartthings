@@ -122,23 +122,20 @@ def open() {
 		writeLog("Executing 'open()'")
 	}
 
-	if ((device.currentValue("windowShade") == "open") && !raiseEvent) {
+	if (device.currentValue("windowShade") == "open" && !raiseEvent) {
 		return
 	}
 
 	unschedule()
-	if (blindStop) {
-		if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-			unschedule()
-			pause()
-		} else {
-			opening()
-			runIn(blindDelay, "opened", [overwrite: true])
-		}
-	} else {
-		opening()
-		runIn(blindDelay, "opened", [overwrite: true])
+	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
+        if (blindStop) {
+		    pause()
+			return
+      	}
 	}
+
+	opening()
+	runIn(blindDelay, "opened", [overwrite: true])
 }
 
 def opening() {
@@ -146,7 +143,7 @@ def opening() {
 		writeLog("Executing 'opening()'")
 	}
 	attenuate("up")
-	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
+	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
 def opened() {
@@ -161,23 +158,20 @@ def close() {
 		writeLog("Executing 'close()'")
 	}
 
-	if ((device.currentValue("windowShade") == "closed") && !raiseEvent) {
+	if (device.currentValue("windowShade") == "closed" && !raiseEvent) {
 		return
 	}
 
 	unschedule()
-	if (blindStop) {
-		if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-			unschedule()
-			pause()
-		} else {
-			closing()
-			runIn(blindDelay, "closed", [overwrite: true])
+	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
+        if (blindStop) {
+		    pause()
+	    	return
 		}
-	} else {
-		closing()
-		runIn(blindDelay, "closed", [overwrite: true])
 	}
+
+	closing()
+	runIn(blindDelay, "closed", [overwrite: true])
 }
 
 def closing() {
@@ -185,7 +179,7 @@ def closing() {
 		writeLog("Executing 'closing()'")
 	}
 	attenuate("dn")
-	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
+	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
 
 def closed() {
@@ -200,15 +194,13 @@ def pause() {
 		writeLog("Executing 'pause()'")
 	}
 
-	if ((device.currentValue("windowShade") == "unknown") && !raiseEvent) {
+	if (device.currentValue("windowShade") == "unknown" && !raiseEvent) {
 		return
 	}
 
 	unschedule()
 	attenuate("sp")
-
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
-
 }
 
 def presetPosition() {
@@ -220,9 +212,14 @@ def presetPosition() {
 		return
 	}
 
+	unschedule()
+	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
+		pause()
+        return
+	}
+
 	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
 
-	unschedule()
 	if (device.currentValue("windowShade") == "open") {
 		presetPositionCloseing()
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
@@ -242,22 +239,25 @@ def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
 	}
+
 	attenuate("gp")
-	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
+	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
 def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
 	}
+
 	attenuate("gp")
-	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
+	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
 
 def presetPositioned() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositioned()'")
 	}
+
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
 }
 
@@ -371,6 +371,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.14"
+	return "1.0.15"
 }
 
