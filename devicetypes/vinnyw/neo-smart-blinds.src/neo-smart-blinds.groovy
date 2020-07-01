@@ -83,10 +83,10 @@ def installed() {
 		writeLog("installed() state: $state", "INFO")
 	}
 
-	if (!controllerID || !controllerIP || !blindCode) {
-		writeLog("Setup not fully completed.  Missing required fields.", "ERROR")
-		return
-	}
+	//if (!controllerID || !controllerIP || !blindCode) {
+	//	writeLog("Setup not fully completed.  Missing required fields.", "ERROR")
+	//	return
+	//}
 
 	updated()
 	opened()
@@ -99,10 +99,10 @@ def updated() {
 		writeLog("updated() state: $state", "INFO")
 	}
 
-	if (!controllerID || !controllerIP || !blindCode) {
-		writeLog("Setup not fully completed - Missing required fields.", "ERROR")
-		return
-	}
+	//if (!controllerID || !controllerIP || !blindCode) {
+	//	writeLog("Setup not fully completed - Missing required fields.", "ERROR")
+	//	return
+	//}
 
 	initialize()
  	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"])    
@@ -145,7 +145,7 @@ def opening() {
 	if (deviceDebug) {
 		writeLog("Executing 'opening()'")
 	}
-	[attenuate("up"), "delay 150"]
+	attenuate("up")
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
 }
 
@@ -184,7 +184,7 @@ def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
 	}
-	[attenuate("dn"), "delay 150"]
+	attenuate("dn")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
 
@@ -233,7 +233,7 @@ def presetPosition() {
 		presetPositionCloseing()
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
-		[attenuate("gp"), "delay 150"]
+		attenuate("gp")
 		presetPositioned()
 	}
 }
@@ -242,8 +242,7 @@ def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
 	}
-	//[attenuate("gp"), "delay 150", attenuate("gp")]
-	[attenuate("gp"), "delay 150"]
+	attenuate("gp")
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true)
 }
 
@@ -251,8 +250,7 @@ def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
 	}
-	//[attenuate("gp"), "delay 150", attenuate("gp")]
-	[attenuate("gp"), "delay 150"]
+	attenuate("gp")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true)
 }
 
@@ -373,6 +371,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.12"
+	return "1.0.14"
 }
 
