@@ -80,7 +80,7 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
@@ -91,10 +91,13 @@ def on() {
 	}
 	
 	if ((device.currentValue("switch") == "on") && !raiseEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+		}
 		return
 	}
-    
-	sendEvent(name: "switch", value: "on")
+
+	sendEvent(name: "switch", value: "on", isStateChange: true)
 	sendEvent(name: "contact", value: "closed", isStateChange: true, displayed: false)
 
 	if (deviceReset) {
@@ -108,14 +111,17 @@ def off() {
 	}
 
 	if ((device.currentValue("switch") == "off") && !raiseEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+		}
 		return
 	}
 
 	unschedule()
-	sendEvent(name: "switch", value: "off")
+	sendEvent(name: "switch", value: "off", isStateChange: true)
 
 	if (deviceReset) {
-		sendEvent(name: "contact", value: "", isStateChange: true, displayed: false)
+		sendEvent(name: "contact", value: "", isStateChange: false, displayed: false)
 	} else {
 		sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
 	}
@@ -158,6 +164,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.38"
+	return "1.1.39"
 }
 

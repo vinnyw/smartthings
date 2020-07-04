@@ -16,10 +16,10 @@ metadata {
     definition ( name: "Neo Smart Blinds", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
 	                mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
 
-		capability "Actuator"
-		capability "Window Shade"
+        capability "Window Shade"
 		//capability "Window Shade Level"
-		capability "Window Shade Preset"
+        capability "Window Shade Preset"
+        capability "Actuator"
 
 		command "open"
 		command "close"
@@ -32,25 +32,25 @@ metadata {
 	}
 
 	tiles(scale: 2) {
-		multiAttributeTile(name:"windowShade", type: "generic", width: 6, height: 4){
-			tileAttribute ("device.windowShade", key: "PRIMARY_CONTROL") {
-				attributeState "open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
-				attributeState "closed", label:'${name}', action:"open", icon:"st.shades.shade-closed", backgroundColor:"#ffffff", nextState:"opening"
-				attributeState "partially open", label:'Open', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
-				attributeState "opening", label:'${name}', action:"pause", icon:"st.shades.shade-opening", backgroundColor:"#79b821", nextState:"partially open"
-				attributeState "closing", label:'${name}', action:"pause", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"partially open"
-				attributeState "unknown", label:'${name}', action:"open", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"opening"
-			}
-			/*tileAttribute ("device.level", key: "SLIDER_CONTROL") {
-			   attributeState "level", action:"setLevel"
-			}*/
-		}
+		multiAttributeTile(name:"windowShade", type: "generic", width: 6, height: 4, canChangeIcon: true){
+            tileAttribute ("device.windowShade", key: "PRIMARY_CONTROL") {
+                attributeState "open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+                attributeState "closed", label:'${name}', action:"open", icon:"st.shades.shade-closed", backgroundColor:"#ffffff", nextState:"opening"
+                attributeState "partially open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+                attributeState "opening", label:'${name}', action:"stop", icon:"st.shades.shade-opening", backgroundColor:"#79b821", nextState:"partially open"
+                attributeState "closing", label:'${name}', action:"stop", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"partially open"
+				attributeState "unknown", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+            }
+            //tileAttribute ("device.level", key: "SLIDER_CONTROL") {
+            //    attributeState "level", action:"setLevel"
+            //}
+        }
 		standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
 			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
 		}
 
-		main "windowShade"
-		details(["windowShade","presetPosition"])
+        main(["windowShade"])
+        details(["windowShade", "presetPosition"])
 	}
 
 	preferences {
@@ -112,7 +112,7 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
-	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
@@ -122,16 +122,17 @@ def open() {
 		writeLog("Executing 'open()'")
 	}
 
-	if (device.currentValue("windowShade") == "open" && !raiseEvent) {
+	if ((device.currentValue("windowShade") == "open") && !raiseEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+		}
 		return
 	}
 
 	unschedule()
-	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-                if (blindStop) {
-                        pause()
-                        return
-                }
+	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
+		pause()
+		return
 	}
 
 	opening()
@@ -142,6 +143,7 @@ def opening() {
 	if (deviceDebug) {
 		writeLog("Executing 'opening()'")
 	}
+	//[attenuate("up"), "delay 150", attenuate("up")]
 	attenuate("up")
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
@@ -158,16 +160,17 @@ def close() {
 		writeLog("Executing 'close()'")
 	}
 
-	if (device.currentValue("windowShade") == "closed" && !raiseEvent) {
+	if ((device.currentValue("windowShade") == "closed") && !raiseEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+		}
 		return
 	}
 
 	unschedule()
-	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-                if (blindStop) {
-		    pause()
-                        return
-                }
+	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
+		pause()
+		return
 	}
 
 	closing()
@@ -178,8 +181,9 @@ def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
 	}
+	//[attenuate("dn"), "delay 150", attenuate("dn")]
 	attenuate("dn")
-	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
+    sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
 
 def closed() {
@@ -194,11 +198,12 @@ def pause() {
 		writeLog("Executing 'pause()'")
 	}
 
-	if (device.currentValue("windowShade") == "unknown" && !raiseEvent) {
+	if ((device.currentValue("windowShade") == "unknown") && !raiseEvent) {
 		return
 	}
 
 	unschedule()
+	//[attenuate("sp"), "delay 150", attenuate("sp")]
 	attenuate("sp")
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 }
@@ -209,6 +214,9 @@ def presetPosition() {
 	}
 
 	if ((device.currentValue("windowShade") == "partially open") && !raiseEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+		}
 		return
 	}
 
@@ -230,7 +238,8 @@ def presetPosition() {
 		presetPositionCloseing()
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
-		attenuate("gp")
+		//[attenuate("gp"), "delay 150", attenuate("gp")]
+        attenuate("gp")
 		presetPositioned()
 	}
 }
@@ -239,16 +248,16 @@ def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
 	}
-
+	//[attenuate("gp"), "delay 150", attenuate("gp")]
 	attenuate("gp")
-	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
+    sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
 def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
 	}
-
+	//[attenuate("gp"), "delay 150", attenuate("gp")]
 	attenuate("gp")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
@@ -279,7 +288,7 @@ private attenuate(action) {
 	)
 
 	try {
-		[sendHubCommand(result), "delay 150"]
+		sendHubCommand(result)
 	} catch (e) {
 		writeLog("$e", "ERROR")
 	}
@@ -371,6 +380,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.15"
+	return "1.0.16"
 }
 

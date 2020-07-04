@@ -91,10 +91,13 @@ def on() {
 	}
 
 	if ((device.currentValue("switch") == "on") && !raiseEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+		}
 		return
 	}
 
-	sendEvent(name: "switch", value: "on")
+	sendEvent(name: "switch", value: "on", isStateChange: true)
 
 	if (deviceReset) {
 		runIn(1, "off", [overwrite: true])
@@ -107,11 +110,14 @@ def off() {
 	}
 
 	if ((device.currentValue("switch") == "off") && !raiseEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+		}
 		return
 	}
 
 	unschedule()
-	sendEvent(name: "switch", value: "off")
+	sendEvent(name: "switch", value: "off", isStateChange: true)
 }
 
 private writeLog(message, type = "DEBUG") {
@@ -150,7 +156,7 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.19"
+	return "1.1.20"
 }
 
 
