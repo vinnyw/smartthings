@@ -143,7 +143,6 @@ def opening() {
 	if (deviceDebug) {
 		writeLog("Executing 'opening()'")
 	}
-	//[attenuate("up"), "delay 150", attenuate("up")]
 	attenuate("up")
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
@@ -181,9 +180,8 @@ def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
 	}
-	//[attenuate("dn"), "delay 150", attenuate("dn")]
-	attenuate("dn")
-    sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
+    attenuate("dn")
+	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
 
 def closed() {
@@ -203,9 +201,8 @@ def pause() {
 	}
 
 	unschedule()
-	//[attenuate("sp"), "delay 150", attenuate("sp")]
 	attenuate("sp")
-	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+    sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 }
 
 def presetPosition() {
@@ -238,9 +235,8 @@ def presetPosition() {
 		presetPositionCloseing()
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
-		//[attenuate("gp"), "delay 150", attenuate("gp")]
-        attenuate("gp")
-		presetPositioned()
+		attenuate("gp")
+        presetPositioned()
 	}
 }
 
@@ -248,7 +244,6 @@ def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
 	}
-	//[attenuate("gp"), "delay 150", attenuate("gp")]
 	attenuate("gp")
     sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
@@ -257,7 +252,6 @@ def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
 	}
-	//[attenuate("gp"), "delay 150", attenuate("gp")]
 	attenuate("gp")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
