@@ -33,24 +33,24 @@ metadata {
 
 	tiles(scale: 2) {
 		multiAttributeTile(name:"windowShade", type: "generic", width: 6, height: 4, canChangeIcon: true){
-            tileAttribute ("device.windowShade", key: "PRIMARY_CONTROL") {
-                attributeState "open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
-                attributeState "closed", label:'${name}', action:"open", icon:"st.shades.shade-closed", backgroundColor:"#ffffff", nextState:"opening"
-                attributeState "partially open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
-                attributeState "opening", label:'${name}', action:"stop", icon:"st.shades.shade-opening", backgroundColor:"#79b821", nextState:"partially open"
-                attributeState "closing", label:'${name}', action:"stop", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"partially open"
-                attributeState "unknown", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
-            }
-            //tileAttribute ("device.level", key: "SLIDER_CONTROL") {
-            //    attributeState "level", action:"setLevel"
-            //}
-        }
+			tileAttribute ("device.windowShade", key: "PRIMARY_CONTROL") {
+                		attributeState "open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+                		attributeState "closed", label:'${name}', action:"open", icon:"st.shades.shade-closed", backgroundColor:"#ffffff", nextState:"opening"
+                		attributeState "partially open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+                		attributeState "opening", label:'${name}', action:"stop", icon:"st.shades.shade-opening", backgroundColor:"#79b821", nextState:"partially open"
+                		attributeState "closing", label:'${name}', action:"stop", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"partially open"
+                		attributeState "unknown", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+            		}
+            		//tileAttribute ("device.level", key: "SLIDER_CONTROL") {
+            		//    attributeState "level", action:"setLevel"
+            		//}
+        	}
 		standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
 			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
 		}
 
-        main(["windowShade"])
-        details(["windowShade", "presetPosition"])
+        	main(["windowShade"])
+        	details(["windowShade", "presetPosition"])
 	}
 
 	preferences {
