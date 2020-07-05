@@ -16,10 +16,10 @@ metadata {
     definition ( name: "Neo Smart Blind", namespace: "vinnyw", author: "vinnyw", 
 	                mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
 
-        capability "Window Shade"
+        	capability "Window Shade"
 		//capability "Window Shade Level"
-        capability "Window Shade Preset"
-        capability "Actuator"
+        	capability "Window Shade Preset"
+        	capability "Actuator"
 
 		command "open"
 		command "close"
@@ -49,7 +49,7 @@ metadata {
 			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
 		}
 
-        	main(["windowShade"])
+        	main "windowShade" 
         	details(["windowShade", "presetPosition"])
 	}
 
