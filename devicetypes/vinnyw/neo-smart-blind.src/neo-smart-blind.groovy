@@ -39,7 +39,7 @@ metadata {
                 attributeState "partially open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
                 attributeState "opening", label:'${name}', action:"stop", icon:"st.shades.shade-opening", backgroundColor:"#79b821", nextState:"partially open"
                 attributeState "closing", label:'${name}', action:"stop", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"partially open"
-				attributeState "unknown", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+                attributeState "unknown", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
             }
             //tileAttribute ("device.level", key: "SLIDER_CONTROL") {
             //    attributeState "level", action:"setLevel"
@@ -180,7 +180,7 @@ def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
 	}
-    attenuate("dn")
+        attenuate("dn")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
 
@@ -202,7 +202,7 @@ def pause() {
 
 	unschedule()
 	attenuate("sp")
-    sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+        sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 }
 
 def presetPosition() {
@@ -220,7 +220,7 @@ def presetPosition() {
 	unschedule()
 	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
 		pause()
-        return
+                return
 	}
 
 	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
@@ -236,7 +236,7 @@ def presetPosition() {
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
 		attenuate("gp")
-        presetPositioned()
+                presetPositioned()
 	}
 }
 
@@ -245,7 +245,7 @@ def presetPositionOpening() {
 		writeLog("Executing 'presetPositionedOpening()'")
 	}
 	attenuate("gp")
-    sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
+        sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
 def presetPositionCloseing() {
@@ -270,12 +270,12 @@ private attenuate(action) {
 	}
 
 	def result = new physicalgraph.device.HubAction(
-        method: "GET",
-        path: "/neo/v1/transmit",
-    	query: [command: "${blindID}-${action}", id: "${controllerID}", hash: "${hash}" ],
-        headers: [
-            Host: "${controllerIP}:8838",
-			Connection: "close",
+                method: "GET",
+                path: "/neo/v1/transmit",
+    	        query: [command: "${blindID}-${action}", id: "${controllerID}", hash: "${hash}" ],
+                headers: [
+                            Host: "${controllerIP}:8838",
+                            Connection: "close",
 		],
 		null,
 		[callback: attenuateCallback]
