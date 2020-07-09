@@ -64,7 +64,7 @@ metadata {
 		input name: "raiseEvent", type: "enum", title: "Event",
   	  	  	options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
-		input type: "paragraph", element: "paragraph", title: "Neo Smart Blinds", description: "${version}", displayDuringSetup: false
+		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
 
 }
