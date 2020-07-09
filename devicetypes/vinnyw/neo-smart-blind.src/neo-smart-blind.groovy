@@ -45,9 +45,9 @@ metadata {
             		//    attributeState "level", action:"setLevel"
             		//}
         	}
-			standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
-				state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
-			}
+		standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
+			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
+		}
 
 		main "windowShade" 
 		details(["windowShade", "presetPosition"])
