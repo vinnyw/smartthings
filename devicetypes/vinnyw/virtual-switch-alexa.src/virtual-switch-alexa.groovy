@@ -63,6 +63,7 @@ def installed() {
 		writeLog("installed() settings: $settings", "INFO")
 		writeLog("installed() state: $state", "INFO")
 	}
+
 	off()
 	initialize()
 }
@@ -73,6 +74,7 @@ def updated() {
 		writeLog("updated() settings: $settings", "INFO")
 		writeLog("updated() state: $state", "INFO")
 	}
+
 	initialize()
 }
 
@@ -80,6 +82,7 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
+
 	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
@@ -125,7 +128,6 @@ def off() {
 	} else {
 		sendEvent(name: "contact", value: "open", isStateChange: true, displayed: false)
 	}
-
 }
 
 private writeLog(message, type = "DEBUG") {

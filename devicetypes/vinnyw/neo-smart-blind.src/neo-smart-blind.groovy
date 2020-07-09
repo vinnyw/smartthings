@@ -207,7 +207,7 @@ def pause() {
 
 	unschedule()
 	attenuate("sp")
-        sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 }
 
 def presetPosition() {
@@ -283,7 +283,7 @@ private attenuate(action) {
                 headers: [
                             Host: "${controllerIP}:8838",
                             Connection: "close",
-		],
+						 ],
 		null,
 		[callback: attenuateCallback]
 	)
