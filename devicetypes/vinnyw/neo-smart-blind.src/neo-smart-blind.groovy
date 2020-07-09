@@ -16,10 +16,10 @@ metadata {
     definition ( name: "Neo Smart Blind", namespace: "vinnyw", author: "vinnyw", 
 	                mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
 
-        	capability "Window Shade"
+		capability "Window Shade"
 		//capability "Window Shade Level"
-        	capability "Window Shade Preset"
-        	capability "Actuator"
+		capability "Window Shade Preset"
+		capability "Actuator"
 
 		command "open"
 		command "close"
@@ -45,12 +45,12 @@ metadata {
             		//    attributeState "level", action:"setLevel"
             		//}
         	}
-		standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
-			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
-		}
+			standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
+				state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
+			}
 
-        	main "windowShade" 
-        	details(["windowShade", "presetPosition"])
+		main "windowShade" 
+		details(["windowShade", "presetPosition"])
 	}
 
 	preferences {
@@ -112,6 +112,7 @@ private initialize() {
 	if (deviceDebug) {
 		writeLog("Executing 'initialize()'")
 	}
+
 	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
@@ -143,6 +144,7 @@ def opening() {
 	if (deviceDebug) {
 		writeLog("Executing 'opening()'")
 	}
+
 	attenuate("up")
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
@@ -151,6 +153,7 @@ def opened() {
 	if (deviceDebug) {
 		writeLog("Executing 'opened()'")
 	}
+
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
 }
 
@@ -180,7 +183,8 @@ def closing() {
 	if (deviceDebug) {
 		writeLog("Executing 'closing()'")
 	}
-        attenuate("dn")
+
+	attenuate("dn")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
 
@@ -188,6 +192,7 @@ def closed() {
 	if (deviceDebug) {
 		writeLog("Executing 'closed()'")
 	}
+
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
 }
 
@@ -220,7 +225,7 @@ def presetPosition() {
 	unschedule()
 	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
 		pause()
-                return
+		return
 	}
 
 	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
@@ -244,14 +249,16 @@ def presetPositionOpening() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedOpening()'")
 	}
+
 	attenuate("gp")
-        sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
+	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
 def presetPositionCloseing() {
 	if (deviceDebug) {
 		writeLog("Executing 'presetPositionedCloseing()'")
 	}
+
 	attenuate("gp")
 	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
@@ -374,6 +381,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.16"
+	return "1.0.17"
 }
 
