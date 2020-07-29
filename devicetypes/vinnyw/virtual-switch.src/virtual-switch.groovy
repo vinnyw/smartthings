@@ -159,7 +159,7 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.20"
+	return "1.1.21"
 }
 
 
