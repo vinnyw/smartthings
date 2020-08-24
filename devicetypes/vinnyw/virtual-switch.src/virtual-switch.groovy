@@ -13,8 +13,8 @@
  **/
 metadata {
 
-    definition ( name: "Virtual Switch", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
-	                mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+	definition ( name: "Virtual Switch", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
+		mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 
 		capability "Actuator"
 		capability "Switch"
@@ -38,15 +38,15 @@ metadata {
 
 		main "switch"
 		details(["switch"])
-    }
+	}
 
-    preferences {
-        input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
-        input name: "raiseEvent", type: "enum", title: "Event",
-                options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
-        input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
-        input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
-    }
+	preferences {
+		input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
+		input name: "raiseEvent", type: "enum", title: "Event",
+			options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
+	}
 
 }
 
