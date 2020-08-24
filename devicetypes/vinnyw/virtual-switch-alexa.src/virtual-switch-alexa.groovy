@@ -13,13 +13,13 @@
  **/
 metadata {
 
-    definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
-	                mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
+	definition ( name: "Virtual Switch (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
+		mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "oic.d.switch") {
 
 		capability "Actuator"
 		capability "Switch"
 		capability "Contact Sensor"
-        
+
 		command "on"
 		command "off"
 	}
@@ -38,15 +38,15 @@ metadata {
 
 		main "switch"
 		details(["switch"])
-    }
+	}
 
-    preferences {
-        input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
-      	input name: "raiseEvent", type: "enum", title: "Event",
-      	      	options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
-        input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
-        input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
-    }
+	preferences {
+		input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
+		input name: "raiseEvent", type: "enum", title: "Event",
+			options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+		input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
+	}
 
 }
 
@@ -92,7 +92,7 @@ def on() {
 	if (deviceDebug) {
 		writeLog("Executing 'on()'")
 	}
-	
+
 	if ((device.currentValue("switch") == "on") && !raiseEvent) {
 		if (deviceDebug) {
 			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
@@ -134,8 +134,8 @@ private writeLog(message, type = "DEBUG") {
 	message = "${device} [v$version]: ${message ?: ''}"
 	switch (type?.toUpperCase()) {
 		case "TRACE":
-			log.trace "${message}"
-			break
+		log.trace "${message}"
+		break
 		case "DEBUG":
 			log.debug "${message}"
 			break
