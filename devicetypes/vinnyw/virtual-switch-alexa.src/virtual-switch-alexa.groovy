@@ -41,10 +41,9 @@ metadata {
 	}
 
 	preferences {
-		input name: "deviceReset", type: "boolean", title: "Reset", defaultValue: false, required: true
-		input name: "raiseEvent", type: "enum", title: "Event",
-			options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
-		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+		input name: "deviceReset", type: "boolean", title: "Auto reset?", defaultValue: false, required: true
+		input name: "raiseEvent", type: "boolean", title: "Raise event?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
 	}
 
@@ -83,7 +82,7 @@ private initialize() {
 		writeLog("Executing 'initialize()'")
 	}
 
-	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
@@ -166,6 +165,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.40"
+	return "1.1.41"
 }
 
