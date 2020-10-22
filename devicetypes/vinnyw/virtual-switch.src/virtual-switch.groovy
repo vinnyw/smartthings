@@ -154,10 +154,10 @@ private getRaiseEvent() {
 }
 
 private getDeviceDebug() {
-	return (settings.displayDebug != null) ? settings.displayDebug.toBoolean() : false
+	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
 }
 
 private getVersion() {
-	return "1.1.23"
+	return "1.1.24"
 }
 
