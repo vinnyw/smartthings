@@ -94,7 +94,7 @@ def on() {
 
 	if ((device.currentValue("switch") == "on") && !raiseEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+			writeLog("no action required.  state is already " + device.currentValue("switch"))
 		}
 		return
 	}
@@ -113,7 +113,7 @@ def off() {
 
 	if ((device.currentValue("switch") == "off") && !raiseEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
+			writeLog("no action required.  state is already " + device.currentValue("switch"))
 		}
 		return
 	}
