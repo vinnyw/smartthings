@@ -82,7 +82,7 @@ private initialize() {
 		writeLog("Executing 'initialize()'")
 	}
 
-	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson())
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
 	sendEvent(name: "healthStatus", value: "online")
 }
@@ -158,6 +158,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.22"
+	return "1.1.23"
 }
 
