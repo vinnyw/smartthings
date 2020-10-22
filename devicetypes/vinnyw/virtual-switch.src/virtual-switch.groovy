@@ -41,9 +41,9 @@ metadata {
 	}
 
 	preferences {
-		input name: "deviceReset", type: "boolean", title: "Auto reset?", defaultValue: false, required: true
-		input name: "raiseEvent", type: "boolean", title: "Raise event?", defaultValue: false, required: true
-		input name: "deviceDebug", type: "boolean", title: "Debug log?", defaultValue: false, required: true
+		input name: "deviceReset", type: "boolean", title: "Auto reset switch?", defaultValue: false, required: true
+		input name: "raiseEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
 	}
 
