@@ -18,6 +18,7 @@ metadata {
 
 		capability "Actuator"
 		capability "Switch"
+        capability "Health Check"
 
 		command "on"
 		command "off"
@@ -42,7 +43,7 @@ metadata {
 
 	preferences {
 		input name: "deviceReset", type: "boolean", title: "Auto reset switch?", defaultValue: false, required: true
-		input name: "raiseEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
+		input name: "deviceEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
 	}
@@ -92,7 +93,7 @@ def on() {
 		writeLog("Executing 'on()'")
 	}
 
-	if ((device.currentValue("switch") == "on") && !raiseEvent) {
+	if ((device.currentValue("switch") == "on") && !deviceEvent) {
 		if (deviceDebug) {
 			writeLog("no action required.  state is already " + device.currentValue("switch"))
 		}
@@ -111,7 +112,7 @@ def off() {
 		writeLog("Executing 'off()'")
 	}
 
-	if ((device.currentValue("switch") == "off") && !raiseEvent) {
+	if ((device.currentValue("switch") == "off") && !deviceEvent) {
 		if (deviceDebug) {
 			writeLog("no action required.  state is already " + device.currentValue("switch"))
 		}
@@ -149,8 +150,8 @@ private getDeviceReset() {
 	return (settings.deviceReset != null) ? settings.deviceReset.toBoolean() : false
 }
 
-private getRaiseEvent() {
-	return (settings.raiseEvent != null) ? settings.raiseEvent.toBoolean() : false
+private getDeviceEvent() {
+	return (settings.deviceEvent != null) ? settings.deviceEvent.toBoolean() : false
 }
 
 private getDeviceDebug() {
@@ -158,6 +159,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.24"
+	return "1.1.25"
 }
 
