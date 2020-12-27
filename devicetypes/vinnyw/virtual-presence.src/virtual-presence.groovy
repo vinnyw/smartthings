@@ -13,9 +13,9 @@
  *  for the specific language governing permissions and limitations under the License.
  */
 metadata {
-	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
+	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, 
 		mnmn: "SmartThings", vid: "generic-arrival-2", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
-
+//cstHandler: true,
 		capability "Actuator"
 		capability "Switch"        
 		capability "Presence Sensor"
@@ -30,10 +30,9 @@ metadata {
 		// TODO
 	}
 
-	tiles(scale: 2) {
+	tiles {
 
-		// UI tile definitions
-		standardTile("button", "device.switch", width: 2, height: 2, canChangeIcon: false,  canChangeBackground: true) {
+		standardTile("button", "device.switch", decoration: "flat", width: 2, height: 2, canChangeIcon: false, canChangeBackground: true) {
 			state "off", label: 'Away', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#00A0DC"
 			state "on", label: 'Present', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#FFFFFF"
 		}
@@ -49,7 +48,7 @@ metadata {
     }
 
 	preferences {
-		input name: "deviceReset", type: "boolean", title: "Auto reset switch?", defaultValue: false, required: true
+		input name: "deviceReset", type: "boolean", title: "Auto reset device?", defaultValue: false, required: true
 		input name: "deviceEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Presense", description: "${version}", displayDuringSetup: false

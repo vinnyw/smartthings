@@ -30,6 +30,7 @@ metadata {
 	}
 
 	tiles {
+
 		standardTile("switch", "device.switch", decoration: "flat", width: 3, height: 2, canChangeIcon: true, canChangeBackground: true) {
 			state "off", label: '${currentValue}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff", nextState:"on"
 			state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC", nextState:"off"
@@ -40,7 +41,7 @@ metadata {
 	}
 
 	preferences {
-		input name: "deviceReset", type: "boolean", title: "Auto reset switch?", defaultValue: false, required: true
+		input name: "deviceReset", type: "boolean", title: "Auto reset device?", defaultValue: false, required: true
 		input name: "deviceEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
