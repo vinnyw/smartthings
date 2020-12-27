@@ -13,10 +13,13 @@
  *  for the specific language governing permissions and limitations under the License.
  */
 metadata {
-	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", cstHandler: true, 
-    	mnmn: "SmartThings", vid: "generic-arrival-2", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
+	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
+		mnmn: "SmartThings", vid: "generic-arrival-2", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
+
+		capability "Actuator"
 		capability "Switch"        
 		capability "Presence Sensor"
+        capability "Health Check"
 
 		command "arrive"
 		command "depart"
@@ -24,7 +27,7 @@ metadata {
 	}
 
 	simulator {
-		// TODO: define status and reply messages here
+		// TODO
 	}
 
 	tiles(scale: 2) {
@@ -44,6 +47,14 @@ metadata {
 		details(["button","presense"])
  
     }
+
+	preferences {
+		input name: "deviceReset", type: "boolean", title: "Auto reset switch?", defaultValue: false, required: true
+		input name: "deviceEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
+		input type: "paragraph", element: "paragraph", title: "Virtual Presense", description: "${version}", displayDuringSetup: false
+	}
+
 }
 
 // parse events into attributes
@@ -91,6 +102,41 @@ private getState(String value) {
 	}
 }
 
+private writeLog(message, type = "DEBUG") {
+	message = "${device} [v$version]: ${message ?: ''}"
+	switch (type?.toUpperCase()) {
+		case "TRACE":
+			log.trace "${message}"
+			break
+		case "DEBUG":
+			log.debug "${message}"
+			break
+		case "INFO":
+			log.info "${message}"
+			break
+		case "WARN":
+			log.warn "${message}"
+			break
+		case "ERROR":
+			log.error "${message}"
+			break
+		default:
+			log.debug "${message}"
+	}
+}
 
+private getDeviceReset() {
+	return (settings.deviceReset != null) ? settings.deviceReset.toBoolean() : false
+}
 
+private getDeviceEvent() {
+	return (settings.deviceEvent != null) ? settings.deviceEvent.toBoolean() : false
+}
 
+private getDeviceDebug() {
+	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
+}
+
+private getVersion() {
+	return "0.0.1"
+}
