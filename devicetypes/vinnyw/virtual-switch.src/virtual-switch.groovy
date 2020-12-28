@@ -22,7 +22,6 @@ metadata {
 
 		command "on"
 		command "off"
-
 	}
 
 	simulator {
@@ -42,7 +41,7 @@ metadata {
 
 	preferences {
 		input name: "deviceReset", type: "boolean", title: "Auto reset device?", defaultValue: false, required: true
-		input name: "deviceEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
+		input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
 	}
@@ -158,6 +157,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.46"
+	return "1.1.47"
 }
 
