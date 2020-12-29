@@ -29,7 +29,6 @@ metadata {
 		// TODO
 	}
 
-
 	tiles {
 		standardTile("presence", "device.presence", width: 3, height: 3, canChangeIcon: false, canChangeBackground: true) {
 			state("present", label: '${currentValue}', icon:"st.presence.tile.mobile-present", backgroundColor:"#00A0DC")
