@@ -160,6 +160,10 @@ def opened() {
 	}
 
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
+
+	if (!deviceEvent) {
+		sendEvent(name: "windowShade", value: "Open", isStateChange: false)
+	}
 }
 
 def close() {
@@ -199,6 +203,10 @@ def closed() {
 	}
 
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
+
+	if (!deviceEvent) {
+		sendEvent(name: "windowShade", value: "Closed", isStateChange: false)
+	}
 }
 
 def pause() {
@@ -212,7 +220,12 @@ def pause() {
 
 	unschedule()
 	attenuate("sp")
+
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+
+	if (!deviceEvent) {
+		sendEvent(name: "windowShade", value: "Unknown", isStateChange: false)
+	}
 }
 
 def presetPosition() {
@@ -246,7 +259,7 @@ def presetPosition() {
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
 		attenuate("gp")
-                presetPositioned()
+        presetPositioned()
 	}
 }
 
@@ -274,6 +287,10 @@ def presetPositioned() {
 	}
 
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
+
+	if (!deviceEvent) {
+		sendEvent(name: "windowShade", value: "Partially Open", isStateChange: false)
+	}
 }
 
 private attenuate(action) {
