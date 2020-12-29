@@ -50,7 +50,7 @@ metadata {
 
 		standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
 			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
-		}device
+		}
 
 		main "windowShade" 
 		details(["windowShade", "presetPosition"])
