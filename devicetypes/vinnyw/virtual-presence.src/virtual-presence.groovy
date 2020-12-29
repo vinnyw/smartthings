@@ -16,13 +16,13 @@ metadata {
 	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
 		mnmn: "SmartThings", vid: "generic-arrival-4", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
 
-		//capability "Actuator"        
+		capability "Actuator"        
 		capability "Presence Sensor"
 		capability "Switch"
         capability "Health Check"
 
-		//command "arrived"
-		//command "departed"
+		command "arrived"
+		command "departed"
 	}
 
 	simulator {
@@ -32,8 +32,8 @@ metadata {
 
 	tiles {
 		standardTile("presence", "device.presence", width: 3, height: 3, canChangeIcon: false, canChangeBackground: true) {
-			state("present", label: '${currentValue} Z', icon:"st.presence.tile.mobile-present", backgroundColor:"#00A0DC")
-			state("not present", label: '${currentValue} W', icon:"st.presence.tile.mobile-not-present", backgroundColor:"#FFFFFF")
+			state("present", label: '${currentValue}', icon:"st.presence.tile.mobile-present", backgroundColor:"#00A0DC")
+			state("not present", label: '${currentValue}', icon:"st.presence.tile.mobile-not-present", backgroundColor:"#FFFFFF")
 		}
   
 		standardTile("switch", "device.switch", decoration: "flat", width: 3, height: 3, canChangeIcon: false, canChangeBackground: true) {
@@ -107,7 +107,7 @@ def arrived() {
 	if (deviceDebug) {
 		writeLog("Executing 'arrived()'")
 	}
-    
+
     on()
 }
 
@@ -115,7 +115,7 @@ def departed() {
 	if (deviceDebug) {
 		writeLog("Executing 'departed()'")
 	}
-    
+
     off()
 }
 
@@ -202,5 +202,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "0.0.1"
+	return "1.0.0"
 }
+
