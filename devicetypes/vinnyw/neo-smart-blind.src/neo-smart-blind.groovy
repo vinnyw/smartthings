@@ -19,12 +19,13 @@ metadata {
 		capability "Window Shade"
 		//capability "Window Shade Level"
 		capability "Window Shade Preset"
-		capability "Actuator"
+		capability "Health Check"
 
 		command "open"
 		command "close"
 		command "pause"
 		command "presetPosition"
+
 	}
 
 	simulator {
@@ -59,13 +60,14 @@ metadata {
 		input name: "controllerID", type: "text", title: "Controller ID", description: "\u2630 > Smart Controllers > Controller > ID", required: true
 		input name: "controllerIP", type: "text", title: "Controller IP (Local)", description: "\u2630 > Smart Controllers > Controller > IP", required: true
 		input name: "blindID", type: "text", title: "Blind code", description: "\u2630 > Your Rooms > Room > Blind > Blind Code", required: true
-		input name: "blindDelay", type: "number", title: "Blind timing",
+		
+        input name: "blindDelay", type: "number", title: "Blind timing",
 			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
 		input name: "blindStop", type: "enum", title: "Second press",
 			options: ["false": "Reverse direction (default)", "true": "Stop blind"], defaultValue: "false", multiple: false, required: true
-		input name: "raiseEvent", type: "enum", title: "Event",
-			options: ["false": "On change (default)", "true": "Always"], defaultValue: "false", multiple: false, required: true
-		input name: "deviceDebug", type: "boolean", title: "Debug", defaultValue: false, required: true
+
+		input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
 
@@ -90,8 +92,8 @@ def installed() {
 	//	return
 	//}
 
-	updated()
 	opened()
+	updated()
 }
 
 def updated() {
@@ -107,7 +109,6 @@ def updated() {
 	//}
 
 	initialize()
- 	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"])    
 }
 
 private initialize() {
@@ -115,9 +116,11 @@ private initialize() {
 		writeLog("Executing 'initialize()'")
 	}
 
-	//sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
-	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online")
-	sendEvent(name: "healthStatus", value: "online")
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
+	sendEvent(name: "healthStatus", value: "online", displayed: false)
+
+	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"])
 }
 
 def open() {
@@ -134,11 +137,11 @@ def open() {
 
 	unschedule()
 	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
-	pause()
-	return
-}
+		pause()
+		return
+	}
 
-opening()
+	opening()
 	runIn(blindDelay, "opened", [overwrite: true])
 }
 
@@ -173,11 +176,11 @@ def close() {
 
 	unschedule()
 	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
-	pause()
-	return
-}
+		pause()
+		return
+	}
 
-closing()
+	closing()
 	runIn(blindDelay, "closed", [overwrite: true])
 }
 
@@ -368,8 +371,8 @@ private getBlindStop() {
 	return (settings.blindStop != null) ? settings.blindStop.toBoolean() : false
 }
 
-private getRaiseEvent() {
-	return (settings.raiseEvent != null) ? settings.raiseEvent.toBoolean() : false
+private getDeviceEvent() {
+	return (settings.deviceEvent != null) ? settings.deviceEvent.toBoolean() : false
 }
 
 private getDeviceDebug() {
@@ -383,6 +386,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.0.17"
+	return "1.x.x"
 }
 
