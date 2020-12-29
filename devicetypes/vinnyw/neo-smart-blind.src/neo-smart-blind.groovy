@@ -60,7 +60,7 @@ metadata {
 		input name: "controllerID", type: "text", title: "Controller ID", description: "\u2630 > Smart Controllers > Controller > ID", required: true
 		input name: "controllerIP", type: "text", title: "Controller IP (Local)", description: "\u2630 > Smart Controllers > Controller > IP", required: true
 		input name: "blindID", type: "text", title: "Blind code", description: "\u2630 > Your Rooms > Room > Blind > Blind Code", required: true
-		
+
         input name: "blindDelay", type: "number", title: "Blind timing",
 			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
 		input name: "blindStop", type: "enum", title: "Second press",
