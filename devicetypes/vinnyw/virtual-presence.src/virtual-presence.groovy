@@ -156,16 +156,6 @@ def off() {
 	sendEvent(name: "switch", value: "off", isStateChange: true, displayed: false)
 }
 
-private getState(String value) {
-	switch(value) {
-		case "present": return "arrived"
-		case "not present": return "left"
-		case "occupied": return "inside"
-		case "unoccupied": return "away"
-		default: return value
-	}
-}
-
 private writeLog(message, type = "DEBUG") {
 	message = "${device} [v$version]: ${message ?: ''}"
 	switch (type?.toUpperCase()) {
