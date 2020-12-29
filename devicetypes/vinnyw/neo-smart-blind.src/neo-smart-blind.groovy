@@ -120,7 +120,7 @@ private initialize() {
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 
-	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"])
+	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"], displayed: false)
 }
 
 def open() {
@@ -161,8 +161,8 @@ def opened() {
 
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
 
-	if (!deviceEvent) {
-		sendEvent(name: "windowShade", value: "Open", isStateChange: false)
+	if (deviceEvent) {
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
 	}
 }
 
@@ -194,7 +194,7 @@ def closing() {
 	}
 
 	attenuate("dn")
-	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
+	sendEvent(name: "windowShade", value: "Closed", isStateChange: false, displayed: false)
 }
 
 def closed() {
@@ -204,8 +204,8 @@ def closed() {
 
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
 
-	if (!deviceEvent) {
-		sendEvent(name: "windowShade", value: "Closed", isStateChange: false)
+	if (deviceEvent) {
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
 	}
 }
 
@@ -223,8 +223,8 @@ def pause() {
 
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 
-	if (!deviceEvent) {
-		sendEvent(name: "windowShade", value: "Unknown", isStateChange: false)
+	if (deviceEvent) {
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
 	}
 }
 
@@ -289,7 +289,7 @@ def presetPositioned() {
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
 
 	if (!deviceEvent) {
-		sendEvent(name: "windowShade", value: "Partially Open", isStateChange: false)
+		sendEvent(name: "windowShade", value: "Partially Open", isStateChange: true, displayed: false)
 	}
 }
 
@@ -403,6 +403,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.x.x"
+	return "1.x.a"
 }
 
