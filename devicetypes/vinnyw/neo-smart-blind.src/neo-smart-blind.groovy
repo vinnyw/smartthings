@@ -194,7 +194,7 @@ def closing() {
 	}
 
 	attenuate("dn")
-	sendEvent(name: "windowShade", value: "Closed", isStateChange: false, displayed: false)
+	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 }
 
 def closed() {
@@ -403,6 +403,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.x.a"
+	return "1.a.b"
 }
 
