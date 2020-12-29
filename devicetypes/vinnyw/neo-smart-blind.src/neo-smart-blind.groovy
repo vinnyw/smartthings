@@ -50,7 +50,7 @@ metadata {
 
 		standardTile("presetPosition", "device.presetPosition", width: 2, height: 2, decoration: "flat") {
 			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
-		}
+		}device
 
 		main "windowShade" 
 		details(["windowShade", "presetPosition"])
@@ -128,7 +128,7 @@ def open() {
 		writeLog("Executing 'open()'")
 	}
 
-	if ((device.currentValue("windowShade") == "open") && !raiseEvent) {
+	if ((device.currentValue("windowShade") == "open") && !deviceEvent) {
 		if (deviceDebug) {
 			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
 		}
@@ -167,7 +167,7 @@ def close() {
 		writeLog("Executing 'close()'")
 	}
 
-	if ((device.currentValue("windowShade") == "closed") && !raiseEvent) {
+	if ((device.currentValue("windowShade") == "closed") && !deviceEvent) {
 		if (deviceDebug) {
 			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
 		}
@@ -206,7 +206,7 @@ def pause() {
 		writeLog("Executing 'pause()'")
 	}
 
-	if ((device.currentValue("windowShade") == "unknown") && !raiseEvent) {
+	if ((device.currentValue("windowShade") == "unknown") && !deviceEvent) {
 		return
 	}
 
@@ -220,7 +220,7 @@ def presetPosition() {
 		writeLog("Executing 'presetPosition()'")
 	}
 
-	if ((device.currentValue("windowShade") == "partially open") && !raiseEvent) {
+	if ((device.currentValue("windowShade") == "partially open") && !deviceEvent) {
 		if (deviceDebug) {
 			writeLog("no action required.  state is already " + device.currentValue("windowShade"))
 		}
