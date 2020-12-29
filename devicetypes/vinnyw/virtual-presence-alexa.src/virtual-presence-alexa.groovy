@@ -51,7 +51,7 @@ metadata {
 		input name: "deviceReset", type: "boolean", title: "Auto reset device?", defaultValue: false, required: true
 		input name: "deviceEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
-		input type: "paragraph", element: "paragraph", title: "Virtual Presense", description: "${version}", displayDuringSetup: false
+		input type: "paragraph", element: "paragraph", title: "Virtual Presense (Alexa)", description: "${version}", displayDuringSetup: false
 	}
 
 }
