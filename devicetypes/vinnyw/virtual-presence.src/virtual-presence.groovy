@@ -11,9 +11,9 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
- */
+ */	//cstHandler: true,
 metadata {
-	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
+	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, 
 		mnmn: "SmartThings", vid: "generic-arrival-4", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
 
 		capability "Actuator"        
@@ -41,7 +41,7 @@ metadata {
 			state("on", action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#FFFFFF")
 		}
 
- 		main(["switch"])
+ 		main "switch"
 		details(["presense","switch"])
  
     }
@@ -55,21 +55,12 @@ metadata {
 
 }
 
-// parse events into attributes
-def parse(String description) {
-	log.debug "Parsing '${description}'"
-	// TODO: handle 'presence' attribute
-
-}
 
 def parse(description) {
 	if (deviceDebug) {
-    	writeLog("Executing 'parse()'")
 		writeLog("Parsing '${description}'")
 	}
-
-	def pair = description.split(":")
-	createEvent(name: pair[0].trim(), value: pair[1].trim())
+	// TODO
 }
 
 def installed() {
