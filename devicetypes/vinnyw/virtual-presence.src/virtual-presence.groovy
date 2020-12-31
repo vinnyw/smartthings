@@ -14,7 +14,7 @@
  */	//cstHandler: true,
 //cstHandler: true,
 metadata {
-	definition (name: "Virtual Presence (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true, 
+	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, 
 		mnmn: "SmartThings", vid: "generic-arrival-4", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
 
 		capability "Actuator"        
