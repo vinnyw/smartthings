@@ -14,7 +14,7 @@
  */
 metadata {
 	definition (name: "Virtual Presence (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true,
-		mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
+	mnmn: "SmartThings", vid: "generic-arrival-4", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
 
 		capability "Actuator"        
 		capability "Presence Sensor"
@@ -189,6 +189,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.0.0"
+	return "1.0.1"
 }
 
