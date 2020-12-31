@@ -13,7 +13,7 @@
  *  for the specific language governing permissions and limitations under the License.
  */
 metadata {
-	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
+	definition (name: "Virtual Presence (Alexa)", namespace: "vinnyw", author: "vinnyw", mcdSync: true, cstHandler: true,
 		mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
 
 		capability "Actuator"        
