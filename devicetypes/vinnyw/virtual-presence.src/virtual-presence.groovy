@@ -14,7 +14,7 @@
  */	//cstHandler: true,
 metadata {
 	definition (name: "Virtual Presence", namespace: "vinnyw", author: "vinnyw", mcdSync: true, 
-		mnmn: "SmartThings", vid: "generic-switch", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
+		mnmn: "SmartThings", vid: "generic-arrival-4", ocfDeviceType: "x.com.st.d.sensor.presence" ) {
 
 		capability "Actuator"        
 		capability "Presence Sensor"
