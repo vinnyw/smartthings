@@ -289,7 +289,7 @@ def presetPositioned() {
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
 
 	if (!deviceEvent) {
-		sendEvent(name: "windowShade", value: "Partially Open", isStateChange: true, displayed: false)
+		sendEvent(name: "windowShade", value: "partially open", isStateChange: true, displayed: false)
 	}
 }
 
