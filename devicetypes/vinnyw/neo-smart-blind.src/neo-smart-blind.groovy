@@ -162,7 +162,7 @@ def opened() {
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
 
 	if (deviceEvent) {
-		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
+		sendEvent(name: "windowShade", value: "open", isStateChange: true, displayed: false)
 	}
 }
 
@@ -205,7 +205,7 @@ def closed() {
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
 
 	if (deviceEvent) {
-		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
+		sendEvent(name: "windowShade", value: "closed", isStateChange: false, displayed: false)
 	}
 }
 
