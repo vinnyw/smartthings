@@ -14,7 +14,7 @@
 metadata {
 
 	definition ( name: "Neo Smart Blind", namespace: "vinnyw", author: "vinnyw", 
-		ocfDeviceType: "oic.d.blind", mnmn: "SmartThings", vid: "generic-shade") {
+		mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
 
 		capability "Window Shade"
 		//capability "Window Shade Level"
@@ -33,11 +33,10 @@ metadata {
 	}
 
 	tiles(scale: 2) {
-
 		multiAttributeTile(name:"windowShade", type: "generic", width: 6, height: 4, canChangeIcon: true) {
 			tileAttribute ("device.windowShade", key: "PRIMARY_CONTROL") {
-				attributeState "open", label:'${name}', action:"close", icon:"st.doors.garage.garage-open", backgroundColor:"#79b821", nextState:"closing"
-				attributeState "closed", label:'${name}', action:"open", icon:"st.doors.garage.garage-closed", backgroundColor:"#ffffff", nextState:"opening"
+				attributeState "open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
+				attributeState "closed", label:'${name}', action:"open", icon:"st.shades.shade-closed", backgroundColor:"#ffffff", nextState:"opening"
 				attributeState "partially open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
 				attributeState "opening", label:'${name}', action:"stop", icon:"st.shades.shade-opening", backgroundColor:"#79b821", nextState:"partially open"
 				attributeState "closing", label:'${name}', action:"stop", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"partially open"

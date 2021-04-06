@@ -64,9 +64,9 @@ def parse(description) {
 
 def installed() {
 	if (deviceDebug) {
-		writeLog("Executing 'installed()'")
-		writeLog("installed() settings: $settings", "INFO")
-		writeLog("installed() state: $state", "INFO")
+		writeLog("installed()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	off()
@@ -75,9 +75,9 @@ def installed() {
 
 def updated() {
 	if (deviceDebug) {
-		writeLog("Executing 'updated()'")
-		writeLog("updated() settings: $settings", "INFO")
-		writeLog("updated() state: $state", "INFO")
+		writeLog("updated()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	initialize()
@@ -85,7 +85,9 @@ def updated() {
 
 private initialize() {
 	if (deviceDebug) {
-		writeLog("Executing 'initialize()'")
+		writeLog("initialize()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
@@ -95,7 +97,7 @@ private initialize() {
 
 def arrived() {
 	if (deviceDebug) {
-		writeLog("Executing 'arrived()'")
+		writeLog("arrived()")
 	}
 
     on()
@@ -103,7 +105,7 @@ def arrived() {
 
 def departed() {
 	if (deviceDebug) {
-		writeLog("Executing 'departed()'")
+		writeLog("departed()")
 	}
 
     off()
@@ -111,7 +113,9 @@ def departed() {
 
 def on() {
 	if (deviceDebug) {
-		writeLog("Executing 'on()'")
+		writeLog("on()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("switch") == "on") && !deviceEvent) {
@@ -132,7 +136,9 @@ def on() {
 
 def off() {
 	if (deviceDebug) {
-		writeLog("Executing 'off()'")
+		writeLog("off()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("switch") == "off") && !deviceEvent) {
@@ -154,7 +160,7 @@ def off() {
 }
 
 private writeLog(message, type = "DEBUG") {
-	message = "${device} [v$version]: ${message ?: ''}"
+	message = "${device} [v$version] ${message ?: ''}"
 	switch (type?.toUpperCase()) {
 		case "TRACE":
 			log.trace "${message}"
@@ -189,6 +195,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.0.1"
+	return "1.0.2"
 }
 
