@@ -266,7 +266,7 @@ def presetPosition() {
 
 def presetPositionOpening() {
 	if (deviceDebug) {
-		writeLog("Executing 'presetPositionedOpening()'")
+		writeLog("presetPositionedOpening()")
 	}
 
 	attenuate("gp")
@@ -275,7 +275,7 @@ def presetPositionOpening() {
 
 def presetPositionCloseing() {
 	if (deviceDebug) {
-		writeLog("Executing 'presetPositionedCloseing()'")
+		writeLog("presetPositionedCloseing()")
 	}
 
 	attenuate("gp")
@@ -284,7 +284,7 @@ def presetPositionCloseing() {
 
 def presetPositioned() {
 	if (deviceDebug) {
-		writeLog("Executing 'presetPositioned()'")
+		writeLog("presetPositioned()")
 	}
 
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
@@ -326,7 +326,7 @@ private attenuate(action) {
 
 def attenuateCallback(physicalgraph.device.HubResponse hubResponse) {
 	if (deviceDebug) {
-		writeLog("Executing 'attenuateCallback()'")
+		writeLog("attenuateCallback()")
 		writeLog("${hubResponse}", "INFO")
 	}
 
