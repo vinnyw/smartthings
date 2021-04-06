@@ -153,7 +153,7 @@ def opening(direction = "up") {
 		writeLog("opening($direction)")
 	}
 
-	attenuate($direction)
+	attenuate(direction)
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
@@ -196,7 +196,7 @@ def closing(direction = "dn") {
 		writeLog("closing($direction)")
 	}
 
-	attenuate($direction)
+	attenuate(direction)
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 }
 
