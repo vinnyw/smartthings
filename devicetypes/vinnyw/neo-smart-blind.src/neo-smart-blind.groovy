@@ -148,12 +148,12 @@ def open() {
 	runIn(blindDelay, "opened", [overwrite: true])
 }
 
-def opening() {
+def opening(action = "up") {
 	if (deviceDebug) {
-		writeLog("opening()")
+		writeLog("opening(${action})")
 	}
 
-	attenuate("up")
+	attenuate($action})
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
@@ -191,12 +191,12 @@ def close() {
 	runIn(blindDelay, "closed", [overwrite: true])
 }
 
-def closing() {
+def closing(action = "dn") {
 	if (deviceDebug) {
-		writeLog("closing()")
+		writeLog("closing(${action})")
 	}
 
-	attenuate("dn")
+	attenuate(${action})
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 }
 
