@@ -14,7 +14,7 @@
 metadata {
 
 	definition ( name: "Neo Smart Blind", namespace: "vinnyw", author: "vinnyw", 
-		mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
+		ocfDeviceType: "oic.d.blind", mnmn: "SmartThings", vid: "generic-shade") {
 
 		capability "Window Shade"
 		//capability "Window Shade Level"
@@ -36,8 +36,8 @@ metadata {
 
 		multiAttributeTile(name:"windowShade", type: "generic", width: 6, height: 4, canChangeIcon: true) {
 			tileAttribute ("device.windowShade", key: "PRIMARY_CONTROL") {
-				attributeState "open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
-				attributeState "closed", label:'${name}', action:"open", icon:"st.shades.shade-closed", backgroundColor:"#ffffff", nextState:"opening"
+				attributeState "open", label:'${name}', action:"close", icon:"st.doors.garage.garage-open", backgroundColor:"#79b821", nextState:"closing"
+				attributeState "closed", label:'${name}', action:"open", icon:"st.doors.garage.garage-closed", backgroundColor:"#ffffff", nextState:"opening"
 				attributeState "partially open", label:'${name}', action:"close", icon:"st.shades.shade-open", backgroundColor:"#79b821", nextState:"closing"
 				attributeState "opening", label:'${name}', action:"stop", icon:"st.shades.shade-opening", backgroundColor:"#79b821", nextState:"partially open"
 				attributeState "closing", label:'${name}', action:"stop", icon:"st.shades.shade-closing", backgroundColor:"#ffffff", nextState:"partially open"
@@ -82,9 +82,9 @@ def parse(description) {
 
 def installed() {
 	if (deviceDebug) {
-		writeLog("Executing 'installed()'")
-		writeLog("installed() settings: $settings", "INFO")
-		writeLog("installed() state: $state", "INFO")
+		writeLog("installed()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	//if (!controllerID || !controllerIP || !blindCode) {
@@ -98,9 +98,9 @@ def installed() {
 
 def updated() {
 	if (deviceDebug) {
-		writeLog("Executing 'updated()'")
-		writeLog("updated() settings: $settings", "INFO")
-		writeLog("updated() state: $state", "INFO")
+		writeLog("updated()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	//if (!controllerID || !controllerIP || !blindCode) {
@@ -113,7 +113,9 @@ def updated() {
 
 private initialize() {
 	if (deviceDebug) {
-		writeLog("Executing 'initialize()'")
+		writeLog("initialize()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
@@ -125,7 +127,9 @@ private initialize() {
 
 def open() {
 	if (deviceDebug) {
-		writeLog("Executing 'open()'")
+		writeLog("open()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("windowShade") == "open") && !deviceEvent) {
@@ -147,7 +151,7 @@ def open() {
 
 def opening() {
 	if (deviceDebug) {
-		writeLog("Executing 'opening()'")
+		writeLog("opening()")
 	}
 
 	attenuate("up")
@@ -156,19 +160,19 @@ def opening() {
 
 def opened() {
 	if (deviceDebug) {
-		writeLog("Executing 'opened()'")
+		writeLog("opened()")
 	}
 
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
-
-	if (deviceEvent) {
-		sendEvent(name: "windowShade", value: "open", isStateChange: true, displayed: false)
-	}
+    
+    state.shadeLevel = 0
 }
 
 def close() {
 	if (deviceDebug) {
-		writeLog("Executing 'close()'")
+		writeLog("close()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("windowShade") == "closed") && !deviceEvent) {
@@ -190,7 +194,7 @@ def close() {
 
 def closing() {
 	if (deviceDebug) {
-		writeLog("Executing 'closing()'")
+		writeLog("closing()")
 	}
 
 	attenuate("dn")
@@ -199,19 +203,19 @@ def closing() {
 
 def closed() {
 	if (deviceDebug) {
-		writeLog("Executing 'closed()'")
+		writeLog("closed()")
 	}
 
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
 
-	if (deviceEvent) {
-		sendEvent(name: "windowShade", value: "closed", isStateChange: false, displayed: false)
-	}
+    state.shadeLevel = 100
 }
 
 def pause() {
 	if (deviceDebug) {
-		writeLog("Executing 'pause()'")
+		writeLog("pause()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("windowShade") == "unknown") && !deviceEvent) {
@@ -219,18 +223,16 @@ def pause() {
 	}
 
 	unschedule()
+
 	attenuate("sp")
-
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
-
-	if (deviceEvent) {
-		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
-	}
 }
 
 def presetPosition() {
 	if (deviceDebug) {
-		writeLog("Executing 'presetPosition()'")
+		writeLog("presetPosition()")
+ 		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("windowShade") == "partially open") && !deviceEvent) {
@@ -291,11 +293,13 @@ def presetPositioned() {
 	if (!deviceEvent) {
 		sendEvent(name: "windowShade", value: "partially open", isStateChange: true, displayed: false)
 	}
+
+    state.shadeLevel = 50
 }
 
 private attenuate(action) {
 	if (deviceDebug) {
-		writeLog("Executing 'attenuate($action)'")
+		writeLog("attenuate($action)")
 	}
 
 	def result = new physicalgraph.device.HubAction (
@@ -316,9 +320,9 @@ private attenuate(action) {
 		writeLog("$e", "ERROR")
 	}
 
-	if (deviceDebug) {
-		writeLog("\n $result", "INFO")
-	}
+	//if (deviceDebug) {
+	//	writeLog("\n $result", "INFO")
+	//}
 }
 
 def attenuateCallback(physicalgraph.device.HubResponse hubResponse) {
@@ -358,7 +362,7 @@ def attenuateCallback(physicalgraph.device.HubResponse hubResponse) {
 }
 
 private writeLog(message, type = "DEBUG") {
-	message = "${device} [v$version]: ${message ?: ''}"
+	message = "${device} [v$version] ${message ?: ''}"
 	switch (type?.toUpperCase()) {
 		case "TRACE":
 			log.trace "${message}"
