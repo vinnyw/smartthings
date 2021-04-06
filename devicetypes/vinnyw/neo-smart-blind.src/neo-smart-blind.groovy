@@ -153,7 +153,12 @@ def opening(direction = "up") {
 		writeLog("opening($direction)")
 	}
 
-	attenuate(direction)
+	def cmds = []
+    cmds << attenuate(direction)
+    cmds << "delay 10000"
+    cmds << attenuate(direction)
+    [response(cmds)]
+	
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
