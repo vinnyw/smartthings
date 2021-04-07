@@ -153,7 +153,7 @@ def opening(direction = "up") {
 		writeLog("opening($direction)")
 	}
 
-    cmds << attenuate(direction)
+    attenuate(direction)
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
@@ -163,7 +163,7 @@ def opened() {
 	}
 
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
-    
+
     state.shadeLevel = 0
 }
 
