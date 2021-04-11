@@ -388,6 +388,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.a.b"
+	return "1.5.7"
 }
 
