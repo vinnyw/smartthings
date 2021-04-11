@@ -250,13 +250,13 @@ def presetPosition() {
 	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
 
 	if (device.currentValue("windowShade") == "open") {
-		closeing("gp")
+		closing("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else if (device.currentValue("windowShade") == "closed") {
 		opening("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else if (device.currentValue("windowShade") == "unknown") {
-		closeing("gp")
+		closing("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
 		attenuate("gp")
