@@ -250,36 +250,18 @@ def presetPosition() {
 	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
 
 	if (device.currentValue("windowShade") == "open") {
-		presetPositionCloseing()
+		closeing("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else if (device.currentValue("windowShade") == "closed") {
-		presetPositionOpening()
+		opening("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else if (device.currentValue("windowShade") == "unknown") {
-		presetPositionCloseing()
+		closeing("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
 		attenuate("gp")
         presetPositioned()
 	}
-}
-
-def presetPositionOpening() {
-	if (deviceDebug) {
-		writeLog("presetPositionedOpening()")
-	}
-
-	attenuate("gp")
-	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
-}
-
-def presetPositionCloseing() {
-	if (deviceDebug) {
-		writeLog("presetPositionedCloseing()")
-	}
-
-	attenuate("gp")
-	sendEvent(name: "windowShade", value: "closing", isStateChange: true, displayed: false)
 }
 
 def presetPositioned() {
