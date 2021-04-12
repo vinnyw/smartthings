@@ -67,13 +67,6 @@ metadata {
 
 }
 
-def parse(description) {
-	if (deviceDebug) {
-		writeLog("Parsing '${description}'")
-	}
-	// TODO
-}
-
 def installed() {
 	if (deviceDebug) {
 		writeLog("installed()")
@@ -116,7 +109,7 @@ private initialize() {
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 
-	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"], displayed: false)
+	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "closed", "pause"], displayed: false)
 }
 
 def open() {
@@ -376,6 +369,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.8"
+	return "1.5.9"
 }
 
