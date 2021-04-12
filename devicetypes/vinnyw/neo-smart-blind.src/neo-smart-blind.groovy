@@ -59,12 +59,7 @@ metadata {
 		input name: "controllerID", type: "text", title: "Controller ID", description: "\u2630 > Smart Controllers > Controller > ID", required: true
 		input name: "controllerIP", type: "text", title: "Controller IP (Local)", description: "\u2630 > Smart Controllers > Controller > IP", required: true
 		input name: "blindID", type: "text", title: "Blind code", description: "\u2630 > Your Rooms > Room > Blind > Blind Code", required: true
-
-        input name: "blindDelay", type: "number", title: "Blind timing",
-			description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
-		input name: "blindStop", type: "enum", title: "Second press",
-			options: ["false": "Reverse direction (default)", "true": "Stop blind"], defaultValue: "false", multiple: false, required: true
-
+        input name: "blindDelay", type: "number", title: "Blind timing", description: "Blind retraction (seconds)", range: "1..120", displayDuringSetup: false
 		input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
@@ -139,7 +134,7 @@ def open() {
 	}
 
 	unschedule()
-	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
+	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
 		pause()
 		return
 	}
@@ -182,7 +177,7 @@ def close() {
 	}
 
 	unschedule()
-	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
+	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
 		pause()
 		return
 	}
@@ -242,7 +237,7 @@ def presetPosition() {
 	}
 
 	unschedule()
-	if ((device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") && blindStop) {
+	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
 		pause()
 		return
 	}
@@ -254,9 +249,6 @@ def presetPosition() {
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else if (device.currentValue("windowShade") == "closed") {
 		opening("gp")
-		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
-	} else if (device.currentValue("windowShade") == "unknown") {
-		closing("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
 		attenuate("gp")
@@ -388,6 +380,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.7"
+	return "1.5.8"
 }
 
