@@ -361,10 +361,6 @@ private getBlindDelay() {
 	return (settings.blindDelay != null) ? settings.blindDelay.toInteger() : 8
 }
 
-private getBlindStop() {
-	return (settings.blindStop != null) ? settings.blindStop.toBoolean() : false
-}
-
 private getDeviceEvent() {
 	return (settings.deviceEvent != null) ? settings.deviceEvent.toBoolean() : false
 }
