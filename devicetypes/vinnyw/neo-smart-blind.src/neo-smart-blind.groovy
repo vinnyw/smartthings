@@ -109,7 +109,7 @@ private initialize() {
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 
-	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "closed", "pause"], displayed: false)
+	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"], displayed: false)
 }
 
 def open() {
@@ -369,6 +369,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.9"
+	return "1.5.10"
 }
 
