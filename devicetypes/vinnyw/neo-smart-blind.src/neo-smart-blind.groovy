@@ -64,7 +64,6 @@ metadata {
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
-
 }
 
 def installed() {
