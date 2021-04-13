@@ -64,6 +64,7 @@ metadata {
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
+
 }
 
 def installed() {
@@ -209,9 +210,6 @@ def pause() {
 	}
 
 	unschedule()
-	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-		return
-	}
 
 	attenuate("sp")
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
@@ -371,6 +369,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.13"
+	return "1.5.12"
 }
 
