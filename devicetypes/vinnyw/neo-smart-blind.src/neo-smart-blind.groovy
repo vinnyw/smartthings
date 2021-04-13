@@ -81,6 +81,8 @@ def installed() {
 
 	opened()
 	updated()
+    
+    state.remove("shadeLevel")
 }
 
 def updated() {
@@ -152,7 +154,7 @@ def opened() {
 
 	sendEvent(name: "windowShade", value: "open", isStateChange: true)
 
-    state.shadeLevel = 0
+    state.level = 0
 }
 
 def close() {
@@ -195,7 +197,7 @@ def closed() {
 
 	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
 
-    state.shadeLevel = 100
+    state.level = 100
 }
 
 def pause() {
@@ -210,11 +212,11 @@ def pause() {
 	}
 
 	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-		attenuate("sp")
 		sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
 	} else {
     	sendEvent(name: "windowShade", value: device.currentValue("windowShade"), isStateChange: false, displayed: false)
     }
+    attenuate("sp")
 }
 
 def presetPosition() {
@@ -239,10 +241,10 @@ def presetPosition() {
 
 	def blindPresetDelay = blindDelay * 0.75		// 75% of full delay
 
-	if (device.currentValue("windowShade") == "open") {
+	if (state.level == 0) {
 		closing("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
-	} else if (device.currentValue("windowShade") == "closed") {
+	} else if (state.level == 100) {
 		opening("gp")
 		runIn(blindPresetDelay.toInteger(), "presetPositioned", [overwrite: true])
 	} else {
@@ -262,7 +264,7 @@ def presetPositioned() {
 		sendEvent(name: "windowShade", value: "partially open", isStateChange: true, displayed: false)
 	}
 
-    state.shadeLevel = 50
+    //state.level = 50
 }
 
 private attenuate(action) {
@@ -371,6 +373,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.13"
+	return "1.5.15"
 }
 
