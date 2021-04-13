@@ -209,13 +209,12 @@ def pause() {
 		return
 	}
 
-	unschedule()
 	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-		return
-	}
-
-	attenuate("sp")
-	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+		attenuate("sp")
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+	} else {
+    	sendEvent(name: "windowShade", value: device.currentValue("windowShade"), isStateChange: false, displayed: false)
+    }
 }
 
 def presetPosition() {
