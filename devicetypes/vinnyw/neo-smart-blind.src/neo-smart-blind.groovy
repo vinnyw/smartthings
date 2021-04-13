@@ -81,8 +81,6 @@ def installed() {
 
 	opened()
 	updated()
-    
-    state.remove("shadeLevel")
 }
 
 def updated() {
