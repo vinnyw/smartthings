@@ -51,7 +51,7 @@ metadata {
 			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
 		}
 
-		main(["windowShade"]) 
+		main "windowShade" 
 		details(["windowShade", "presetPosition"])
 	}
 
@@ -64,6 +64,7 @@ metadata {
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
+
 }
 
 def installed() {
@@ -209,9 +210,6 @@ def pause() {
 	}
 
 	unschedule()
-	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
-		return
-	}
 
 	attenuate("sp")
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
@@ -257,6 +255,10 @@ def presetPositioned() {
 	}
 
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
+
+	if (!deviceEvent) {
+		sendEvent(name: "windowShade", value: "partially open", isStateChange: true, displayed: false)
+	}
 
     state.shadeLevel = 50
 }
@@ -367,6 +369,5 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.11"
+	return "1.5.10"
 }
-
