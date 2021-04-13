@@ -260,10 +260,6 @@ def presetPositioned() {
 
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
 
-	if (!deviceEvent) {
-		sendEvent(name: "windowShade", value: "partially open", isStateChange: true, displayed: false)
-	}
-
     //state.level = 50
 }
 
@@ -373,6 +369,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.15"
+	return "1.5.16"
 }
 
