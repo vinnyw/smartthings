@@ -258,6 +258,8 @@ def presetPositioned() {
 
 	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
 
+
+
     //state.level = 50
 }
 
