@@ -51,8 +51,8 @@ metadata {
 			state "default", label: "Preset", action:"presetPosition", icon:"st.Home.home2"
 		}
 
-		main "windowShade" 
-		details(["windowShade", "presetPosition"])
+		main(["windowShade"])
+        details(["windowShade", "presetPosition"])
 	}
 
 	preferences {
