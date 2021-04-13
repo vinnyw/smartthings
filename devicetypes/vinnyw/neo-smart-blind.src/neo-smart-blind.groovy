@@ -210,6 +210,9 @@ def pause() {
 	}
 
 	unschedule()
+	if (device.currentValue("windowShade") == "opening" || device.currentValue("windowShade") == "closing") {
+		return
+	}
 
 	attenuate("sp")
 	sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
@@ -369,6 +372,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.5.12"
+	return "1.5.13"
 }
 
