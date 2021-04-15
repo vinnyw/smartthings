@@ -191,8 +191,8 @@ def presetPosition() {
         runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 	} else if (shadeLevel == 100) {
 		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
-			attenuate("gp")
-	        runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
+		attenuate("gp")
+		runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 	} else {
 		attenuate("gp")
         updateState([state: "partially open", level: blindPreset])
@@ -362,3 +362,4 @@ private getHash() {
 private getVersion() {
 	return "1.6.3"
 }
+
