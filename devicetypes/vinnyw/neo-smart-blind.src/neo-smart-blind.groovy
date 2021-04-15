@@ -83,6 +83,7 @@ def installed() {
 
 	initialize()
 	updated()
+	updateState([state: "open", level: 0])
 }
 
 private initialize() {
@@ -133,7 +134,7 @@ def open() {
 	}
 
 	opening()
-	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [state: "open", value: 0]])
+	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [state: "open", level: 0]])
 }
 
 def opening(direction = "up") {
@@ -166,7 +167,7 @@ def close() {
 	}
 
 	closing()
-	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [state: "closed", value: 100]])
+	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [state: "closed", level: 100]])
 }
 
 def closing(direction = "dn") {
@@ -176,39 +177,6 @@ def closing(direction = "dn") {
 
 	attenuate(direction)
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
-}
-
-def updateState(data) {
-	if (deviceDebug) {
-		writeLog("updateState()")
-		writeLog("data: $data", "INFO")
-	}
-
-	sendEvent(name: "windowShade", value: "${data.state}", isStateChange: true)
-	sendEvent(name: "shadeLevel", value: ${data.level}, unit: "%", isStateChange: false, displayed: false)
-}
-
-def pause() {
-	if (deviceDebug) {
-		writeLog("pause()")
-	}
-
-	def shadeState = device.currentState("windowShade")?.value
-
-	if ((shadeState.equalsIgnoreCase("unknown")) && !deviceEvent) {
-		if (deviceDebug) {
-			writeLog("no action required.")
-		}
-		return
-	}
-
-	unschedule()
-    if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
-    	attenuate("sp")
-		sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
-	} else {
-    	sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
-    }
 }
 
 def presetPosition() {
@@ -235,23 +203,47 @@ def presetPosition() {
 
 	if (shadeLevel == 0) {
 		closing("gp")
-		runIn(timeToLevel(blindPreset), "presetPositioned", [overwrite: true])
+        runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 	} else if (shadeLevel == 100) {
 		opening("gp")
-		runIn(timeToLevel(blindPreset), "presetPositioned", [overwrite: true])
+        runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 	} else {
 		attenuate("gp")
-        presetPositioned()
+        updateState([state: "partially open", level: blindPreset])
 	}
 }
 
-def presetPositioned() {
+def pause() {
 	if (deviceDebug) {
-		writeLog("presetPositioned()")
+		writeLog("pause()")
 	}
 
-	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
-	sendEvent(name: "shadeLevel", value: blindPreset.toInteger(), unit: "%", isStateChange: false, displayed: false)
+	def shadeState = device.currentState("windowShade")?.value
+
+	if ((shadeState.equalsIgnoreCase("unknown")) && !deviceEvent) {
+		if (deviceDebug) {
+			writeLog("no action required.")
+		}
+		return
+	}
+
+	unschedule()
+    if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
+    	attenuate("sp")
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
+	} else {
+    	sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
+    }
+}
+
+def updateState(data) {
+	if (deviceDebug) {
+		writeLog("updateState()")
+		writeLog("data: $data", "INFO")
+	}
+
+	sendEvent(name: "windowShade", value: data.state, isStateChange: true)
+	sendEvent(name: "shadeLevel", value: data.level, unit: "%", isStateChange: false, displayed: false)
 }
 
 private attenuate(action) {
