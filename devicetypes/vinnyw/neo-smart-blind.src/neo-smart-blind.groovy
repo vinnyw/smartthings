@@ -133,17 +133,9 @@ def open() {
 		return
 	}
 
-	opening()
+	sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
+	attenuate("up")
 	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [state: "open", level: 0]])
-}
-
-def opening(direction = "up") {
-	if (deviceDebug) {
-		writeLog("opening($direction)")
-	}
-
-	attenuate(direction)
-	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
 def close() {
@@ -166,17 +158,9 @@ def close() {
 		return
 	}
 
-	closing()
-	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [state: "closed", level: 100]])
-}
-
-def closing(direction = "dn") {
-	if (deviceDebug) {
-		writeLog("closing($direction)")
-	}
-
-	attenuate(direction)
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
+	attenuate("dn")
+	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [state: "closed", level: 100]])
 }
 
 def presetPosition() {
@@ -202,11 +186,13 @@ def presetPosition() {
     }
 
 	if (shadeLevel == 0) {
-		closing("gp")
+		sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
+		attenuate("gp")
         runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 	} else if (shadeLevel == 100) {
-		opening("gp")
-        runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
+		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
+			attenuate("gp")
+	        runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 	} else {
 		attenuate("gp")
         updateState([state: "partially open", level: blindPreset])
@@ -374,5 +360,5 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.2"
+	return "1.6.3"
 }
