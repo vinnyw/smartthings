@@ -83,7 +83,6 @@ def installed() {
 
 	initialize()
 	updated()
-	opened()
 }
 
 private initialize() {
@@ -111,16 +110,11 @@ def updated() {
 	//	writeLog("Setup not fully completed - Missing required fields.", "ERROR")
 	//	return
 	//}
-
-	// clean up
-   	state.remove("level")
 }
 
 def open() {
 	if (deviceDebug) {
 		writeLog("open()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	def shadeState = device.currentState("windowShade")?.value
@@ -139,7 +133,7 @@ def open() {
 	}
 
 	opening()
-	runIn(timeToLevel(0), "opened", [overwrite: true])
+	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [state: "open", value: 0]])
 }
 
 def opening(direction = "up") {
@@ -151,20 +145,9 @@ def opening(direction = "up") {
 	sendEvent(name: "windowShade", value: "opening", isStateChange: true, displayed: false)
 }
 
-def opened() {
-	if (deviceDebug) {
-		writeLog("opened()")
-	}
-
-	sendEvent(name: "windowShade", value: "open", isStateChange: true)
-	sendEvent(name: "shadeLevel", value: 0, unit: "%", isStateChange: false, displayed: false)
-}
-
 def close() {
 	if (deviceDebug) {
 		writeLog("close()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	def shadeState = device.currentState("windowShade")?.value
@@ -183,7 +166,7 @@ def close() {
 	}
 
 	closing()
-	runIn(timeToLevel(100), "closed", [overwrite: true])
+	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [state: "closed", value: 100]])
 }
 
 def closing(direction = "dn") {
@@ -195,20 +178,19 @@ def closing(direction = "dn") {
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 }
 
-def closed() {
+def updateState(data) {
 	if (deviceDebug) {
-		writeLog("closed()")
+		writeLog("updateState()")
+		writeLog("data: $data", "INFO")
 	}
 
-	sendEvent(name: "windowShade", value: "closed", isStateChange: true)
-	sendEvent(name: "shadeLevel", value: 100, unit: "%", isStateChange: false, displayed: false)
+	sendEvent(name: "windowShade", value: "${data.state}", isStateChange: true)
+	sendEvent(name: "shadeLevel", value: ${data.level}, unit: "%", isStateChange: false, displayed: false)
 }
 
 def pause() {
 	if (deviceDebug) {
 		writeLog("pause()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	def shadeState = device.currentState("windowShade")?.value
@@ -232,8 +214,6 @@ def pause() {
 def presetPosition() {
 	if (deviceDebug) {
 		writeLog("presetPosition()")
- 		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
     def shadeState = device.currentState("windowShade")?.value
@@ -402,5 +382,5 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.1"
+	return "1.6.2"
 }
