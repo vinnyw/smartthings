@@ -353,7 +353,7 @@ private timeToLevel(targetLevel) {
 	if (deviceDebug) {
 		writeLog("runtime: ${runTime.round(2)}s" , "INFO")
 	}
-	return runTime
+	return runTime.round(2)
 }
 
 private writeLog(message, type = "DEBUG") {
