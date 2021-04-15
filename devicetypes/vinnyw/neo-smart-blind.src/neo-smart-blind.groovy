@@ -351,7 +351,7 @@ private timeToLevel(targetLevel) {
     def runTime = levelDiff > 0 ? (percentTime * levelDiff) : (percentTime * -levelDiff)
 
 	if (deviceDebug) {
-		writeLog("runtime: ${runTime}s" , "INFO")
+		writeLog("runtime: ${runTime.round(2)}s" , "INFO")
 	}
 	return runTime
 }
