@@ -195,7 +195,7 @@ def presetPosition() {
 	if (shadeLevel <= 0) {
         state.direction = 0
 		sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
-	} else if (shadeLevel => 100) {
+	} else if (shadeLevel >= 100) {
         state.direction = 1
 		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	} else if (shadeLevel <= blindPreset) {
