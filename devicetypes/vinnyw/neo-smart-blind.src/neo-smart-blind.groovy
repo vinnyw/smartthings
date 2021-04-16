@@ -186,10 +186,9 @@ def presetPosition() {
 
 	unschedule()
     if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
-		sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
-	} else {
-    	sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
-    }
+		pause()
+		return
+	}
 
     state.started = now().toLong()
 
