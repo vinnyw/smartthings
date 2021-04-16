@@ -403,6 +403,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.7"
+	return "1.6.8"
 }
 
