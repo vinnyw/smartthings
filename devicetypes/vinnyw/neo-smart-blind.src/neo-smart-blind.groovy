@@ -338,7 +338,7 @@ private timeToLevel(targetLevel) {
 
 private positionFromTime() {
 	if (deviceDebug) {
-		writeLog("positionFromTime(${moveTime})")
+		writeLog("positionFromTime()")
 	}
 
 	def currentLevel = device.currentState("shadeLevel")?.value.toFloat()
