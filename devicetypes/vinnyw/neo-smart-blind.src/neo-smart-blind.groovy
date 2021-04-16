@@ -199,10 +199,10 @@ def presetPosition() {
         state.direction = 1
 		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	} else if (shadeLevel <= blindPreset) {
-        state.direction = 0
+        state.direction = 1
 		sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	} else if (shadeLevel > blindPreset) {
-        state.direction = 1
+        state.direction = 0
 		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	}
 
@@ -351,7 +351,7 @@ private positionFromTime() {
 
 	if (deviceDebug) {
     	writeLog("runtime: ${runTime.round(2)}s" , "INFO")
-		writeLog("moved: ${newPos.round(2)}%" , "INFO")
+		writeLog("moved: ${newPosition.round(2)}%" , "INFO")
 	}
 
 	return newPosition.round(2)
