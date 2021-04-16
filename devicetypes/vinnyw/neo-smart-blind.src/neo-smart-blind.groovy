@@ -133,6 +133,9 @@ def open() {
 		return
 	}
 
+    state.started = now().toLong()
+  	state.direction = 0
+
 	sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	attenuate("up")
 	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [state: "open", level: 0]])
@@ -158,6 +161,9 @@ def close() {
 		return
 	}
 
+	state.started = now().toLong()
+   	state.direction = 1
+
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	attenuate("dn")
 	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [state: "closed", level: 100]])
@@ -169,7 +175,7 @@ def presetPosition() {
 	}
 
     def shadeState = device.currentState("windowShade")?.value
-	def shadeLevel = device.currentState("shadeLevel")?.value.toInteger()
+	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
 	if ((shadeLevel == blindPreset) && !deviceEvent) {
 		if (deviceDebug) {
@@ -185,18 +191,24 @@ def presetPosition() {
     	sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
     }
 
+    state.started = now().toLong()
+
 	if (shadeLevel == 0) {
+        state.direction = 0
 		sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
-		attenuate("gp")
-        runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 	} else if (shadeLevel == 100) {
+        state.direction = 1
 		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
-		attenuate("gp")
-		runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
-	} else {
-		attenuate("gp")
-        updateState([state: "partially open", level: blindPreset])
+	} else if (shadeLevel <= blindPreset) {
+        state.direction = 0
+		sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
+	} else if (shadeLevel > blindPreset) {
+        state.direction = 1
+		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	}
+
+	attenuate("gp")
+	runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 }
 
 def pause() {
@@ -205,6 +217,7 @@ def pause() {
 	}
 
 	def shadeState = device.currentState("windowShade")?.value
+   	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
 	if ((shadeState.equalsIgnoreCase("unknown")) && !deviceEvent) {
 		if (deviceDebug) {
@@ -214,12 +227,20 @@ def pause() {
 	}
 
 	unschedule()
-    if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
-    	attenuate("sp")
-		sendEvent(name: "windowShade", value: "unknown", isStateChange: true)
-	} else {
+    if (!shadeState.equalsIgnoreCase("opening") && !shadeState.equalsIgnoreCase("closing")) {
     	sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
-    }
+        return
+  	}
+
+	attenuate("sp")
+    def shadeNewLevel = (shadeLevel + positionFromTime()).toFloat().round(2)
+
+	if (deviceDebug) {
+		writeLog("position: ${shadeNewLevel}%", "INFO")
+	}
+
+	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
+	sendEvent(name: "shadeLevel", value: shadeNewLevel, unit: "%", isStateChange: false)
 }
 
 def updateState(data) {
@@ -229,7 +250,7 @@ def updateState(data) {
 	}
 
 	sendEvent(name: "windowShade", value: data.state, isStateChange: true)
-	sendEvent(name: "shadeLevel", value: data.level, unit: "%", isStateChange: false, displayed: false)
+	sendEvent(name: "shadeLevel", value: data.level, unit: "%", isStateChange: false)
 }
 
 private attenuate(action) {
@@ -311,7 +332,30 @@ private timeToLevel(targetLevel) {
 	if (deviceDebug) {
 		writeLog("runtime: ${runTime.round(2)}s" , "INFO")
 	}
+
 	return runTime.round(2)
+}
+
+private positionFromTime() {
+	if (deviceDebug) {
+		writeLog("positionFromTime(${moveTime})")
+	}
+
+	def currentLevel = device.currentState("shadeLevel")?.value.toFloat()
+    def currentDirection = state.direction.toInteger()
+    def timeDelay = blindDelay.toInteger()
+	def runTime = ((now().toLong() - state.started.toLong()) / 1000).toFloat()
+
+	def percentTime = 100 / timeDelay
+    
+    def newPosition = currentDirection > 0 ? (runTime * percentTime) : (runTime * -percentTime)
+
+	if (deviceDebug) {
+    	writeLog("runtime: ${runTime.round(2)}s" , "INFO")
+		writeLog("moved: ${newPos.round(2)}%" , "INFO")
+	}
+
+	return newPosition.round(2)
 }
 
 private writeLog(message, type = "DEBUG") {
@@ -360,6 +404,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.3"
+	return "1.6.7"
 }
 
