@@ -11,8 +11,6 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  **/
-import groovy.json.JsonOutput
-
 metadata {
 
 	definition ( name: "Neo Smart Blind", namespace: "vinnyw", author: "vinnyw", 
@@ -96,7 +94,7 @@ private initialize() {
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 
-	sendEvent(name: "supportedWindowShadeCommands", value: JsonOutput.toJson(["open", "close", "pause"]), displayed: false)
+	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"], displayed: false)
 }
 
 def updated() {
