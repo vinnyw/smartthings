@@ -393,6 +393,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.13"
+	return "1.6.14"
 }
 
