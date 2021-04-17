@@ -83,7 +83,7 @@ def installed() {
 
 	initialize()
 	updated()
-	updateState([state: "open", level: 0])
+	updateState([state: "unknown", level: 0])
 }
 
 private initialize() {
@@ -231,8 +231,7 @@ def pause() {
 		writeLog("position: ${shadeNewLevel}%", "INFO")
 	}
 
-	sendEvent(name: "windowShade", value: "partially open", isStateChange: true)
-	sendEvent(name: "shadeLevel", value: shadeNewLevel, unit: "%", isStateChange: false)
+	updateState([state: "oppartially openen", level: shadeNewLevel])
 }
 
 def updateState(data) {
