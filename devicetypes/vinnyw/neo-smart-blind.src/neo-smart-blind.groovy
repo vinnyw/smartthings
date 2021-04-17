@@ -231,7 +231,7 @@ def pause() {
 		writeLog("position: ${shadeNewLevel}%", "INFO")
 	}
 
-	updateState([state: "oppartially openen", level: shadeNewLevel])
+	updateState([state: "partially open", level: shadeNewLevel])
 }
 
 def updateState(data) {
@@ -395,6 +395,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.10"
+	return "1.6.11"
 }
 
