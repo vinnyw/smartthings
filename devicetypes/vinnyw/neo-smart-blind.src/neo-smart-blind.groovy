@@ -19,6 +19,7 @@ metadata {
 		mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
 
 		capability "Window Shade"
+		capability "Window Shade"
 		capability "Window Shade Level"
 		capability "Window Shade Preset"
 		capability "Health Check"
@@ -242,22 +243,6 @@ def updateState(data) {
 
 	sendEvent(name: "windowShade", value: data.state, isStateChange: true)
 	sendEvent(name: "shadeLevel", value: data.level, unit: "%", isStateChange: false)
-}
-
-def on() {
-	if (deviceDebug) {
-		writeLog("on()")
-	}
-
-	close()
-}
-
-def off() {
-	if (deviceDebug) {
-		writeLog("off()")
-	}
-
-	open()
 }
 
 private attenuate(action) {
