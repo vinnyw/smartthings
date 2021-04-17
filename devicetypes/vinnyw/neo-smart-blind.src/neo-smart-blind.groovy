@@ -27,7 +27,6 @@ metadata {
 		command "close"
 		command "pause"
 		command "presetPosition"
-
 	}
 
 	simulator {
@@ -54,16 +53,16 @@ metadata {
 		}
 
 		main(["windowShade"])
-        details(["windowShade", "presetPosition"])
+		details(["windowShade", "presetPosition"])
 	}
 
 	preferences {
 		input name: "controllerID", type: "text", title: "Controller ID", description: "\u2630 > Smart Controllers > Controller > ID", required: true
 		input name: "controllerIP", type: "text", title: "Controller IP (Local)", description: "\u2630 > Smart Controllers > Controller > IP", required: true
 		input name: "blindID", type: "text", title: "Blind code", description: "\u2630 > Your Rooms > Room > Blind > Blind Code", required: true
-        input name: "blindDelay", type: "number", title: "Blind timing", description: "Time in seconds (Default: 15)", range: "1..120", displayDuringSetup: false
-        input name: "blindPreset", type: "number", title: "Preset position ", description: "Approximate percentage (Default: 50)", range: "1..99", displayDuringSetup: false
-        input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
+		input name: "blindDelay", type: "number", title: "Blind timing", description: "Time in seconds (Default: 15)", range: "1..120", displayDuringSetup: false
+		input name: "blindPreset", type: "number", title: "Preset position ", description: "Approximate percentage (Default: 50)", range: "1..99", displayDuringSetup: false
+		input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
@@ -128,13 +127,13 @@ def open() {
 	}
 
 	unschedule()
-    if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
+	if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
 		pause()
 		return
 	}
 
-    state.started = now().toLong()
-  	state.direction = 0
+	state.started = now().toLong()
+	state.direction = 0
 
 	sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	attenuate("up")
@@ -156,13 +155,13 @@ def close() {
 	}
 
 	unschedule()
-    if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
+	if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
 		pause()
 		return
 	}
 
 	state.started = now().toLong()
-   	state.direction = 1
+	state.direction = 1
 
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	attenuate("dn")
@@ -174,7 +173,7 @@ def presetPosition() {
 		writeLog("presetPosition()")
 	}
 
-    def shadeState = device.currentState("windowShade")?.value
+	def shadeState = device.currentState("windowShade")?.value
 	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
 	if ((shadeLevel == blindPreset) && !deviceEvent) {
@@ -185,24 +184,24 @@ def presetPosition() {
 	}
 
 	unschedule()
-    if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
+	if (shadeState.equalsIgnoreCase("opening") || shadeState.equalsIgnoreCase("closing")) {
 		pause()
 		return
 	}
 
-    state.started = now().toLong()
+	state.started = now().toLong()
 
 	if (shadeLevel <= 0) {
-        state.direction = 1
+		state.direction = 1
 		sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	} else if (shadeLevel >= 100) {
-        state.direction = 0
+		state.direction = 0
 		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	} else if (shadeLevel <= blindPreset) {
-        state.direction = 1
+		state.direction = 1
 		sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	} else if (shadeLevel > blindPreset) {
-        state.direction = 0
+		state.direction = 0
 		sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	}
 
@@ -216,16 +215,16 @@ def pause() {
 	}
 
 	def shadeState = device.currentState("windowShade")?.value
-   	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
+	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
 	unschedule()
-    if (!shadeState.equalsIgnoreCase("opening") && !shadeState.equalsIgnoreCase("closing")) {
-    	sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
-        return
-  	}
+	if (!shadeState.equalsIgnoreCase("opening") && !shadeState.equalsIgnoreCase("closing")) {
+		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
+		return
+	}
 
 	attenuate("sp")
-    def shadeNewLevel = (shadeLevel + positionFromTime()).toFloat().round(2)
+	def shadeNewLevel = (shadeLevel + positionFromTime()).toFloat().round(2)
 
 	if (deviceDebug) {
 		writeLog("position: ${shadeNewLevel}%", "INFO")
@@ -262,7 +261,7 @@ private attenuate(action) {
 	)
 
 	try {
-    	delayBetween([sendHubCommand(result)], 750)
+		delayBetween([sendHubCommand(result)], 750)
 	} catch (e) {
 		writeLog("$e", "ERROR")
 	}
@@ -313,12 +312,12 @@ private timeToLevel(targetLevel) {
 		writeLog("timeToLevel(${targetLevel})")
 	}
 
-    def currentLevel = device.currentState("shadeLevel")?.value.toFloat()
-    def timeDelay = blindDelay.toInteger()
+	def currentLevel = device.currentState("shadeLevel")?.value.toFloat()
+	def timeDelay = blindDelay.toInteger()
 
 	def percentTime = timeDelay / 100
-    def levelDiff = currentLevel - targetLevel
-    def runTime = levelDiff > 0 ? (percentTime * levelDiff) : (percentTime * -levelDiff)
+	def levelDiff = currentLevel - targetLevel
+	def runTime = levelDiff > 0 ? (percentTime * levelDiff) : (percentTime * -levelDiff)
 
 	if (deviceDebug) {
 		writeLog("runtime: ${runTime.round(2)}s" , "INFO")
@@ -333,16 +332,16 @@ private positionFromTime() {
 	}
 
 	def currentLevel = device.currentState("shadeLevel")?.value.toFloat()
-    def currentDirection = state.direction.toInteger()
-    def timeDelay = blindDelay.toInteger()
+	def currentDirection = state.direction.toInteger()
+	def timeDelay = blindDelay.toInteger()
 	def runTime = ((now().toLong() - state.started.toLong()) / 1000).toFloat()
 
 	def percentTime = 100 / timeDelay
     
-    def newPosition = currentDirection > 0 ? (runTime * percentTime) : (runTime * -percentTime)
+	def newPosition = currentDirection > 0 ? (runTime * percentTime) : (runTime * -percentTime)
 
 	if (deviceDebug) {
-    	writeLog("runtime: ${runTime.round(2)}s" , "INFO")
+		writeLog("runtime: ${runTime.round(2)}s" , "INFO")
 		writeLog("moved: ${newPosition.round(2)}%" , "INFO")
 	}
 
@@ -395,6 +394,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.12"
+	return "1.6.13"
 }
 
