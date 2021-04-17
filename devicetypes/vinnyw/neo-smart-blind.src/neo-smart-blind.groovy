@@ -96,8 +96,9 @@ private initialize() {
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 
-	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"], displayed: false)
+	sendEvent(name: "supportedWindowShadeCommands", value: JsonOutput.toJson(["open", "close", "pause"]), displayed: false)
 }
+
 
 def updated() {
 	if (deviceDebug) {
