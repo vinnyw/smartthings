@@ -61,9 +61,9 @@ metadata {
 		input name: "controllerIP", type: "text", title: "Controller IP (Local)", description: "\u2630 > Smart Controllers > Controller > IP", required: true
 		input name: "blindID", type: "text", title: "Blind code", description: "\u2630 > Your Rooms > Room > Blind > Blind Code", required: true
 		input name: "blindDelay", type: "number", title: "Blind timing", description: "Time in seconds (Default: 15)", range: "1..120", displayDuringSetup: false
-		input name: "blindPreset", type: "number", title: "Preset position ", description: "Approximate percentage (Default: 50)", range: "1..99", displayDuringSetup: false
-		input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
-		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
+		input name: "blindPreset", type: "number", title: "Preset position", description: "Approximate percentage (Default: 50)", range: "1..99", displayDuringSetup: false
+		input name: "deviceEvent", type: "boolean", title: "Ignore state?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
 }

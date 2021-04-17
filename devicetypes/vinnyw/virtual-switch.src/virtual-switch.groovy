@@ -18,7 +18,7 @@ metadata {
 
 		capability "Actuator"
 		capability "Switch"
-        capability "Health Check"
+		capability "Health Check"
 
 		command "on"
 		command "off"
@@ -35,24 +35,17 @@ metadata {
 			state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC", nextState:"off"
 		}
 
-		main "switch"
+		main(["switch"])
 		details(["switch"])
 	}
 
 	preferences {
-		input name: "deviceReset", type: "boolean", title: "Auto reset device?", defaultValue: false, required: true
-		input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
-		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
+		input name: "deviceReset", type: "boolean", title: "Auto reset?", defaultValue: false, required: true
+		input name: "deviceEvent", type: "boolean", title: "Ignore state?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Switch", description: "${version}", displayDuringSetup: false
 	}
 
-}
-
-def parse(description) {
-	if (deviceDebug) {
-		writeLog("Parsing '${description}'")
-	}
-	// TODO
 }
 
 def installed() {
@@ -62,18 +55,9 @@ def installed() {
 		writeLog("state: $state", "INFO")
 	}
 
+	initialize()
+	updated()
 	off()
-	initialize()
-}
-
-def updated() {
-	if (deviceDebug) {
-		writeLog("updated()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
-	}
-
-	initialize()
 }
 
 private initialize() {
@@ -88,16 +72,23 @@ private initialize() {
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 }
 
-def on() {
+def updated() {
 	if (deviceDebug) {
-		writeLog("on()")
+		writeLog("updated()")
 		writeLog("settings: $settings", "INFO")
 		writeLog("state: $state", "INFO")
 	}
 
+}
+
+def on() {
+	if (deviceDebug) {
+		writeLog("on()")
+	}
+
 	if ((device.currentValue("switch") == "on") && !deviceEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("switch"))
+			writeLog("no action required.")
 		}
 		return
 	}
@@ -112,13 +103,11 @@ def on() {
 def off() {
 	if (deviceDebug) {
 		writeLog("off()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("switch") == "off") && !deviceEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("switch"))
+			writeLog("no action required.")
 		}
 		return
 	}
@@ -163,6 +152,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.48"
+	return "1.1.49"
 }
 

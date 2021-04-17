@@ -36,24 +36,17 @@ metadata {
 			state "on", label: '${currentValue}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC", nextState:"off"
 		}
 
-		main "switch"
+		main(["switch"])
 		details(["switch"])
 	}
 
 	preferences {
-		input name: "deviceReset", type: "boolean", title: "Auto reset device?", defaultValue: false, required: true
-		input name: "deviceEvent", type: "boolean", title: "Ignore device state?", defaultValue: false, required: true
-		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
+		input name: "deviceReset", type: "boolean", title: "Auto reset?", defaultValue: false, required: true
+		input name: "deviceEvent", type: "boolean", title: "Ignore state?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Switch (Alexa)", description: "${version}", displayDuringSetup: false
 	}
 
-}
-
-def parse(description) {
-	if (deviceDebug) {
-		writeLog("Parsing '${description}'")
-	}
-	// TODO
 }
 
 def installed() {
@@ -63,8 +56,21 @@ def installed() {
 		writeLog("state: $state", "INFO")
 	}
 
-	off()
 	initialize()
+	updated()
+	off()
+}
+
+private initialize() {
+	if (deviceDebug) {
+		writeLog("initialize()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
+	}
+
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
+	sendEvent(name: "healthStatus", value: "online", displayed: false)
 }
 
 def updated() {
@@ -74,29 +80,16 @@ def updated() {
 		writeLog("state: $state", "INFO")
 	}
 
-	initialize()
-}
-
-private initialize() {
-	if (deviceDebug) {
-		writeLog("initialize()")
-	}
-
-	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
-	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
-	sendEvent(name: "healthStatus", value: "online", displayed: false)
 }
 
 def on() {
 	if (deviceDebug) {
 		writeLog("on()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("switch") == "on") && !deviceEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("switch"))
+			writeLog("no action required.")
 		}
 		return
 	}
@@ -112,13 +105,11 @@ def on() {
 def off() {
 	if (deviceDebug) {
 		writeLog("off()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("switch") == "off") && !deviceEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("switch"))
+			writeLog("no action required.")
 		}
 		return
 	}
@@ -169,6 +160,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.1.48"
+	return "1.1.49"
 }
 

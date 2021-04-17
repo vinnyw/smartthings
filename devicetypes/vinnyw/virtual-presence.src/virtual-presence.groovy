@@ -40,26 +40,17 @@ metadata {
 			state("on", action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#FFFFFF")
 		}
 
- 		main "switch"
+ 		main(["switch"])
 		details(["presense","switch"])
- 
-    }
+	}
 
 	preferences {
-		input name: "deviceReset", type: "boolean", title: "Auto reset device?", defaultValue: false, required: true
-		input name: "deviceEvent", type: "boolean", title: "Always raise event?", defaultValue: false, required: true
-		input name: "deviceDebug", type: "boolean", title: "Show debug log?", defaultValue: false, required: true
+		input name: "deviceReset", type: "boolean", title: "Auto reset?", defaultValue: false, required: true
+		input name: "deviceEvent", type: "boolean", title: "Ignore state?", defaultValue: false, required: true
+		input name: "deviceDebug", type: "boolean", title: "Debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Virtual Presense", description: "${version}", displayDuringSetup: false
 	}
 
-}
-
-
-def parse(description) {
-	if (deviceDebug) {
-		writeLog("Parsing '${description}'")
-	}
-	// TODO
 }
 
 def installed() {
@@ -69,18 +60,9 @@ def installed() {
 		writeLog("state: $state", "INFO")
 	}
 
+	initialize()
+	updated()
 	off()
-	initialize()
-}
-
-def updated() {
-	if (deviceDebug) {
-		writeLog("updated()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
-	}
-
-	initialize()
 }
 
 private initialize() {
@@ -95,37 +77,28 @@ private initialize() {
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 }
 
-def arrived() {
+def updated() {
 	if (deviceDebug) {
-		writeLog("arrived()")
+		writeLog("updated()")
+		writeLog("settings: $settings", "INFO")
+		writeLog("state: $state", "INFO")
 	}
 
-    on()
-}
-
-def departed() {
-	if (deviceDebug) {
-		writeLog("Executing 'departed()'")
-	}
-
-    off()
 }
 
 def on() {
 	if (deviceDebug) {
 		writeLog("on()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("switch") == "on") && !deviceEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("switch"))
+			writeLog("no action required.")
 		}
 		return
 	}
 
-    sendEvent(name: "presence", value: "present", isStateChange: true)
+	sendEvent(name: "presence", value: "present", isStateChange: true)
 	sendEvent(name: "switch", value: "on", isStateChange: true, displayed: false)
 
 	if (deviceReset) {
@@ -136,20 +109,34 @@ def on() {
 def off() {
 	if (deviceDebug) {
 		writeLog("off()")
-		writeLog("settings: $settings", "INFO")
-		writeLog("state: $state", "INFO")
 	}
 
 	if ((device.currentValue("switch") == "off") && !deviceEvent) {
 		if (deviceDebug) {
-			writeLog("no action required.  state is already " + device.currentValue("switch"))
+			writeLog("no action required.")
 		}
 		return
 	}
 
 	unschedule()
-    sendEvent(name: "presence", value: "not present", isStateChange: true)
+	sendEvent(name: "presence", value: "not present", isStateChange: true)
 	sendEvent(name: "switch", value: "off", isStateChange: true, displayed: false)
+}
+
+def arrived() {
+	if (deviceDebug) {
+		writeLog("arrived()")
+	}
+
+	on()
+}
+
+def departed() {
+	if (deviceDebug) {
+		writeLog("Executing 'departed()'")
+	}
+
+	off()
 }
 
 private writeLog(message, type = "DEBUG") {
@@ -188,6 +175,6 @@ private getDeviceDebug() {
 }
 
 private getVersion() {
-	return "1.0.2"
+	return "1.0.3"
 }
 
