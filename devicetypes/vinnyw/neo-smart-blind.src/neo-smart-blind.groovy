@@ -244,6 +244,22 @@ def updateState(data) {
 	sendEvent(name: "shadeLevel", value: data.level, unit: "%", isStateChange: false)
 }
 
+def on() {
+	if (deviceDebug) {
+		writeLog("on()")
+	}
+
+	close()
+}
+
+def off() {
+	if (deviceDebug) {
+		writeLog("off()")
+	}
+
+	open()
+}
+
 private attenuate(action) {
 	if (deviceDebug) {
 		writeLog("attenuate($action)")
