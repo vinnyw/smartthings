@@ -19,7 +19,6 @@ metadata {
 		mnmn: "SmartThings", vid: "generic-shade", ocfDeviceType: "oic.d.blind") {
 
 		capability "Window Shade"
-		capability "Window Shade"
 		capability "Window Shade Level"
 		capability "Window Shade Preset"
 		capability "Health Check"
