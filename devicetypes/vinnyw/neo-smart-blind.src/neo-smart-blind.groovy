@@ -218,13 +218,6 @@ def pause() {
 	def shadeState = device.currentState("windowShade")?.value
    	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
-	if ((shadeState.equalsIgnoreCase("unknown")) && !deviceEvent) {
-		if (deviceDebug) {
-			writeLog("no action required.")
-		}
-		return
-	}
-
 	unschedule()
     if (!shadeState.equalsIgnoreCase("opening") && !shadeState.equalsIgnoreCase("closing")) {
     	sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
@@ -403,6 +396,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.8"
+	return "1.6.9"
 }
 
