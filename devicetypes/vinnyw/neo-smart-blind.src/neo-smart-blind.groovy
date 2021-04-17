@@ -210,6 +210,17 @@ def presetPosition() {
 	runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
 }
 
+def setLevel(level) {
+	if (deviceDebug) {
+		writeLog("setLevel(${level})")
+	}
+
+	def shadeState = device.currentState("windowShade")?.value
+	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
+
+	updateState([state: shadeState, level: shadeLevel])
+}
+
 def pause() {
 	if (deviceDebug) {
 		writeLog("pause()")
