@@ -11,6 +11,8 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  **/
+import groovy.json.JsonOutput
+
 metadata {
 
 	definition ( name: "Neo Smart Blind", namespace: "vinnyw", author: "vinnyw", 
