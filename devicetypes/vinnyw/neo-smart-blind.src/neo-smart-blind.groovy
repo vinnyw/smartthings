@@ -68,12 +68,16 @@ metadata {
 
 def parse(description) {
 	if (deviceDebug) {
-		writeLog("Parsing '${description}'")
+		writeLog("parse('${description}')")
 	}
 	// TODO
 }
 
-def ping() { 
+def ping() {
+	if (deviceDebug) {
+		writeLog("ping()")
+	}
+
 	return true
 }
 
