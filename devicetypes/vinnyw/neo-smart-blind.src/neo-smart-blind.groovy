@@ -66,6 +66,13 @@ metadata {
 	}
 }
 
+def parse(description) {
+	if (deviceDebug) {
+		writeLog("Parsing '${description}'")
+	}
+	// TODO
+}
+
 def installed() {
 	if (deviceDebug) {
 		writeLog("installed()")
@@ -109,6 +116,7 @@ def updated() {
 	//	writeLog("Setup not fully completed - Missing required fields.", "ERROR")
 	//	return
 	//}
+	
 }
 
 def open() {
