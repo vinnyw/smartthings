@@ -251,7 +251,7 @@ def updateState(data) {
 	}
 
 	sendEvent(name: "windowShade", value: data.position, isStateChange: true)
-	sendEvent(name: "shadeLevel", value: data.level.toFloat.Round(2), unit: "%", isStateChange: false)
+	sendEvent(name: "shadeLevel", value: data.level.toFloat.Round(2), unit: "%", isStateChange: false, displayed: false)
 }
 
 private attenuate(action) {
