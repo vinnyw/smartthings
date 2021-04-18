@@ -116,7 +116,7 @@ def updated() {
 	//	writeLog("Setup not fully completed - Missing required fields.", "ERROR")
 	//	return
 	//}
-	
+
 }
 
 def open() {
