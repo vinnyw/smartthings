@@ -78,9 +78,9 @@ def installed() {
 	//	return
 	//}
 
-	initialize()
-	updated()
-	updateState([state: "unknown", level: 0])
+	state.clear()
+    initialize()
+    updateState([position: "unknown", level: 0])
 }
 
 private initialize() {
@@ -136,7 +136,7 @@ def open() {
 
 	sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	attenuate("up")
-	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [state: "open", level: 0]])
+	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [position: "open", level: 0]])
 }
 
 def close() {
@@ -164,7 +164,7 @@ def close() {
 
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	attenuate("dn")
-	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [state: "closed", level: 100]])
+	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [position: "closed", level: 100]])
 }
 
 def presetPosition() {
@@ -205,7 +205,7 @@ def presetPosition() {
 	}
 
 	attenuate("gp")
-	runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [state: "partially open", level: blindPreset]])
+	runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [position: "partially open", level: blindPreset]])
 }
 
 def pause() {
@@ -229,7 +229,7 @@ def pause() {
 		writeLog("position: ${shadeNewLevel}%", "INFO")
 	}
 
-	updateState([state: "partially open", level: shadeNewLevel])
+	updateState([position: "partially open", level: shadeNewLevel])
 }
 
 def updateState(data) {
@@ -238,7 +238,7 @@ def updateState(data) {
 		writeLog("data: $data", "INFO")
 	}
 
-	sendEvent(name: "windowShade", value: data.state, isStateChange: true)
+	sendEvent(name: "windowShade", value: data.position, isStateChange: true)
 	sendEvent(name: "shadeLevel", value: data.level, unit: "%", isStateChange: false)
 }
 
