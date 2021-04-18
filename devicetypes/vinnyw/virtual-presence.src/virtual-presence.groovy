@@ -60,8 +60,8 @@ def installed() {
 		writeLog("state: $state", "INFO")
 	}
 
+	state.clear()
 	initialize()
-	updated()
 	off()
 }
 

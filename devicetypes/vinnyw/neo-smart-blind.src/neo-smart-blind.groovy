@@ -66,13 +66,6 @@ metadata {
 	}
 }
 
-def parse(description) {
-	if (deviceDebug) {
-		writeLog("Parsing '${description}'")
-	}
-	// TODO
-}
-
 def installed() {
 	if (deviceDebug) {
 		writeLog("installed()")
@@ -86,8 +79,8 @@ def installed() {
 	//}
 
 	state.clear()
-    initialize()
-    updateState([position: "unknown", level: 0])
+	initialize()
+	updateState([position: "unknown", level: 0])
 }
 
 private initialize() {
