@@ -66,6 +66,17 @@ metadata {
 	}
 }
 
+def parse(description) {
+	if (deviceDebug) {
+		writeLog("Parsing '${description}'")
+	}
+	// TODO
+}
+
+def ping() { 
+	return true
+}
+
 def installed() {
 	if (deviceDebug) {
 		writeLog("installed()")
@@ -240,7 +251,7 @@ def updateState(data) {
 	}
 
 	sendEvent(name: "windowShade", value: data.position, isStateChange: true)
-	sendEvent(name: "shadeLevel", value: data.level, unit: "%", isStateChange: false)
+	sendEvent(name: "shadeLevel", value: data.level.toFloat.Round(2), unit: "%", isStateChange: false)
 }
 
 private attenuate(action) {
