@@ -9,7 +9,7 @@ When this setting is enabled the device will revert back to an off state after 1
 In this mode the device can be used as a poor man’s momentary press button by always returning to the default sate.
 
 
-### Ignore State
+### Ignore State?
 When this setting is enabled the device will always raise an event, even if the device is already at that state.
 
 The default behaviour (when off) is to only raise an event when the status of the device actually changes value.  
