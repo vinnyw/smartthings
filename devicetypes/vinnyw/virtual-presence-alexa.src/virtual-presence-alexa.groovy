@@ -73,7 +73,7 @@ private initialize() {
 		writeLog("state: $state", "INFO")
 	}
 
-	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme: "untracked"].encodeAsJson(), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
 }
