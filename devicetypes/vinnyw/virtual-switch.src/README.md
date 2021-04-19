@@ -10,11 +10,11 @@ In this mode the device can be used as a poor man’s momentary press button by 
 
 
 ### Ignore State?
-When this setting is enabled the device will always raise an event, even if the device is already at that state.
+When this setting is enabled the device will always raise an event, even if the device is already in the requested state.
 
 The default behaviour (when off) is to only raise an event when the status of the device actually changes value.  
 
-Scenes and Automations to not check the status of a device before sending a status command.  This can lead to duplicate events or automations being triggered.
+Scenes and Automations to not check the status of a device before sending a status command.  This can lead to automations being triggered multiple times, which may ore may not be the desired behaviour. 
 
 
 ### Debug Log?
