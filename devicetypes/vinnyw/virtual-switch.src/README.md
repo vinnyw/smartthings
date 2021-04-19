@@ -6,7 +6,7 @@
 ### Auto Reset?
 When this setting is enabled the device will revert back to an off state after 1 second. 
 
-In this mode the device can be used as a poor man’s momentary press button by always returning to the default sate.
+In this mode the device can be used as a poor man’s momentary press button by always returning to the default Off state.
 
 
 ### Ignore State?
