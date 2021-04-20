@@ -20,5 +20,5 @@ Scenes and Automations to not check the status of a device before sending a stat
 ### Debug Log?
 When this setting is enabled the device will write running information, debug messages and errors to the Live Logging console available via the SmartThings Web IDE.
 
-The default behaviour (when off) is to only log critical errors to the Live Logging console.  
+The default behaviour (when Off) is to only log critical errors to the Live Logging console.  
 
