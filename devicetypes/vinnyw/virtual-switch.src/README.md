@@ -4,7 +4,7 @@
 ## Parameters
 
 ### Auto Reset?
-When this setting is enabled the device will revert back to an off state after 1 second (approximate) . 
+When this setting is enabled the device will revert back to an Off state after 1 second (approximate) . 
 
 In this mode the device can be used as a poor man’s momentary press button by always returning to the default Off state.
 
@@ -14,7 +14,7 @@ When this setting is enabled the device will always raise an event, even if the 
 
 The default behaviour (when off) is to only raise an event when the status of the device actually changes value.  
 
-Scenes and Automations to not check the status of a device before sending a status command.  This will allow automations being triggered multiple times by the same device state.
+Scenes and Automations to not check the status of a device before sending a status command.  This will allow automations to be triggered multiple times by the same device state.
 
 
 ### Debug Log?
