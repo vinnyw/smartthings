@@ -12,7 +12,7 @@ The device will raise the following events for each state:
 | On           | On           | Closed       |
 
 
-> The Amazon Echo platform does not recognise events raised by a switch. This means that switches cannot be used to trigger routines.  Currently only Motion Sensors and Contact Sensors are recognised as triggers.
+> The Amazon Echo platform does not recognise events raised by a switch. This means that switches cannot be used to trigger routines.  Currently only Motion Sensors and Contact Sensors are recognised as Smart Home triggers.
 
 \* only if auto reset is disabled 
 
