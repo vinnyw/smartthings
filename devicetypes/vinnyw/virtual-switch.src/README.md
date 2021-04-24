@@ -4,7 +4,7 @@ This is Device Handler for a virtual switch.  The switch will behave and act lik
 The device will raise the following events for each state.
 
 
-| UI           |  Switch      |
+| Device UI    |  Switch      |
 | ------------ | ------------ |
 | On           | On           |
 | Off          | Off          |
