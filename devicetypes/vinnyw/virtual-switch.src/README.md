@@ -1,8 +1,11 @@
 # Virtual Switch
+This is Device Handler for a virtual switch.  The switch will behave and act like a normal switch, however is not attached to a physical device.   
+
+The device will raise the following events for each state.
 
 
-| Device UI  | Switch     |
-|------------|-----------:|
+| UI         | Switch     |
+|------------|------------|
 | On         | On         |
 | Off        | Off        |
 
