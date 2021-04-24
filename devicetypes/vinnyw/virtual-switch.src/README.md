@@ -1,10 +1,10 @@
 # Virtual Switch
 This is Device Handler for a virtual switch.  The switch will behave and act like a normal switch, however is not attached to a physical device.   
 
-The device will raise the following events for each state.
+The device will raise the following events for each state:
 
 
-| Device UI    |  Switch      |
+| Device UI    | Switch       |
 | ------------ | ------------ |
 | On           | On           |
 | Off          | Off          |
@@ -12,9 +12,10 @@ The device will raise the following events for each state.
 
 
 ## Installation 
+Install and publish the Device Handler in the usual way via the SmartThings IDE.   
+Create a new device in the SmartThings IDE and assign the Device Handler to it. 
 
-
-
+> When the device is installed or updated it will set its state to the *Off* position
 
 
 ## Parameters
