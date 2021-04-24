@@ -1,13 +1,19 @@
-# Virtual Switch
-This is Device Handler for a simple Virtual Switch.  The device will behave and act like a switch, however is not attached to a physical device.  It can be controlled, like any other device, via the SmartThings mobile App or Automations.
+# Virtual Switch (Alexa)
+This is Device Handler for a composite Virtual Switch.  This device operates like a Switch but also has the characteristics of a Contact Sensor (Open/Close).  The switch will behave and act like a normal switch, however is not attached to a physical device.  It can be controlled, like any other device, via the SmartThings mobile app or Automations.  
+
+The Contact Sensor can be used by other systems that do not directly support Switch events.  
 
 The device will raise the following events for each state:
 
 
-| State        | Switch       |
-| ------------ | ------------ |
-| Off          | Off          |
-| On           | On           |
+| State        | Switch       | Contact      |
+| ------------ | ------------ | ------------ |
+| Off          | Off          | Open *       |
+| On           | On           | Closed       |
+
+\* only if auto reset is disabled 
+
+> The Amazon Echo platform does not recognise events raised by a switch. This means that switches cannot be used to trigger routines.  Currently only Motion Sensors and Contact Sensors are recognised as triggers.
 
 
 ## Installation 
