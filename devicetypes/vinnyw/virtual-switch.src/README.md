@@ -1,6 +1,19 @@
 # Virtual Switch
 
 
+| Device UI  | Switch     |
+|------------|-----------:|
+| On         | On         |
+| Off        | Off        |
+
+
+
+## Installation 
+
+
+
+
+
 ## Parameters
 
 ### Auto Reset?
