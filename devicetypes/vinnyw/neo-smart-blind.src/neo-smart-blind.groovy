@@ -88,11 +88,6 @@ def installed() {
 		writeLog("state: $state", "INFO")
 	}
 
-	//if (!controllerID || !controllerIP || !blindCode) {
-	//	writeLog("Setup not fully completed.  Missing required fields.", "ERROR")
-	//	return
-	//}
-
 	state.clear()
 	initialize()
 	updateState([position: "unknown", level: 0])
@@ -112,7 +107,6 @@ private initialize() {
 	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"], displayed: false)
 }
 
-
 def updated() {
 	if (deviceDebug) {
 		writeLog("updated()")
@@ -120,16 +114,21 @@ def updated() {
 		writeLog("state: $state", "INFO")
 	}
 
-	//if (!controllerID || !controllerIP || !blindCode) {
-	//	writeLog("Setup not fully completed - Missing required fields.", "ERROR")
-	//	return
-	//}
+	if (!setupComplete) {
+		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		return
+	}
 
 }
 
 def open() {
 	if (deviceDebug) {
 		writeLog("open()")
+	}
+
+	if (!setupComplete) {
+		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		return
 	}
 
 	def shadeState = device.currentState("windowShade")?.value
@@ -160,6 +159,11 @@ def close() {
 		writeLog("close()")
 	}
 
+	if (!setupComplete) {
+		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		return
+	}
+
 	def shadeState = device.currentState("windowShade")?.value
 
 	if ((shadeState.equalsIgnoreCase("closed")) && !deviceEvent) {
@@ -186,6 +190,11 @@ def close() {
 def presetPosition() {
 	if (deviceDebug) {
 		writeLog("presetPosition()")
+	}
+
+	if (!setupComplete) {
+		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		return
 	}
 
 	def shadeState = device.currentState("windowShade")?.value
@@ -402,6 +411,15 @@ private getDeviceDebug() {
 	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
 }
 
+private getSetupComplete() {
+
+	if (!settings.controllerID || !settings.controllerIP || !settings.blindID) {
+  		return false
+    }
+
+	return true
+}
+
 private getHash() {
 	def currontRandom = new Random().nextInt(9) + 1			// 0-9
 	def currentTime = new Date().getTime().toString() 		// ms
@@ -409,6 +427,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.14"
+	return "1.6.15"
 }
 
