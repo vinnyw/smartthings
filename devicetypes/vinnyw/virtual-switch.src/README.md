@@ -29,7 +29,7 @@ In this mode the device can be used as a poor man’s momentary press button by 
 ### Ignore State?
 When this setting is enabled the device will always raise an event, even if the device is already in the requested state.
 
-The default behaviour (when Off) is to only raise an event when the status of the device actually changes value.  
+The default behaviour (when disabled) is to only raise an event when the status of the device actually changes value.  
 
 Scenes and Automations to not check the status of a device before sending a status command.  This will allow automations to be triggered multiple times by the same device state.
 
@@ -37,5 +37,5 @@ Scenes and Automations to not check the status of a device before sending a stat
 ### Debug Log?
 When this setting is enabled the device will write running information, debug messages and errors to the Live Logging console available via the SmartThings Web IDE.
 
-The default behaviour (when Off) is to only log critical errors to the Live Logging console.  
+The default behaviour (when disabled) is to only log critical errors to the Live Logging console.  
 
