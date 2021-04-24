@@ -5,7 +5,7 @@ This is my connection of Device Handlers, SmartApps and other Components created
 ## Device Handlers 
 
 
-[Neo Smart Blinds](https://github.com/vinnyw/smartthings/tree/master/devicetypes/vinnyw/neo-smart-blind.src)
+[Neo Smart Blind](https://github.com/vinnyw/smartthings/tree/master/devicetypes/vinnyw/neo-smart-blind.src)
 
 [Virtual Presence (Alexa)](https://github.com/vinnyw/smartthings/tree/master/devicetypes/vinnyw/virtual-presence-alexa.src)
 
