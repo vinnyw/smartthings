@@ -11,9 +11,10 @@ The device will raise the following events for each state:
 | Off          | Off          | Open *       |
 | On           | On           | Closed       |
 
-\* only if auto reset is disabled 
 
 > The Amazon Echo platform does not recognise events raised by a switch. This means that switches cannot be used to trigger routines.  Currently only Motion Sensors and Contact Sensors are recognised as triggers.
+
+\* only if auto reset is disabled 
 
 
 ## Installation 
