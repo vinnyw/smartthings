@@ -1,10 +1,10 @@
 # Virtual Switch
-This is Device Handler for a virtual switch.  The switch will behave and act like a normal switch, however is not attached to a physical device.   
+This is Device Handler for a virtual switch.  The switch will behave and act like a normal switch, however is not attached to a physical device.   It can be controlled, like any other device, via the SmartThings mobile App or Automations.
 
 The device will raise the following events for each state:
 
 
-| Device UI    | Switch       |
+| Status       | Switch       |
 | ------------ | ------------ |
 | On           | On           |
 | Off          | Off          |
