@@ -126,12 +126,13 @@ def open() {
 		writeLog("open()")
 	}
 
+	def shadeState = device.currentState("windowShade")?.value
+
 	if (!setupComplete) {
+		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
-
-	def shadeState = device.currentState("windowShade")?.value
 
 	if ((shadeState.equalsIgnoreCase("open")) && !deviceEvent) {
 		if (deviceDebug) {
@@ -159,12 +160,13 @@ def close() {
 		writeLog("close()")
 	}
 
+	def shadeState = device.currentState("windowShade")?.value
+
 	if (!setupComplete) {
+		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
-
-	def shadeState = device.currentState("windowShade")?.value
 
 	if ((shadeState.equalsIgnoreCase("closed")) && !deviceEvent) {
 		if (deviceDebug) {
@@ -192,13 +194,14 @@ def presetPosition() {
 		writeLog("presetPosition()")
 	}
 
+	def shadeState = device.currentState("windowShade")?.value
+	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
+
 	if (!setupComplete) {
+		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
-
-	def shadeState = device.currentState("windowShade")?.value
-	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
 	if ((shadeLevel == blindPreset) && !deviceEvent) {
 		if (deviceDebug) {
@@ -240,6 +243,12 @@ def pause() {
 
 	def shadeState = device.currentState("windowShade")?.value
 	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
+
+	if (!setupComplete) {
+		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
+		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
+		return
+	}
 
 	unschedule()
 	if (!shadeState.equalsIgnoreCase("opening") && !shadeState.equalsIgnoreCase("closing")) {
