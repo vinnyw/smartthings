@@ -115,7 +115,7 @@ def updated() {
 	}
 
 	if (!setupComplete) {
-		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
 
@@ -127,7 +127,7 @@ def open() {
 	}
 
 	if (!setupComplete) {
-		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
 
@@ -160,7 +160,7 @@ def close() {
 	}
 
 	if (!setupComplete) {
-		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
 
@@ -193,7 +193,7 @@ def presetPosition() {
 	}
 
 	if (!setupComplete) {
-		writeLog("Setup not completed. Required fields are missing or incorrect,", "ERROR")
+		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
 
@@ -427,6 +427,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.15"
+	return "1.6.16"
 }
 
