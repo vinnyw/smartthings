@@ -129,7 +129,7 @@ def open() {
 	def shadeState = device.currentState("windowShade")?.value
 
 	if (!setupComplete) {
-		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
@@ -163,7 +163,7 @@ def close() {
 	def shadeState = device.currentState("windowShade")?.value
 
 	if (!setupComplete) {
-		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
@@ -198,7 +198,7 @@ def presetPosition() {
 	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
 	if (!setupComplete) {
-		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
@@ -245,7 +245,7 @@ def pause() {
 	def shadeLevel = device.currentState("shadeLevel")?.value.toFloat()
 
 	if (!setupComplete) {
-		sendEvent(name: "windowShade", value: "${shadeState}", isStateChange: false, displayed: false)
+		sendEvent(name: "windowShade", value: "unknown", isStateChange: false, displayed: false)
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
