@@ -421,8 +421,10 @@ private getSetupComplete() {
 }
 
 private getHash() {
+
 	def currontRandom = new Random().nextInt(9) + 1			// 0-9
 	def currentTime = new Date().getTime().toString() 		// ms
+
 	return currontRandom.toString() + currentTime.substring(currentTime.length()-6)	// rnd + last 6 char
 }
 
