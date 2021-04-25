@@ -414,8 +414,8 @@ private getDeviceDebug() {
 private getSetupComplete() {
 
 	if (!settings.controllerID || !settings.controllerIP || !settings.blindID) {
-  		return false
-    }
+		return false
+	}
 
 	return true
 }
