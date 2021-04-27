@@ -101,10 +101,12 @@ private initialize() {
 		writeLog("settings: $settings", "INFO")
 		writeLog("state: $state", "INFO")
 	}
-
-	sendEvent(name: "DeviceWatch-Enroll", value: JsonOutput.toJson([protocol: "cloud", scheme:"untracked"]), displayed: false)
+	
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
+
+	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme:"untracked"].encodeAsJson(), displayed: false)
+
 }
 
 def updated() {
