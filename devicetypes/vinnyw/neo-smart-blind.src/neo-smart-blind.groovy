@@ -11,6 +11,8 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  **/
+ import groovy.json.JsonOutput
+
 metadata {
 
 	definition ( name: "Neo Smart Blind", namespace: "vinnyw", author: "vinnyw", 
@@ -100,11 +102,9 @@ private initialize() {
 		writeLog("state: $state", "INFO")
 	}
 
-	sendEvent(name: "DeviceWatch-Enroll", value: [protocol: "cloud", scheme: "untracked"].encodeAsJson(), displayed: false)
+	sendEvent(name: "DeviceWatch-Enroll", value: JsonOutput.toJson( [protocol: "cloud", scheme:"untracked"] ), displayed: false)
 	sendEvent(name: "DeviceWatch-DeviceStatus", value: "online", displayed: false)
 	sendEvent(name: "healthStatus", value: "online", displayed: false)
-
-	sendEvent(name: "supportedWindowShadeCommands", value: ["open", "close", "pause"], displayed: false)
 }
 
 def updated() {
@@ -114,10 +114,14 @@ def updated() {
 		writeLog("state: $state", "INFO")
 	}
 
+	def commands = (settings.supportedCommands != null) ? settings.supportedCommands : "2"
+
 	if (!setupComplete) {
 		writeLog("Setup not completed. Required fields are missing or incorrect.", "ERROR")
 		return
 	}
+
+	sendEvent(name: "supportedWindowShadeCommands", value: JsonOutput.toJson(supportedCommandsMap[commands]))
 
 }
 
@@ -429,6 +433,22 @@ private getSetupComplete() {
 	return true
 }
 
+private getSupportedCommandsMap() {
+	[
+		"1": ["open", "close"],
+		"2": ["open", "close", "pause"],
+		"3": ["open"],
+		"4": ["close"],
+		"5": ["pause"],
+		"6": ["open", "pause"],
+		"7": ["close", "pause"],
+		"8": [],
+		// For testing OCF/mobile client bugs
+		"9": ["open", "closed", "pause"],
+		"10": ["open", "closed", "close", "pause"]
+	]
+}
+
 private getHash() {
 
 	def currontRandom = new Random().nextInt(9) + 1			// 0-9
@@ -438,6 +458,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.16"
+	return "1.6.17"
 }
 
