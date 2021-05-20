@@ -63,6 +63,7 @@ metadata {
 		input name: "blindDelay", type: "number", title: "Blind timing", description: "Time in seconds (Default: 15)", range: "1..120", displayDuringSetup: false
 		input name: "blindPreset", type: "number", title: "Preset position", description: "Approximate percentage (Default: 50)", range: "1..99", displayDuringSetup: false
 		input name: "deviceEvent", type: "boolean", title: "Ignore state?", defaultValue: false, required: true
+		input name: "deviceInterference", type: "boolean", title: "Interference?", defaultValue: false, required: true
 		input name: "deviceDebug", type: "boolean", title: "Debug log?", defaultValue: false, required: true
 		input type: "paragraph", element: "paragraph", title: "Neo Smart Blind", description: "${version}", displayDuringSetup: false
 	}
@@ -158,6 +159,9 @@ def open() {
 
 	sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	attenuate("up")
+	if (deviceInterference) {
+		attenuate("up")
+	}
 	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [position: "open", level: 0]])
 }
 
@@ -192,6 +196,9 @@ def close() {
 
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	attenuate("dn")
+	if (deviceInterference) {
+		attenuate("dn")
+	}
 	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [position: "closed", level: 100]])
 }
 
@@ -239,6 +246,9 @@ def presetPosition() {
 	}
 
 	attenuate("gp")
+	if (deviceInterference) {
+		attenuate("gp")
+	}
 	runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [position: "partially open", level: blindPreset]])
 }
 
@@ -263,6 +273,9 @@ def pause() {
 	}
 
 	attenuate("sp")
+	if (deviceInterference) {
+		attenuate("sp")
+	}
 	def shadeNewLevel = (shadeLevel + positionFromTime()).toFloat().round(2)
 
 	if (deviceDebug) {
@@ -422,6 +435,10 @@ private getDeviceEvent() {
 	return (settings.deviceEvent != null) ? settings.deviceEvent.toBoolean() : false
 }
 
+private getDeviceInterference() {
+	return (settings.deviceInterference != null) ? settings.deviceInterference.toBoolean() : false
+}
+
 private getDeviceDebug() {
 	return (settings.deviceDebug != null) ? settings.deviceDebug.toBoolean() : false
 }
@@ -460,6 +477,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.17"
+	return "1.6.18"
 }
 
