@@ -160,7 +160,7 @@ def open() {
 	sendEvent(name: "windowShade", value: "opening", isStateChange: false, displayed: false)
 	attenuate("up")
 	if (deviceInterference) {
-		attenuate("up")
+		runIn(1, "attenuate(up)")
 	}
 	runIn(timeToLevel(0), "updateState", [overwrite: true, data: [position: "open", level: 0]])
 }
@@ -197,7 +197,7 @@ def close() {
 	sendEvent(name: "windowShade", value: "closing", isStateChange: false, displayed: false)
 	attenuate("dn")
 	if (deviceInterference) {
-		attenuate("dn")
+		runIn(1, "attenuate(dn)")
 	}
 	runIn(timeToLevel(100), "updateState", [overwrite: true, data: [position: "closed", level: 100]])
 }
@@ -247,7 +247,7 @@ def presetPosition() {
 
 	attenuate("gp")
 	if (deviceInterference) {
-		attenuate("gp")
+		runIn(1, "attenuate(gp)")
 	}
 	runIn(timeToLevel(blindPreset), "updateState", [overwrite: true, data: [position: "partially open", level: blindPreset]])
 }
@@ -274,7 +274,7 @@ def pause() {
 
 	attenuate("sp")
 	if (deviceInterference) {
-		attenuate("sp")
+		runIn(1, "attenuate(sp)")
 	}
 	def shadeNewLevel = (shadeLevel + positionFromTime()).toFloat().round(2)
 
@@ -477,6 +477,6 @@ private getHash() {
 }
 
 private getVersion() {
-	return "1.6.18"
+	return "1.6.19"
 }
 
